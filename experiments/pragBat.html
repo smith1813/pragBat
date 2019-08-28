@@ -3,7 +3,7 @@
 <head>
     <title>Learning words from animals</title>
     <script src="jquery-1.11.2.min.js"></script>
-    <script src="mmturkey_pragBat_pref_me_nov.js"></script>
+    <script src="mmturkey_pragBat.js"></script>
     <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -13,27 +13,27 @@
 
     <div class="slide" id="instructions">
 
-        <p class="block-text">
-            <center>Thank you for participating in this study! <br></center>
+        <p class="text">
+                        <p id='logo-text'>Bitte trage die folgenden Informationen ein</p>
         </p>
 
         <p class="block-text">
             <center>
-                Enter subject ID: <br>
+                Kind ID: <br>
                 <input type="text" id="subjectID" name="subjectID" size="30">
             </center>
         </p>
 
         <p class="block-text">
             <center>
-                Enter subject age: <br>
+                Kind Alter: <br>
                 <input type="text" id="subjectAge" name="subjectAge" size="30">
             </center>
         </p>
 
         <br><br>
         <center>
-            <button type="button" onClick="this.blur(); showSlide('select')">Start touch training</font></button>
+            <button type="button" onClick="this.blur(); train.checkInput()">Starte touch Training</font></button>
             <div id="checkMessage"> </div>
         </center>
     </div>
@@ -42,10 +42,10 @@
     <div class="slide" id="dotGame">
         <br><br><br><br><br><br><br>
         <center>
-            <button type="button" onClick="this.blur(); training.trainingDot()">More Dot Games</font></button>
+            <button type="button" onClick="this.blur(); training.trainingDot()">Touch Training wiederholen</font></button>
         </center>
         <center>
-            <button type="button" onClick="this.blur(); showSlide('intro')">Start Game!</font></button>
+            <button type="button" onClick="this.blur(); showSlide('intro')">Weiter zu den Spielen</font></button>
         </center>
     </div>
 
@@ -55,11 +55,11 @@
     <!-- The intro slide. -->
     <div class="slide" id="intro">
         <div align="center" width="500px">
-            <p id='logo-text'>Meet the animals!</p>
+            <p id='logo-text'>Die Tiere stellen sich vor</p>
             <table style="width:100%">
                 <tbody>
                     <p class="block-text">
-                        Das sind die Tiere in dem Spiel. Schau sie Dir genau an. Weißt Du wie sie alle heißen?
+                        Das sind die Tiere mit denen Du spielen kannst. Schau sie Dir genau an. Weißt Du wie sie alle heißen?
                     </p>
                     <tr align="center" height="200px">
                         <td>
@@ -99,7 +99,7 @@
             </table>
         </div>
         <div align="center" width="500px">
-            <button type="button" onClick="this.blur(); showSlide('training')">Weiter</button>
+            <button type="button" onClick="this.blur(); showSlide('select')">Weiter</button>
         </div>
     </div>
 
@@ -144,29 +144,28 @@
                 </tbody>
             </table>
 
-            <nextButton type="button" onClick="this.blur();train.next()">Los geht's</nextButton>
+            <nextButton type="button" onClick="this.blur(); train.next()">Starte Training</nextButton>
         </div>
     </div>
 
 
     <div class="slide" id="select">
         <div align="center" width="500px">
-            <p id='logo-text'>Auswahl</p>
+            <p id='logo-text'>Wähle das nächste Spiel aus</p>
             <table style="width:100%">
                 <tbody>
-                    <p class="block-text">
-                        Welches Spiel wollen wir jetzt spielen?
-                    </p>
+                                                    
+                    <trainButton type="button" onClick="this.blur(); showSlide('training')">Training</trainButton>
+                    
+                    <prefButton type="button" onClick="this.blur(); preference.next();submitButtonStyle(this)">Preference</prefButton>
 
-                    <prefButton type="button" onClick="this.blur(); preference.next()">Preference</prefButton>
+                    <meButton type="button" onClick="this.blur(); me.next();submitButtonStyle(this)">Mutual Exclusivity</meButton>
 
-                    <meButton type="button" onClick="this.blur(); me.next()">Mutual Exclusivity</meButton>
+                    <disconButton type="button" onClick="this.blur(); discon.introAll();submitButtonStyle(this)">Discourse Continuity</disconButton>
 
-                    <disconButton type="button" onClick="this.blur(); discon.introAll()">Discourse Continuity</disconButton>
+                    <infButton type="button" onClick="this.blur(); showSlide('inf_training');submitButtonStyle(this)">Informativeness</infButton>
 
-                    <infButton type="button" onClick="this.blur(); showSlide('inf_training')">Informativeness</infButton>
-
-                    <novButton type="button" onClick="this.blur(); novelty.next()">Novelty</novButton>
+                    <novButton type="button" onClick="this.blur(); novelty.next();submitButtonStyle(this)">Novelty</novButton>
 
             </table>
         </div>

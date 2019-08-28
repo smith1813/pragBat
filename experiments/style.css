@@ -132,89 +132,109 @@ nextButton[disabled] {
 }
 
 
-prefButton {
+trainButton {
     position: absolute;
-    left:356;
+    left:365;
     top:100;
-    width:250;
+    width:200;
     font-family: sans-serif;
     background-color: #c9c9c9;
     border: none;
     color: black;
-    padding: 30px;
+    padding: 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 24px;
+    font-size: 16px;
 
 }
 
-novButton {
+
+prefButton {
     position: absolute;
-    left:356;
-    top:300;
-    width:250;
+    left:365;
+    top:200;
+    width:200;
     font-family: sans-serif;
     background-color: #c9c9c9;
     border: none;
     color: black;
-    padding: 30px;
+    padding: 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 24px;
+    font-size: 16px;
+
+}
+
+meButton {
+    position: absolute;
+    left:365;
+    top:300;
+    width:200;
+    font-family: sans-serif;
+    background-color: #c9c9c9;
+    border: none;
+    color: black;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+
+}
+
+
+novButton {
+    position: absolute;
+    left:365;
+    top:400;
+    width:200;
+    font-family: sans-serif;
+    background-color: #c9c9c9;
+    border: none;
+    color: black;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+
+}
+
+
+infButton {
+    position: absolute;
+    left:365;
+    top:500;
+    width:200;
+    font-family: sans-serif;
+    background-color: #c9c9c9;
+    border: none;
+    color: black;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 
 }
 
 
 disconButton {
     position: absolute;
-    left:356;
-    top:200;
-    width:250;
+    left:365;
+    top:600;
+    width:200;
     font-family: sans-serif;
     background-color: #c9c9c9;
     border: none;
     color: black;
-    padding: 30px;
+    padding: 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 24px;
-
-}
-
-meButton {
-    position: absolute;
-    left:356;
-    top:500;
-    width:250;
-    font-family: sans-serif;
-    background-color: #c9c9c9;
-    border: none;
-    color: black;
-    padding: 30px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 24px;
-
-}
-
-infButton {
-    position: absolute;
-    left:356;
-    top:400;
-    width:250;
-    font-family: sans-serif;
-    background-color: #c9c9c9;
-    border: none;
-    color: black;
-    padding: 30px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 24px;
+    font-size: 16px;
 
 }
 
@@ -349,6 +369,8 @@ infButton {
 
 #logo-text {
   font-weight: bold;
+  text-align: center;
+    font-size: 24;
 }
 
 #instructions {

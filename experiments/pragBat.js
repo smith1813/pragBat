@@ -16,6 +16,14 @@ for (i = 0; i < preSounds.length; i++) {
 	sound[i].src = "sound/" + preSounds[i];
 }
 
+
+// change button color on click 
+
+function submitButtonStyle(_this) {
+  _this.style.backgroundColor = "green";
+}
+
+
 // ## Helper functions
 
 
@@ -455,11 +463,11 @@ var train = {
     checkInput: function() {
 		//subject ID
 		if (document.getElementById("subjectID").value.length < 1) {
-			$("#checkMessage").html('<font color="red">Bitte subject ID eintragen</font>');
+			$("#checkMessage").html('<font color="red">Bitte Kind ID eintragen</font>');
 			return;
 		}
         if (document.getElementById("subjectAge").value.length < 1) {
-			$("#checkMessage").html('<font color="red">Bitte subject age eingeben</font>');
+			$("#checkMessage").html('<font color="red">Bitte Alter des Kindes eingeben</font>');
 			return;
 		}
 		train.subid = document.getElementById("subjectID").value
