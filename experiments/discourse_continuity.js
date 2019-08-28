@@ -1,4 +1,4 @@
-var preloadItems = ["car", "truck", "train", "bus", "airplane", "boat", "motorbike", "strawberry", "apple", "banana", "cherry", "orange", "melon", "pineapple", "dog", "cat", "horse", "bear", "cow", "monkey", "elephant", "shoe", "sock", "hat", "shirt", "jacket", "dress", "skirt", "bread", "tv", "pencil"];
+var preloadItems = ["car", "truck", "train", "bus", "airplane", "boat", "motorbike", "strawberry", "apple", "banana", "cherry", "orange", "melon", "pineapple", "dog", "cat", "horse", "bear", "cow", "monkey", "elephant", "shoe", "sock", "hat", "shirt", "jacket", "dress", "skirt","drum", "flute", "guitar", "xylophone", "piano", "trumpet", "violin"];
 
 var images = new Array();
 for (i = 0; i < preloadItems.length; i++) {
@@ -9,7 +9,7 @@ for (i = 0; i < preloadItems.length; i++) {
 //only preload relevant audios (no speaker change)
 var preloadAudios = ["hi", "lets", "intro", "thank", "it"];
 
-var posAgents = ["Bunny", "Frog", "Mouse", "Sheep", "Tiger"]
+var posAgents = ["Tiger","Bunny","Frog","Mouse","Pig"]
 
 var audios = new Array();
 for (i = 0; i < posAgents.length; i++) {
@@ -129,7 +129,7 @@ showSlide("instructions");
 
 var slides = [1, 2, 3, 4, 5, 6, "choice"]
 
-var trials = [0, 1, 2, 3]
+var trials = [0, 1, 2, 3, 4]
 
 var backgrounds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
@@ -137,12 +137,14 @@ var vehiclesF = ["train", "car", "boat", "motorbike", "truck", "airplane", "bus"
 var fruitsF = ["orange", "apple", "pineapple", "cherry", "banana", "melon", "strawberry"]
 var mammalsF = ["elephant", "bear", "monkey", "cow", "horse", "cat", "dog"]
 var clothesF = ["sock", "shoe", "hat", "shirt", "skirt", "jacket", "dress"]
+var instrumentsF = ["drum", "flute", "guitar", "xylophone", "piano", "trumpet", "violin"]
 
 var allFamiliar = {
+    instruments: instrumentsF,
     vehicles: vehiclesF,
     fruits: fruitsF,
     mammals: mammalsF,
-    clothes: clothesF,
+    clothes: clothesF
 }
 
 // map of category names to category arrays for familiar items
@@ -301,7 +303,7 @@ function shuffleByIndex(array) {
 shuffleByIndex(trialTargets);
 shuffleByIndex(trialFamiliarItems);
 
-var posDist = shuffle([[6, 0, 0], [6, 0, 0], [6, 0, 0], [6, 0, 0]]);
+var posDist = shuffle([[6, 0, 0], [6, 0, 0], [6, 0, 0], [6, 0, 0],[6, 0, 0]]);
 
 //distribution for each trial
 var trainingDist = new Array();
@@ -471,13 +473,12 @@ var discon = {
                 var subage = discon.subage;
 
                 data = {
-                    subid: subid,
-                    subage: subage,
-                    experiment: "distribution_kids_simple",
-                    trial: trials[0] + 1,
+                    subid: train.subid,
+                    subage: train.subage,
+                    task: "discourse_continuity",
+                    trial: "training",
 
                     agent: trainingAgents[trials[0]],
-                    phase: "training",
                     slide: discon.slides[0],
 
                     distribution: posDist[trials[0]],
@@ -489,11 +490,10 @@ var discon = {
                     item_m: discon.position[1],
                     item_r: discon.position[2],
 
-                    correctItem: correctItem,
+                    correct: correct_item,
                     pick: pick,
                     pickPos: pickId,
-                    pickCat: findCategory(pick),
-                    correct_item: correct_item
+                    pickCat: findCategory(pick)
                 }
 
                 discon.data.push(data);
@@ -536,7 +536,12 @@ var discon = {
 
         } else if (discon.trials[0] == "2") {
 
-            discon.position = [discon.targetsF[0][0], discon.targetsF2[0][0], discon.targetsF3[0][0]];
+         discon.position = [discon.targetsF3[0][0], discon.targetsF[0][0], discon.targetsF2[0][0]];
+           
+        } else if (discon.trials[0] == "2") {
+
+           discon.position = [discon.targetsF3[0][0], discon.targetsF2[0][0], discon.targetsF[0][0]];
+
 
         } else {
 
@@ -619,20 +624,18 @@ var discon = {
                 $(".item").unbind("click");
                 clickedItem.style.border = '5px solid blue';
 
-                var subid = discon.subid;
-                var subage = discon.subage;
+                var subid = train.subid;
+                var subage = train.subage;
 
                 data = {
-                    subid: subid,
-                    subage: subage,
-                    experiment: "distribution_kids_simple",
+                    subid: train.subid,
+                    subage: train.subage,
+                    task: "discourse_continuity",
                     trial: trials[0] + 1,
 
                     agent: trainingAgents[trials[0]],
-                    phase: "test",
                     slide: discon.slides[0],
 
-                    distribution: posDist[trials[0]],
                     target1: trialTargets[trials[0]][0],
                     target2: trialTargets[trials[0]][1],
                     target3: trialTargets[trials[0]][2],
@@ -645,12 +648,8 @@ var discon = {
                     pickPos: pickId,
                     pickCat: pickCat,
 
-                    correct_target1: correct_target1,
-                    correct_target2: correct_target2,
-                    correct_target3: correct_target3,
+                    correct: correct_target1,
 
-                    lastInputCat: discon.lastInputCat,
-                    same_lastInput: same_lastInput
                 }
                 discon.data.push(data);
 
@@ -677,9 +676,9 @@ var discon = {
 
         if (discon.trials.length == 0) {
             setTimeout(function () {
-                turk.submit(experiment)
-            }, 5000);
-            showSlide("finished");
+                turk.submit(discon)
+            }, 500);
+            showSlide("select");
             return;
         }
 

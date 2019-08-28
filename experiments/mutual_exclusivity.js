@@ -9,7 +9,7 @@ var me = {
           ["straight","down"],
           ["straight","down"],
           ["straight","down"]],
-  novels: ["t21","t22","t23","t24","t25"],
+  novels: ["t21","t22","t10","t12","t15"],
   familiars: ["carrot","bread","apple_me","duck","eggplant"],
   back: [6,7,8,9,10],
   novelPos: ["left", "right", "right", "left", "right"],

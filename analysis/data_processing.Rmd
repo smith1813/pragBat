@@ -1,0 +1,40 @@
+---
+title: "Data Processing"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(knitr)
+library(langcog)
+library(ggthemes)
+library(jsonlite)
+library(readxl)
+
+```
+
+
+```{r}
+# importing data
+
+files <- dir("~/Work/PragBat/raw_data/")
+
+raw_data <- data_frame()
+for (f in files) {
+  jf <- paste("~/Work/PragBat/raw_data/",f,sep="")
+  jd <- jsonlite::fromJSON(paste(readLines(jf), collapse=""))
+  date <- str_sub(jf,33,str_length(jf)-11)
+  id <- as_data_frame(jd$data$data) %>% mutate(test_date = date, 
+                                               trial = as.character(trial))
+  raw_data <- bind_rows(raw_data, id)
+}
+
+
+
+
+
+```
+
+
