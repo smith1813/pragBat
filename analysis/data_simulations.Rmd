@@ -193,7 +193,7 @@ rmvBinomial <- function(id, n, size, p1, p2, rho) {
 
 sim2 <- function (seed, n_trials) {
 
-n_sub = 100
+n_sub = 50
 
 set.seed(seed)
 
@@ -204,11 +204,11 @@ tibble(id = 1:n_sub) %>%
   summarise(mean= mean(score))%>%
   spread(task, mean)%>%
   ungroup()%>%
-  summarise(cor = cor(V1,V2))
+  summarise(correl = cor(V1,V2))
   
 }
 
-n_sim = 1000
+n_sim = 100
 
 cor_sim_5 <- tibble(seed = 1:n_sim) %>% 
   mutate(tidy = map(seed, sim2, n_trials = 5))%>%
@@ -239,7 +239,7 @@ sim_plot_cor = bind_rows(
   cor_sim_2
 )
 
-ggplot(sim_plot_cor, aes(x = cor, fill = trials))+
+ggplot(sim_plot_cor, aes(x = correl, fill = trials))+
   geom_density(alpha = .5)+
   geom_vline(xintercept = .3)+
   xlim(0,1)+
@@ -247,4 +247,7 @@ ggplot(sim_plot_cor, aes(x = cor, fill = trials))+
   scale_fill_ptol()
 ```
 
+```{r}
+ggsave("../graphs/n100_rho03.pdf", width = 5, height = 4, scale = 1.5)
+```
 
