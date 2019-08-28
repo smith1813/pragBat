@@ -164,3 +164,87 @@ ggplot(sim_plot_cor, aes(x = corr, fill = type))+
   scale_fill_ptol()
 ```
 
+
+```{r}
+library(bindata)
+
+# Parameters of joint distribution
+size <- 1
+p1 <- 0.7
+p2 <- 0.6
+rho<- 0.3
+
+# Create one pair of correlated binomial values
+trials <- rmvbin(size, c(p1,p2), bincorr=(1-rho)*diag(2)+rho)
+colSums(trials)
+
+# A function to create n correlated pairs
+rmvBinomial <- function(id, n, size, p1, p2, rho) {
+    X <- replicate(n, {
+             colSums(rmvbin(size, c(p1,p2), bincorr=(1-rho)*diag(2)+rho))
+         })
+    t(X)%>%
+  as_tibble()%>%
+      mutate(trial = 1:n, 
+             id = id)%>%
+      gather(task, score, -trial, -id)
+}
+# Try it out, creating 1000 pairs
+
+sim2 <- function (seed, n_trials) {
+
+n_sub = 100
+
+set.seed(seed)
+
+tibble(id = 1:n_sub) %>% 
+  mutate(tidy = map(id, rmvBinomial, n =n_trials, size=size, p1=p1, p2=p2, rho=rho))%>%
+  unnest(tidy)%>%
+  group_by(id, task)%>%
+  summarise(mean= mean(score))%>%
+  spread(task, mean)%>%
+  ungroup()%>%
+  summarise(cor = cor(V1,V2))
+  
+}
+
+n_sim = 1000
+
+cor_sim_5 <- tibble(seed = 1:n_sim) %>% 
+  mutate(tidy = map(seed, sim2, n_trials = 5))%>%
+  unnest(tidy)%>%
+  mutate(trials = "5")
+
+
+cor_sim_4 <- tibble(seed = 1:n_sim) %>% 
+  mutate(tidy = map(seed, sim2, n_trials = 4))%>%
+  unnest(tidy)%>%
+  mutate(trials = "4")
+
+cor_sim_3 <- tibble(seed = 1:n_sim) %>% 
+  mutate(tidy = map(seed, sim2, n_trials = 3))%>%
+  unnest(tidy)%>%
+  mutate(trials = "3")
+
+cor_sim_2 <- tibble(seed = 1:n_sim) %>% 
+  mutate(tidy = map(seed, sim2, n_trials = 2))%>%
+  unnest(tidy)%>%
+  mutate(trials = "2")
+
+
+sim_plot_cor = bind_rows(
+  cor_sim_5,
+  cor_sim_4,
+  cor_sim_3,
+  cor_sim_2
+)
+
+ggplot(sim_plot_cor, aes(x = cor, fill = trials))+
+  geom_density(alpha = .5)+
+  geom_vline(xintercept = .3)+
+  xlim(0,1)+
+  theme_few()+
+  scale_fill_ptol()
+```
+
+

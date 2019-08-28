@@ -32,7 +32,12 @@ for (f in files) {
 }
 
 
-
+data <- raw_data %>%
+  filter(trial != "training", 
+         trial != "filler1", 
+         trial != "filler2", 
+         task != "training")%>%
+  select(subid, subage, test_date, task, trial, correct)
 
 
 ```

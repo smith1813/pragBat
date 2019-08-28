@@ -360,8 +360,8 @@ var discon = {
 
     introAll: function () {
         showSlide("introAll");
-        document.getElementById("text_introAll").innerHTML = "In this game, you're going to meet the little animals. They each live in a house and they have many different kinds of things at home. Each animal will tell you about some of things they have in their house.";
-        document.getElementById("text_introAll_2").innerHTML = "Your job is to touch the thing the animal is talking about. So, listen carefully and find out which one you have to touch.";
+        document.getElementById("text_introAll").innerHTML = "In diesem Spiel nehmen Dich die Tiere mit zu sich nach Hause. Jedes der Tiere wohnt in einem Haus und jedes hat viele verschiedene Dinge zu hause. Jedes Tier erzählt Dir von den Dingen die es zu Hasue hat.";
+        document.getElementById("text_introAll_2").innerHTML = "Deine Aufageb ist es, das Ding zu berühren, über das das Tier spricht. Pass also gut auf und finde heraus welches Du berühren musst.";
     },
 
     intro: function () {

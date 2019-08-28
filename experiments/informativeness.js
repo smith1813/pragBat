@@ -342,7 +342,7 @@ if (informativeness.targetSwitch[0] == "stay") {
       data = {
         subid: train.subid,
         subage: train.subage,
-        experiment: "informativeness",
+        task: "informativeness",
         trial: informativeness.trial[0],
         agent: informativeness.agents[0],
         leftObject: informativeness.leftFruit[0],
