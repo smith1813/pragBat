@@ -248,6 +248,6 @@ ggplot(sim_plot_cor, aes(x = correl, fill = trials))+
 ```
 
 ```{r}
-ggsave("../graphs/n100_rho03.pdf", width = 5, height = 4, scale = 1.5)
+ggsave("../graphs/n50_rho03.pdf", width = 5, height = 4, scale = 1.5)
 ```
 

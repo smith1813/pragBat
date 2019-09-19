@@ -361,6 +361,31 @@ disconButton {
 
 
 
+.target_l {
+    position: absolute;
+    bottom: 300px;
+    left: 100px;
+    width: 200px;
+    z-index: 0
+}
+
+.target_r {
+    position: absolute;
+    bottom: 300px;
+    left: 700px;
+    width: 200px;
+    z-index: 0
+}
+
+
+.sample {
+    position: absolute;
+    bottom: 100px;
+    left: 400px;
+    width: 200px;
+    z-index: 0
+}
+
 
 
 
@@ -387,7 +412,7 @@ disconButton {
 }
 
 .block-text {
-  width: 500px;
+  width: 600px;
   text-align: justify;
   margin: 0 auto;
   margin-bottom: 1em;
@@ -409,22 +434,10 @@ disconButton {
 
 
 .text {
-  font-size: 40px;
-  width: 700px;
-  text-align: center;
-  font-family: Arial, sans-serif;
-  margin: 0 auto;
-  margin-bottom: 1em;
-  position: absolute;
-  top: 20px;
-  left: 154px;
-}
-
-.text2 {
-  font-size: 25px;
+  font-size: 24px;
   width: 500px;
   text-align: center;
-  font-family: Arial, sans-serif;
+  font-family: "Times New Roman";
   margin: 0 auto;
   margin-bottom: 1em;
   position: absolute;
