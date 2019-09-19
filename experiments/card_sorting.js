@@ -18,7 +18,7 @@ var sort = {
   end: function() {
     // Show the finish slide.
     showSlide("select");
-    setTimeout(function() { turk.submit(sort) }, 200);
+    setTimeout(function() { turk.submit(sort) }, 500);
   },
     
   

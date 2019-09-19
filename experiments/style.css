@@ -134,7 +134,7 @@ nextButton[disabled] {
 
 trainButton {
     position: absolute;
-    left:365;
+    left:350;
     top:100;
     width:200;
     font-family: sans-serif;
@@ -152,7 +152,7 @@ trainButton {
 
 prefButton {
     position: absolute;
-    left:365;
+    left:150;
     top:200;
     width:200;
     font-family: sans-serif;
@@ -169,7 +169,7 @@ prefButton {
 
 meButton {
     position: absolute;
-    left:365;
+    left:150;
     top:300;
     width:200;
     font-family: sans-serif;
@@ -187,7 +187,7 @@ meButton {
 
 novButton {
     position: absolute;
-    left:365;
+    left:150;
     top:400;
     width:200;
     font-family: sans-serif;
@@ -203,10 +203,11 @@ novButton {
 }
 
 
+
 infButton {
     position: absolute;
-    left:365;
-    top:500;
+    left:550;
+    top:200;
     width:200;
     font-family: sans-serif;
     background-color: #c9c9c9;
@@ -223,8 +224,8 @@ infButton {
 
 disconButton {
     position: absolute;
-    left:365;
-    top:600;
+    left:550;
+    top:300;
     width:200;
     font-family: sans-serif;
     background-color: #c9c9c9;
@@ -237,6 +238,24 @@ disconButton {
     font-size: 16px;
 
 }
+
+sortButton {
+    position: absolute;
+    left:550;
+    top:400;
+    width:200;
+    font-family: sans-serif;
+    background-color: #c9c9c9;
+    border: none;
+    color: black;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+
+}
+
 
 
 .moveButton {
