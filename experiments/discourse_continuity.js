@@ -1,29 +1,3 @@
-var preloadItems = ["car", "truck", "train", "bus", "airplane", "boat", "motorbike", "strawberry", "apple", "banana", "cherry", "orange", "melon", "pineapple", "dog", "cat", "horse", "bear", "cow", "monkey", "elephant", "shoe", "sock", "hat", "shirt", "jacket", "dress", "skirt","drum", "flute", "guitar", "xylophone", "piano", "trumpet", "violin"];
-
-var images = new Array();
-for (i = 0; i < preloadItems.length; i++) {
-    images[i] = new Image();
-    images[i].src = "images/" + preloadItems[i] + ".png";
-}
-
-//only preload relevant audios (no speaker change)
-var preloadAudios = ["hi", "lets", "intro", "thank", "it"];
-
-var posAgents = ["Tiger","Bunny","Frog","Mouse","Pig"]
-
-var audios = new Array();
-for (i = 0; i < posAgents.length; i++) {
-    for (j = 0; j < preloadAudios.length; j++) {
-        var audio = new Audio();
-        audio.src = "sound/" + preloadAudios[j] + "_" + posAgents[i] + ".mp3"
-        audios.push(audio);
-    }
-    for (k = 0; k < preloadItems.length - 3; k++) {
-        var audio = new Audio();
-        audio.src = "sound/" + preloadItems[k] + "_" + posAgents[i] + ".mp3"
-        audios.push(audio);
-    }
-}
 
 var backgroundImages = new Array();
 for (i = 1; i <= 12; i++) {
@@ -140,9 +114,9 @@ var clothesF = ["sock", "shoe", "hat", "shirt", "skirt", "jacket", "dress"]
 var instrumentsF = ["drum", "flute", "guitar", "xylophone", "piano", "trumpet", "violin"]
 
 var allFamiliar = {
-    instruments: instrumentsF,
-    vehicles: vehiclesF,
     fruits: fruitsF,
+    vehicles: vehiclesF,
+    instruments: instrumentsF,
     mammals: mammalsF,
     clothes: clothesF
 }
@@ -374,7 +348,7 @@ var discon = {
 
         showDisconAgent(trainingAgents[trials[0]], "transition");
 
-        sourceSound("sound/" + "hi_" + trainingAgents[trials[0]] + ".mp3");
+        sourceSound("sound/" + trainingAgents[trials[0]] + "_hello.mp3");
         playSound();
 
         sound = document.getElementById("sound");

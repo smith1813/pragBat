@@ -2,7 +2,7 @@
 var informativeness = {
   // Parameters for this sequence.
   trial: ["filler1","filler2",1,2,3,4,5],
-  agents: ["Frog","Monkey","Bunny","Cat","Dog","Frog","Monkey"],
+  agents: ["Bunny","Cat","Dog","Frog","Monkey"],
   back: [2,7,4,9,6,1,8],
   trees: ["tree1","tree2","tree3","tree4","tree5","tree6","tree7"],
   agentOrient:    [
@@ -13,8 +13,8 @@ var informativeness = {
     ["straight","point","down"],
     ["straight","point","down"],
     ["straight","point","down"]],
-  leftFruit: ["t11","t12","t13","t14","t15","t14","t15"],
-  rightFruit: ["t16","t17","t18","t19","t20","t19","t20"],
+  leftFruit: ["t11","t12","t13","t14","t15","t16","t17"],
+  rightFruit: ["t18","t19","t20","t36","t37","t38","t39"],
   inf: ["left","right","left","left","right","left","right"],
   data: [],
   targetPosition: ["inner","outer","inner","outer","inner","outer","inner"],
@@ -390,11 +390,23 @@ $(".moveButton").unbind("click");
       showAgent(informativeness.agents[0],informativeness.agentOrient[0][0]);
       
       
+     if (informativeness.agentOrient[0][0] == "straight"){ 
+      
+  //    sourceSound("sound/"+informativeness.agents[0]+"_hello.mp3");
+    //  playSound();
+      
+      //setTimeout(function() {
+          sourceSound("sound/"+informativeness.agents[0]+"_inf_intro.mp3");
+          playSound();
+    //  }, 3000)   
+      
+     }
+      
+      
       background("images/back"+informativeness.back[0]+".jpg");
   
   if (informativeness.trial[0] == "filler1"){
-    
-        
+      
         sourceInfLeftFruit("images/"+informativeness.leftFruit[0]+".png");
         showInfLeftFruit(); 
         sourceInfLeftFruit2("images/empty.png");
@@ -489,66 +501,66 @@ $(".moveButton").unbind("click");
               
                   showAgent(informativeness.agents[0],"point_l")      
          
-              $("#"+informativeness.trees[0]+"_l").animate({bottom: '200', queue:  false},400)
-              $("#fruit_inf_l").animate({bottom: '530', queue:  true},400)
-              $("#fruit_inf_l2").animate({bottom: '530', queue:  true},400)
-              $("#"+informativeness.trees[0]+"_l").animate({bottom: '160', queue:    true},400)
-              $("#fruit_inf_l").animate({bottom: '490', queue:  true},400)
-               $("#fruit_inf_l2").animate({bottom: '490', queue:  true},400)
+              $("#"+informativeness.trees[0]+"_l").animate({bottom: '200', queue:  false},300)
+              $("#fruit_inf_l").animate({bottom: '530', queue:  true},300)
+              $("#fruit_inf_l2").animate({bottom: '530', queue:  true},300)
+              $("#"+informativeness.trees[0]+"_l").animate({bottom: '160', queue:    true},300)
+              $("#fruit_inf_l").animate({bottom: '490', queue:  true},300)
+               $("#fruit_inf_l2").animate({bottom: '490', queue:  true},300)
             
               
                   
               setTimeout(function() {
                   showAgent(informativeness.agents[0],"look_l") 
-              }, 4000)   
+              }, 2600)   
             
               setTimeout(function() {
                   showAgent(informativeness.agents[0],"point_l")
-                $("#"+informativeness.trees[0]+"_l").animate({bottom: '200', queue:  false},400)
-                  $("#fruit_inf_l").animate({bottom: '530', queue:  false},400)
-                  $("#fruit_inf_l2").animate({bottom: '530', queue:  false},400)
-                  $("#"+informativeness.trees[0]+"_l").animate({bottom: '160', queue:    true},400)
-                   $("#fruit_inf_l").animate({bottom: '490', queue:  true},400)
-                   $("#fruit_inf_l2").animate({bottom: '490', queue:  true},400)
-              }, 5500)
+                $("#"+informativeness.trees[0]+"_l").animate({bottom: '200', queue:  false},300)
+                  $("#fruit_inf_l").animate({bottom: '530', queue:  false},300)
+                  $("#fruit_inf_l2").animate({bottom: '530', queue:  false},300)
+                  $("#"+informativeness.trees[0]+"_l").animate({bottom: '160', queue:    true},300)
+                   $("#fruit_inf_l").animate({bottom: '490', queue:  true},300)
+                   $("#fruit_inf_l2").animate({bottom: '490', queue:  true},300)
+              }, 4300)
         
               setTimeout(function() {
                   showAgent(informativeness.agents[0],"look_l") 
-              }, 8000)
+              }, 6000)
              
           } else {
              
               showAgent(informativeness.agents[0],"point_r")
               
          
-              $("#"+informativeness.trees[0]+"_r").animate({bottom: '200', queue:  false},400)
-              $("#fruit_inf_r").animate({bottom: '530', queue:  false},400)
-              $("#fruit_inf_r2").animate({bottom: '530', queue:  false},400)
+              $("#"+informativeness.trees[0]+"_r").animate({bottom: '200', queue:  false},300)
+              $("#fruit_inf_r").animate({bottom: '530', queue:  false},300)
+              $("#fruit_inf_r2").animate({bottom: '530', queue:  false},300)
               
-              $("#"+informativeness.trees[0]+"_r").animate({bottom: '160', queue:    true},400)
-              $("#fruit_inf_r").animate({bottom: '490', queue:    true},400)
-              $("#fruit_inf_r2").animate({bottom: '490', queue:    true},400)
+              $("#"+informativeness.trees[0]+"_r").animate({bottom: '160', queue:    true},300)
+              $("#fruit_inf_r").animate({bottom: '490', queue:    true},300)
+              $("#fruit_inf_r2").animate({bottom: '490', queue:    true},300)
               
             
                   
               setTimeout(function() {
                   showAgent(informativeness.agents[0],"look_r") 
 
-              }, 4000)   
+              }, 2600)   
             
               setTimeout(function() {
                   showAgent(informativeness.agents[0],"point_r") 
-                  $("#"+informativeness.trees[0]+"_r").animate({bottom: '200', queue:  false},400)
-                  $("#fruit_inf_r").animate({bottom: '530', queue:  false},400)
-                  $("#fruit_inf_r2").animate({bottom: '530', queue:  false},400)
-                  $("#"+informativeness.trees[0]+"_r").animate({bottom: '160', queue:    false},400)
-                  $("#fruit_inf_r").animate({bottom: '490', queue:    true},400)
-                  $("#fruit_inf_r2").animate({bottom: '490', queue:    true},400)
-              }, 5500)
+                  $("#"+informativeness.trees[0]+"_r").animate({bottom: '200', queue:  false},300)
+                  $("#fruit_inf_r").animate({bottom: '530', queue:  false},300)
+                  $("#fruit_inf_r2").animate({bottom: '530', queue:  false},300)
+                  $("#"+informativeness.trees[0]+"_r").animate({bottom: '160', queue:    false},300)
+                  $("#fruit_inf_r").animate({bottom: '490', queue:    true},300)
+                  $("#fruit_inf_r2").animate({bottom: '490', queue:    true},300)
+              }, 4300)
         
               setTimeout(function() {
                   showAgent(informativeness.agents[0],"look_r") 
-              }, 8000)
+              }, 6000)
           };
           
       } else if (informativeness.agentOrient[0][0] == "down") {

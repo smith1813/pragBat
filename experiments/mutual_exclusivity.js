@@ -9,8 +9,8 @@ var me = {
           ["straight","down"],
           ["straight","down"],
           ["straight","down"]],
-  novels: ["t21","t22","t10","t12","t15"],
-  familiars: ["carrot","bread","apple_me","duck","eggplant"],
+  novels: ["t22","t21","t23","t24","t25"],
+  familiars: ["carrot","bread","apple_me","duck","kite"],
   back: [6,7,8,9,10],
   novelPos: ["left", "right", "right", "left", "right"],
   data: [],
@@ -166,7 +166,7 @@ eat2: function(event) {
   
     // play choice sound
 
-        sourceSound("sound/"+me.agents[0]+"_choice.mp3");
+        sourceSound("sound/"+me.agents[0]+"_me_choice.mp3");
  playSound(); 
       
     // choice can be made by clicking the objects after - possible after 5s

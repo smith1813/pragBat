@@ -1,5 +1,5 @@
 // preload
-var preFruits = ["duck.png","car.png","bear.png","ball.png","t01.png", "t02.png", "t03.png", "t04.png", "t05.png", "t06.png", "t07.png", "t08.png", "t09.png", "t10.png", "t11.png", "t12.png", "t13.png", "t14.png", "t15.png", "t16.png", "t17.png", "t18.png","back1.jpg","back2.jpg","back3.jpg","back4.jpg","back5.jpg","back6.jpg","back7.jpg","back8.jpg","back9.jpg","back10.jpg","empty.png"];
+var preFruits = ["duck.png","car.png","car_me.png","bear.png","ball.png","t01.png", "t02.png", "t03.png", "t04.png", "t05.png", "t06.png", "t07.png", "t08.png", "t09.png", "t10.png", "t11.png", "t12.png", "t13.png", "t14.png", "t15.png", "t16.png", "t17.png", "t17.png", "carrot.png","bread.png","apple_me.png","kite.png", "t18.png","t19.png","t20.png","t21.png","t22.png","t23.png","t24.png","t25.png","t26.png","t27.png","t28.png","t29.png","t30.png","t31.png","t32.png","t33.png","t34.png","t35.png",  "back1.jpg","back2.jpg","back3.jpg","back4.jpg","back5.jpg","back6.jpg","back7.jpg","back8.jpg","back9.jpg","back10.jpg","empty.png", "bear_me.png"];
 //for critical trials and fillers
 var images = new Array();
 for (i = 0; i < preFruits.length; i++) {
@@ -8,12 +8,107 @@ for (i = 0; i < preFruits.length; i++) {
 }
 
 
-var preSounds = ["Frog_choice.mp3", "Mouse_choice.mp3", "Bear_choice.mp3", "Beaver_choice.mp3", "Monkey_choice.mp3", "Dog_choice.mp3", "Cat_choice.mp3", "Bunny_choice.mp3", "Tiger_choice.mp3", "Sheep_choice.mp3","Pig_choice.mp3","Pig_train.mp3","Elephant_choice.mp3","Elephant_train.mp3","Frog_hello.mp3", "Mouse_hello.mp3", "Bear_hello.mp3", "Monkey_hello.mp3", "Dog_hello.mp3", "Cat_hello.mp3", "Bunny_hello.mp3", "Tiger_hello.mp3", "Sheep_hello.mp3","Pig_hello.mp3","Elephant_hello.mp3", "Beaver_hello.mp3"];
+var preSounds = [
+         "Monkey_hello.mp3",
+         "Monkey_inf_intro.mp3",
+         "Monkey_label.mp3",
+         "Monkey_me_choice.mp3",
+         "Monkey_pref_choice.mp3",
+         "Monkey_nov_choice.mp3",
+         "Monkey_npoint.mp3",
+         "Monkey_point_nothing.mp3",
+         "Monkey_point_old.mp3",
+         "Monkey_ppoint.mp3",
+         "Monkey_pref_choice.mp3",
+         "Monkey_train.mp3",
+         "Monkey_which.mp3",
+         "Bunny_hello.mp3",
+         "Bunny_inf_intro.mp3",
+         "Bunny_label.mp3",
+         "Bunny_me_choice.mp3",
+         "Bunny_pref_choice.mp3",
+         "Bunny_nov_choice.mp3",
+         "Bunny_npoint.mp3",
+         "Bunny_point_nothing.mp3",
+         "Bunny_point_old.mp3",
+         "Bunny_ppoint.mp3",
+         "Bunny_pref_choice.mp3",
+         "Bunny_train.mp3",
+         "Bunny_which.mp3",
+        "Frog_hello.mp3",
+         "Frog_inf_intro.mp3",
+         "Frog_label.mp3",
+         "Frog_me_choice.mp3",
+         "Frog_pref_choice.mp3",
+         "Frog_nov_choice.mp3",
+         "Frog_npoint.mp3",
+         "Frog_point_nothing.mp3",
+         "Frog_point_old.mp3",
+         "Frog_ppoint.mp3",
+         "Frog_pref_choice.mp3",
+         "Frog_train.mp3",
+         "Frog_which.mp3",
+         "Cat_hello.mp3",
+         "Cat_inf_intro.mp3",
+         "Cat_label.mp3",
+         "Cat_me_choice.mp3",
+         "Cat_pref_choice.mp3",
+         "Cat_nov_choice.mp3",
+         "Cat_npoint.mp3",
+         "Cat_point_nothing.mp3",
+         "Cat_point_old.mp3",
+         "Cat_ppoint.mp3",
+         "Cat_pref_choice.mp3",
+         "Cat_train.mp3",
+         "Cat_which.mp3",
+        "Dog_hello.mp3",
+         "Dog_inf_intro.mp3",
+         "Dog_label.mp3",
+         "Dog_me_choice.mp3",
+         "Dog_pref_choice.mp3",
+         "Dog_nov_choice.mp3",
+         "Dog_npoint.mp3",
+         "Dog_point_nothing.mp3",
+         "Dog_point_old.mp3",
+         "Dog_ppoint.mp3",
+         "Dog_pref_choice.mp3",
+         "Dog_train.mp3",
+         "Dog_which.mp3"
+                 ];
+
 //for critical trials and fillers
 var sound = new Array();
 for (i = 0; i < preSounds.length; i++) {
 	sound[i] = new Audio();
 	sound[i].src = "sound/" + preSounds[i];
+}
+
+
+var preloadItems = ["car", "truck", "train", "bus", "airplane", "boat", "motorbike", "strawberry", "apple", "banana", "cherry", "orange", "melon", "pineapple", "dog", "cat", "horse", "bear", "cow", "monkey", "elephant", "shoe", "sock", "hat", "shirt", "jacket", "dress", "skirt","drum", "flute", "guitar", "xylophone", "piano", "trumpet", "violin"];
+
+var images2 = new Array();
+for (i = 0; i < preloadItems.length; i++) {
+    images2[i] = new Image();
+    images2[i].src = "images/" + preloadItems[i] + ".png";
+}
+
+//only preload relevant audios (no speaker change)
+var preloadAudios = ["hi", "lets", "intro", "thank", "it"];
+
+var posAgents = ["Bunny","Monkey","Dog","Frog","Cat"]
+
+var audios = new Array();
+for (i = 0; i < posAgents.length; i++) {
+    for (j = 0; j < preloadAudios.length; j++) {
+        var audio = new Audio();
+        audio.src = "sound/" + preloadAudios[j] + "_" + posAgents[i] + ".mp3"
+        audios.push(audio);
+    }
+    for (k = 0; k < preloadItems.length - 3; k++) {
+        var audio = new Audio();
+        audio.src = "sound/" + preloadItems[k] + "_" + posAgents[i] + ".mp3"
+        audios.push(audio);
+    }
 }
 
 
@@ -277,7 +372,7 @@ showSlide("instructions");
 var train = {
   // Parameters for this sequence.
   trial: ["1","2"],
-  agents: ["Elephant","Pig"],
+  agents: ["Monkey","Dog"],
   cor_pos: ["right","left"],
   agentOrient: [["straight","down"],["straight","down"]],
   rightFruit: ["car_me","duck"],

@@ -10,7 +10,7 @@ var preference = {
     ["straight","point_l", "point_r","down"],
     ["straight","point_r", "point_l","down"]],
   rightFruit: ["t01","t02","t03","t04","t05"],
-  leftFruit: ["t06","t07","t08","t09","t10"],
+  leftFruit: ["t07","t06","t08","t09","t10"],
   pref: ["right", "left", "left", "right", "left"],
   back: [1,2,3,4,5],
   data: [],
@@ -134,7 +134,7 @@ var preference = {
    // show agent depending on speaker change and write their name  
  
        choiceAgent(preference.agents[0]);
-       sourceSound("sound/"+preference.agents[0]+"_choice.mp3");
+       sourceSound("sound/"+preference.agents[0]+"_pref_choice.mp3");
         playSound()
 
     

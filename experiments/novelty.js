@@ -11,8 +11,8 @@ var novelty = {
     ["straight", "point_r", "point_l", "disappear","gone","down"],
     ["straight", "point_l", "point_r", "disappear","gone","down"],
     ["straight", "point_r", "point_l", "disappear","gone","down"]],
-  leftObject: ["t11","t12","t13","t14","t15"],
-  rightObject: ["t16","t17","t18","t19","t20"],
+  leftObject: ["t26","t27","t28","t29","t30"],
+  rightObject: ["t31","t32","t33","t34","t35"],
   back: [1,6,3,8,5],
   data: [],
     
@@ -157,7 +157,7 @@ eat2: function(event) {
         
   
     // play choice sound
-            sourceSound("sound/" + novelty.agents[0] + "_choice.mp3");
+            sourceSound("sound/" + novelty.agents[0] + "_nov_choice.mp3");
             playSound();
 
     
@@ -290,7 +290,7 @@ eat2: function(event) {
 
           } else {
 
-              sourceSound("sound/" + novelty.agents[0] + "_point_old1.mp3");
+              sourceSound("sound/" + novelty.agents[0] + "_point_old.mp3");
               playSound();
 
           }
@@ -307,7 +307,7 @@ eat2: function(event) {
 
            } else {
 
-               sourceSound("sound/" + novelty.agents[0] + "_point_old1.mp3");
+               sourceSound("sound/" + novelty.agents[0] + "_point_old.mp3");
                playSound();
 
            }
