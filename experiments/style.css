@@ -489,6 +489,15 @@ sortButton {
     z-index: 3
 }
 
+.selector {
+    position: absolute;
+    bottom: 100px;
+    left: 20px;
+    width: 900px;
+    height: 600px;
+    z-index: 3
+}
+
 
 .selector_r {
     position: absolute;

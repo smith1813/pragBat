@@ -42,7 +42,7 @@
     <div class="slide" id="dotGame">
         <br><br><br><br><br><br><br>
         <center>
-            <button type="button" onClick="this.blur(); training.trainingDot()">Touch Training wiederholen</font></button>
+            <button type="button" onClick="this.blur(); train.trainingDot()">Touch Training wiederholen</font></button>
         </center>
         <center>
             <button type="button" onClick="this.blur(); showSlide('intro')">Weiter zu den Spielen</font></button>
@@ -192,6 +192,13 @@
         <img id="Monkey_look_r" class="look_agent_r" src="images/Monkey_look_r.png">
         <img id="Monkey_disappear" class="agent" src="images/Monkey_disappear.png">
 
+        <img id="Monkey_filler_straight" class="agent" src="images/Monkey_straight.png">
+        <img id="Monkey_filler_look_l" class="look_agent_l" src="images/Monkey_look_l.png">
+        <img id="Monkey_filler_point_l" class="point_agent_l" src="images/Monkey_point_l.png">
+        <img id="Monkey_filler_point_r" class="point_agent_r" src="images/Monkey_point_r.png">
+        <img id="Monkey_filler_look_r" class="look_agent_r" src="images/Monkey_look_r.png">
+        
+        
         <img id="Bunny_straight" class="agent" src="images/Bunny_straight.png">
         <img id="Bunny_point_l" class="point_agent_l" src="images/Bunny_point_l.png">
         <img id="Bunny_look_l" class="look_agent_l" src="images/Bunny_look_l.png">
@@ -219,7 +226,13 @@
         <img id="Frog_point_r" class="point_agent_r" src="images/Frog_point_r.png">
         <img id="Frog_look_r" class="look_agent_r" src="images/Frog_look_r.png">
         <img id="Frog_disappear" class="agent" src="images/Frog_disappear.png">
-
+        
+        
+        <img id="Frog_filler_straight" class="agent" src="images/Frog_straight.png">
+        <img id="Frog_filler_point_l" class="point_agent_l" src="images/Frog_point_l.png">
+        <img id="Frog_filler_look_l" class="look_agent_l" src="images/Frog_look_l.png">
+        <img id="Frog_filler_point_r" class="point_agent_r" src="images/Frog_point_r.png">
+        <img id="Frog_filler_look_r" class="look_agent_r" src="images/Frog_look_r.png">
 
         <img id="tree1_l" class="tree_l" src="images/tree1_l.png">
         <img id="tree2_l" class="tree_l" src="images/tree2_l.png">
@@ -271,6 +284,8 @@
         <img id="hill" class="hill" src="images/hill.png">
 
         <img id="Monkey_choice" class="agent" src="images/Monkey_straight.png">
+        
+        <img id="Monkey_filler_choice" class="agent" src="images/Monkey_straight.png">
 
         <img id="Bunny_choice" class="agent" src="images/Bunny_straight.png">
 
@@ -279,6 +294,7 @@
         <img id="Cat_choice" class="agent" src="images/Cat_straight.png">
 
         <img id="Frog_choice" class="agent" src="images/Frog_straight.png">
+        <img id="Frog_filler_choice" class="agent" src="images/Frog_straight.png">
 
         <img id="choiceFruit_r" class="fruit_r" src="">
         
@@ -318,6 +334,7 @@
         <div align="center" width="500px">
 
             <img id="Monkey_eat" class="agent_eat" src="images/Monkey_eat.png">
+            <img id="Monkey_filler_eat" class="agent_eat" src="images/Monkey_eat.png">
 
             <img id="Bunny_eat" class="agent_eat" src="images/Bunny_eat.png">
 
@@ -326,6 +343,7 @@
             <img id="Cat_eat" class="agent_eat" src="images/Cat_eat.png">
 
             <img id="Frog_eat" class="agent_eat" src="images/Frog_eat.png">
+            <img id="Frog_filler_eat" class="agent_eat" src="images/Frog_eat.png">
 
         </div>
     </div>
@@ -484,7 +502,7 @@
                    
         
         <p class="block-text">
-        Hier ist ein blauer Hase und hier ein rotes Boot. Wir spielen jetzt ein Kartenspiel. Das ist das Farbenspiel. Im Farbenspiel kommen alle Roten hier hin [auf Hase zeigen] und alle Blauen hier hin [auf Boot zeigen]. Schau mal so, hier ist eine Rote, die kommt hier hin.  
+        Hier ist ein blauer Hase und hier ein rotes Boot. Wir spielen jetzt ein Kartenspiel. Das ist das Farbenspiel. Im Farbenspiel kommen alle Blauen hier hin [auf Hase zeigen] und alle Roten hier hin [auf Boot zeigen]. Schau mal so, hier ist eine Rote, die kommt hier hin.  
         </p>
             
         <img id="target_l" class="target_l" src="images/blue_rabbit.png">
@@ -548,7 +566,9 @@ Sehr gut, so geht das Farbenspiel. Jetzt bist Du dran. Denk dran, wenn es eine B
 
     <div class="slide" id="cardSorting">
 
-                <p id="text" class="text">{{}}</p>
+        <p id="text" class="text">{{}}</p>
+        
+        <img id="selector" class="selector" src="images/selector.png">
         
         <img id="target_l" class="target_l" src="images/blue_rabbit.png">
         <img id="target_r" class="target_r" src="images/red_boat.png">

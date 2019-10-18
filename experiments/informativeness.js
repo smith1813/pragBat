@@ -2,7 +2,7 @@
 var informativeness = {
   // Parameters for this sequence.
   trial: ["filler1","filler2",1,2,3,4,5],
-  agents: ["Bunny","Cat","Dog","Frog","Monkey"],
+  agents: ["Monkey_filler","Frog_filler","Bunny","Cat","Dog","Frog","Monkey"],
   back: [2,7,4,9,6,1,8],
   trees: ["tree1","tree2","tree3","tree4","tree5","tree6","tree7"],
   agentOrient:    [
@@ -384,8 +384,8 @@ $(".moveButton").unbind("click");
       
       showSlide("stage");  
       
-              	$(".table_l").hide();
-    	$(".table_r").hide();  
+      $(".table_l").hide();
+    $(".table_r").hide();  
       
       showAgent(informativeness.agents[0],informativeness.agentOrient[0][0]);
       
@@ -396,8 +396,11 @@ $(".moveButton").unbind("click");
     //  playSound();
       
       //setTimeout(function() {
-          sourceSound("sound/"+informativeness.agents[0]+"_inf_intro.mp3");
-          playSound();
+         sourceSound("sound/"+informativeness.agents[0]+"_inf_intro.mp3");
+         playSound();
+         
+        pause("moveButton",3000);
+         
     //  }, 3000)   
       
      }
@@ -495,7 +498,7 @@ $(".moveButton").unbind("click");
                   sourceSound("sound/"+informativeness.agents[0]+"_label.mp3");
                   playSound();   
               
-              pause("next",8000);
+              pause("moveButton",6000);
           
               if (informativeness.inf[0] == "left"){
               
@@ -573,7 +576,7 @@ $(".moveButton").unbind("click");
           $("#fruit_inf_r2").animate({opacity: '0', queue: false},1000)
           $("#"+informativeness.trees[0]+"_r").animate({opacity: '0', queue: false},1000)
           
-           pause("next",2000);
+           pause("moveButton",2000);
           
           setTimeout(function() {
               informativeness.choice() }, 1500);

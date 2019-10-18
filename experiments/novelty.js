@@ -190,7 +190,11 @@ eat2: function(event) {
     
     showSlide("stage");  
       
-        	$(".tree_l").hide();
+      
+      $(".table_l").show();
+    $(".table_r").show();  
+      
+    	$(".tree_l").hide();
     	$(".tree_r").hide();
      
     background("images/back"+novelty.back[0]+".jpg")
@@ -205,7 +209,7 @@ eat2: function(event) {
          
 // after the animal has commented on both tables and leaves, the novel object appears
       if (novelty.agentOrient[0][0] == "gone") {
-          pause("next",3000);
+          pause("moveButton",3000);
       };
   
       
@@ -273,7 +277,7 @@ eat2: function(event) {
       
    // play hello sound and write name of agent
       if (novelty.agentOrient[0][0] == "straight") {
-          pause("next", 1600);
+          pause("moveButton", 1600);
           sourceSound("sound/" + novelty.agents[0] + "_hello.mp3");
           playSound();
 
@@ -281,7 +285,7 @@ eat2: function(event) {
     
       if (novelty.agentOrient[0][0] == "point_l") {
 
-          pause("next", 2300);
+          pause("moveButton", 2300);
 
           if (novelty.novel[0] == "left") {
 
@@ -298,7 +302,7 @@ eat2: function(event) {
        
        if (novelty.agentOrient[0][0] == "point_r") {
 
-           pause("next", 2300);
+           pause("moveButton", 2300);
 
            if (novelty.novel[0] == "right") {
 
@@ -321,7 +325,7 @@ eat2: function(event) {
             setTimeout(function () {
                 showAgent(novelty.agents[0], "disappear")
             }, 1000);
-            pause("next", 2000);
+            pause("moveButton", 2000);
             setTimeout(function () {
                 hideAgent()
             }, 2000);

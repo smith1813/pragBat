@@ -10,7 +10,7 @@ var me = {
           ["straight","down"],
           ["straight","down"]],
   novels: ["t22","t21","t23","t24","t25"],
-  familiars: ["carrot","bread","apple_me","duck","kite"],
+  familiars: ["carrot","garlic","eggplant","duck","horseshoe"],
   back: [6,7,8,9,10],
   novelPos: ["left", "right", "right", "left", "right"],
   data: [],
@@ -137,8 +137,7 @@ eat2: function(event) {
     
     showSlide("choice"); 
       
-      
-            $(".tree_l_c").hide();
+      $(".tree_l_c").hide();
       $(".tree_r_c").hide();
       $(".selector_l").hide();
       $(".selector_r").hide();
@@ -206,7 +205,7 @@ $(".moveButton").unbind("click");
     
     // play hello sound and write name of agent
    if (me.agentOrient[0][0] == "straight") { 
-        pause("next",1600); 
+        pause("moveButton",1600); 
         sourceSound("sound/"+me.agents[0]+"_hello.mp3");
         playSound();
     }; 

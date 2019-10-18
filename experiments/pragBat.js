@@ -547,7 +547,7 @@ var train = {
     // play sound depending on agent orientation 
     // agent says hello  
    if (train.agentOrient[0][0] == "straight") {  
-        pause("next",1500); 
+        pause("moveButton",1500); 
         sourceSound("sound/"+train.agents[0]+"_hello.mp3");
         playSound();
     }; 

@@ -163,6 +163,10 @@ $(".moveButton").unbind("click");
    // play sound depending on agent orientation  
     
     showSlide("stage");  
+    
+          $(".table_l").show();
+    $(".table_r").show();   
+      
       
         	$(".tree_l").hide();
     	$(".tree_r").hide();  
@@ -181,7 +185,7 @@ $(".moveButton").unbind("click");
     // play sound depending on agent orientation 
     // agent says hello  
    if (preference.agentOrient[0][0] == "straight") {  
-        pause("next",1500); 
+        pause("moveButton",1500); 
         sourceSound("sound/"+preference.agents[0]+"_hello.mp3");
         playSound();
     }; 
@@ -189,21 +193,21 @@ $(".moveButton").unbind("click");
     
   // commenting on objects on the tables depending on condition      
     if (preference.agentOrient[0][0] == "point_l" && preference.pref[0] == "right") { 
-        pause("next",4000); 
+        pause("moveButton",4000); 
         sourceSound("sound/"+preference.agents[0]+"_npoint.mp3");
         playSound();   
     } else if (preference.agentOrient[0][0] == "point_l" && preference.pref[0] == "left") { 
-        pause("next",4000); 
+        pause("moveButton",4000); 
         sourceSound("sound/"+preference.agents[0]+"_ppoint.mp3");
         playSound();   
     };
      
      if (preference.agentOrient[0][0] == "point_r" && preference.pref[0] == "left") { 
-        pause("next",4000); 
+        pause("moveButton",4000); 
         sourceSound("sound/"+preference.agents[0]+"_npoint.mp3");
         playSound();   
     } else if (preference.agentOrient[0][0] == "point_r" && preference.pref[0] == "right") { 
-        pause("next",4000); 
+        pause("moveButton",4000); 
         sourceSound("sound/"+preference.agents[0]+"_ppoint.mp3");
         playSound();   
     };
