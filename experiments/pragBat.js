@@ -33,7 +33,6 @@ var preSounds = [
          "Bunny_point_old.mp3",
          "Bunny_ppoint.mp3",
          "Bunny_pref_choice.mp3",
-         "Bunny_train.mp3",
          "Bunny_which.mp3",
         "Frog_hello.mp3",
          "Frog_inf_intro.mp3",
@@ -46,7 +45,6 @@ var preSounds = [
          "Frog_point_old.mp3",
          "Frog_ppoint.mp3",
          "Frog_pref_choice.mp3",
-         "Frog_train.mp3",
          "Frog_which.mp3",
          "Cat_hello.mp3",
          "Cat_inf_intro.mp3",
@@ -59,7 +57,6 @@ var preSounds = [
          "Cat_point_old.mp3",
          "Cat_ppoint.mp3",
          "Cat_pref_choice.mp3",
-         "Cat_train.mp3",
          "Cat_which.mp3",
         "Dog_hello.mp3",
          "Dog_inf_intro.mp3",
@@ -96,20 +93,6 @@ for (i = 0; i < preloadItems.length; i++) {
 var preloadAudios = ["hi", "lets", "intro", "thank", "it"];
 
 var posAgents = ["Bunny","Monkey","Dog","Frog","Cat"]
-
-var audios = new Array();
-for (i = 0; i < posAgents.length; i++) {
-    for (j = 0; j < preloadAudios.length; j++) {
-        var audio = new Audio();
-        audio.src = "sound/" + preloadAudios[j] + "_" + posAgents[i] + ".mp3"
-        audios.push(audio);
-    }
-    for (k = 0; k < preloadItems.length - 3; k++) {
-        var audio = new Audio();
-        audio.src = "sound/" + preloadItems[k] + "_" + posAgents[i] + ".mp3"
-        audios.push(audio);
-    }
-}
 
 
 // change button color on click 
