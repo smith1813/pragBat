@@ -175,6 +175,9 @@ eat2: function(event) {
   next: function() {
     $(".moveButton").unbind("click");   
 
+      
+      $(".table_l").show();
+    $(".table_r").show();  
 
    // when no more trials are left, end experiment    
     if (novelty.trial.length == 0){

@@ -162,8 +162,6 @@
 
                     <meButton type="button" onClick="this.blur(); me.next();submitButtonStyle(this)">Mutual Exclusivity</meButton>
 
-                    <disconButton type="button" onClick="this.blur(); discon.introAll();submitButtonStyle(this)">Discourse Continuity</disconButton>
-
                     <infButton type="button" onClick="this.blur(); showSlide('inf_training');submitButtonStyle(this)">Informativeness</infButton>
 
                     <novButton type="button" onClick="this.blur(); novelty.next();submitButtonStyle(this)">Novelty</novButton>
@@ -355,7 +353,7 @@
             <table style="width:100%">
                 <tbody>
                     <p class="block-text">
-                        In diesme Spiel gehen die Tiere in den Garten. Sie spielen gerne im Garten. Vor allem schmücken sie gerne die Bäume. Willst Du die Bäume sehen?
+                        In diesem Spiel gehen die Tiere in den Garten. Sie spielen gerne im Garten. Vor allem schmücken sie gerne die Bäume. Willst Du die Bäume sehen?
                     </p>
 
                     <p class="block-text">
@@ -398,103 +396,6 @@
             <nextButton type="button" onClick="this.blur(); informativeness.next()">Starte Spiel</nextButton>
         </div>
     </div>
-
-
-
-       <!-- The training slide. -->
-        <div class="slide" id="introAll">
-            <div align="center" width="500px">
-                <p id='logo-text'>Anleitung</p>
-                <table style="width:100%">
-                    <tbody>
-                        <p class="block-text" id="text_introAll">
-                        </p>
-                        <p class="block-text" id="text_introAll_2">
-                        </p>
-
-
-                        <tr align="center" height="300px">
-                            <td>
-
-                            </td>
-                            <td>
-                                <img src="images/Bunny_straight.png" style="position:absolute;TOP: 230px;LEFT: 390px;WIDTH: 200px;">
-                            </td>
-                            <td>
-
-                            </td>
-
-                        <tr align="center" height="50px">
-                            <td>
-                                <img src="images/bread.png" style="position:absolute; BOTTOM: 180px;LEFT: 240px;WIDTH: 110px;z-index:1;">
-                            </td>
-
-                            <td> 
-                                <img src="images/pencil.png" style="position:absolute;BOTTOM: 180px;LEFT: 440px;WIDTH: 110px;z-index:1;">
-                            </td>
-
-                            <td>
-                                <img src="images/tv.png" style=" position:absolute;BOTTOM: 180px;LEFT: 630;WIDTH: 110px;z-index:1;">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <nextButton id="button" type="button" onClick="this.blur(); discon.intro();">Starte Spiel</nextButton>
-
-            </div>
-        </div>
-
-
-        <!-- The main slide (input + choice slide). -->   
-        <div class="slide" id="input"> 
-            <div class="speech" id="text_correctItem"></div>
-            <img class="background_dis" id="background_dis" src=""> 
-            <audio id="sound" src = ""></audio> 
-
-            <!--all agents-->
-                  
-            
-                <img id="Bunny_ask" class="discon_agent"  src="images/Bunny_straight.png"> 
-                <img id="Cat_ask" class="discon_agent"  src="images/Cat_straight.png"> 
-                <img id="Dog_ask" class="discon_agent"  src="images/Dog_straight.png"> 
-                <img id="Frog_ask" class="discon_agent"  src="images/Frog_straight.png"> 
-                <img id="Monkey_ask" class="discon_agent"  src="images/Monkey_straight.png"> 
-   
-
-            <img id="item_l" class="item" src="">
-
-            <img id="item_m" class="item" src="">
-
-            <img id="item_r" class="item" src="">
-
-            <nextButton class ="button" type="button" id="next-input" align="center" onclick="this.blur(); discon.train2();"></nextButton>
-
-            <nextButton class ="button" type="button" id="next-novel" align="center" onclick="this.blur(); discon.choice2();"></nextButton>
-        </div>
-
-        <!--  transition slide-->
-
-        <div class="slide" id="transition"> 
-
-            <div class="speech" id="text_intro"></div>
-            <div class="speech" id="text_transition"></div>
-
-            <audio id="sound" src = ""></audio>
-
-            <!--all agents-->
-            <img id="Bunny_transition" class="agent_transition"  src="images/Bunny_eat.png">
-            <img id="Cat_transition" class="agent_transition"  src="images/Cat_eat.png">
-            <img id="Dog_transition" class="agent_transition"  src="images/Dog_eat.png">
-            <img id="Frog_transition" class="agent_transition"  src="images/Frog_eat.png">
-            <img id="Monkey_transition" class="agent_transition"  src="images/Monkey_eat.png">
-
-
-            <img class="background_dis" id="background2_dis" src=""> 
-
-        </div>
-
-
 
     <div class="slide" id="cardSortingIntro">
     
@@ -599,7 +500,6 @@ Sehr gut, so geht das Farbenspiel. Jetzt bist Du dran. Denk dran, wenn es eine B
     <script src="novelty.js"></script>
     <script src="mutual_exclusivity.js"></script>
     <script src="informativeness.js"></script>
-    <script src="discourse_continuity.js"></script>
     <script src="card_sorting.js"></script>
 
 </body>
