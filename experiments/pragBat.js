@@ -10,6 +10,10 @@ for (i = 0; i < preFruits.length; i++) {
 
 var preSounds = [
          "Monkey_hello.mp3",
+    "Monkey_filler_inf_intro.mp3",
+"Monkey_filler_label.mp3",
+"Monkey_filler_more.mp3",
+"Monkey_filler_which.mp3",
          "Monkey_inf_intro.mp3",
          "Monkey_label.mp3",
          "Monkey_me_choice.mp3",
@@ -35,6 +39,10 @@ var preSounds = [
          "Bunny_pref_choice.mp3",
          "Bunny_which.mp3",
         "Frog_hello.mp3",
+   "Frog_filler_inf_intro.mp3",
+"Frog_filler_label.mp3",
+"Frog_filler_more.mp3",
+"Frog_filler_which.mp3",
          "Frog_inf_intro.mp3",
          "Frog_label.mp3",
          "Frog_me_choice.mp3",

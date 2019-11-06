@@ -128,7 +128,7 @@ targetSwitch: ["stay","switch","switch","stay","switch","stay","stay"],
       setTimeout(function() {
       sourceSound("sound/" + informativeness.agents[0] + "_which.mp3");
       playSound();
-      }, 2500) 
+      }, 2750) 
 
  
       choiceInfRightFruit("images/empty.png") 

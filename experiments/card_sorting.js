@@ -138,16 +138,20 @@ var sort = {
 
                 if (sort.sample[0] == "blue_boat") {
                     var correct = 1
+                    var correct_location = "left"
                 } else {
                     var correct = 0
+                    var correct_location = "right"
                 }
 
 
             } else {
                 if (sort.sample[0] == "blue_boat") {
                     var correct = 0
+                    var correct_location = "right"
                 } else {
                     var correct = 1
+                    var correct_location = "left"
                 }
             };
 
@@ -160,7 +164,10 @@ var sort = {
                 task: "card_sorting",
                 sample: sort.sample[0],
                 trial: sort.trial[0],
-                target: "blue_rabbit",
+                leftObject: "blue_rabbit",
+                leftObject: "red_boat",
+                correct_location: correct_location,
+                pick: "blue_rabbit",
                 correct: correct
             };
             sort.data.push(data);
@@ -193,16 +200,20 @@ var sort = {
 
                 if (sort.sample[0] == "blue_boat") {
                     var correct = 0
+                    var correct_location = "left"
                 } else {
                     var correct = 1
+                    var correct_location = "right"
                 }
 
 
             } else {
                 if (sort.sample[0] == "blue_boat") {
                     var correct = 1
+                    var correct_location = "right"
                 } else {
                     var correct = 0
+                    var correct_location = "left"
                 }
             };
 
@@ -215,7 +226,10 @@ var sort = {
                 task: "card_sorting",
                 sample: sort.sample[0],
                 trial: sort.trial[0],
-                target: "red_boat",
+                leftObject: "blue_rabbit",
+                leftObject: "red_boat",
+                correct_location: correct_location,
+                pick: "red_boat",
                 correct: correct
             };
             sort.data.push(data);
