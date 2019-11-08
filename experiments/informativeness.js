@@ -13,7 +13,7 @@ var informativeness = {
     ["straight","point","down"],
     ["straight","point","down"],
     ["straight","point","down"]],
-  leftFruit: ["t11","t12","t13","t14","t15","t16","t17"],
+  leftFruit: ["t11","t12","t13","t44","t15","t16","t17"],
   rightFruit: ["t18","t19","t20","t36","t37","t38","t39"],
   inf: ["left","right","left","left","right","left","right"],
   data: [],

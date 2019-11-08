@@ -12,6 +12,8 @@ library(langcog)
 library(ggthemes)
 library(jsonlite)
 library(readxl)
+library(corrr)
+library(corrplot)
 
 ```
 
@@ -35,11 +37,47 @@ for (f in files) {
 data <- raw_data %>%
   filter(trial != "training", 
          trial != "filler1", 
-         trial != "filler2", 
-         task != "training")%>%
-  select(subid, subage, test_date, task, trial, correct)
+         trial != "filler2",
+         trial != "train",
+         trial != "train2")%>%
+  filter(phase == "shape" | is.na(phase))%>%
+  select(subid, subage, test_date, task, trial, correct)%>%
+  mutate(subid = str_replace(subid,"-","_"))%>%
+  separate(subid, into = c("id","test_day"), sep="_")
 
+raw_data %>%
+  filter(
+         trial == "filler1" | 
+         trial == "filler2")
 
 ```
 
+```{r}
+data%>%
+  group_by(task)%>%
+  summarise(n= length(unique(id)))
+```
+
+```{r}
+p1 <- data%>%
+  group_by(id,subage,task)%>%
+  summarise(mean = mean(correct))
+
+
+p2 <- p1 %>%
+  group_by(subage,task)%>%
+  multi_boot_standard(col = "mean")
+
+ggplot()+
+  geom_hline(yintercept = .5, lty = 2)+
+  geom_line(data = p2,aes(x = subage, y = mean, group = task), alpha = .5)+
+  geom_jitter(data = p1, aes(x = subage, y = mean, col = subage), alpha = .5, width = .2, height = .01)+
+  geom_pointrange(data = p2, aes(x = subage, y = mean, ymin = ci_lower, ymax = ci_upper, col = subage))+
+  facet_wrap(~task)+
+  labs(x = "Age Group", y = "Proportion Correct")+
+  scale_color_ptol()+
+  theme_few()
+  
+
+```
 
