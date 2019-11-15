@@ -42,8 +42,7 @@ data <- raw_data %>%
          trial != "train2")%>%
   filter(phase == "shape" | is.na(phase))%>%
   select(subid, subage, test_date, task, trial, correct)%>%
-  mutate(subid = str_replace(subid,"-","_"))%>%
-  separate(subid, into = c("id","test_day"), sep="_")
+  separate(subid, into = c("id","test_day"), sep="\\.")
 
 raw_data %>%
   filter(

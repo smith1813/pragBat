@@ -323,7 +323,6 @@ eat2: function(event) {
            
         if (novelty.agentOrient[0][0] == "disappear") {
             showAgent(novelty.agents[0], "straight")
-            playSound();
             setTimeout(function () {
                 showAgent(novelty.agents[0], "disappear")
             }, 1000);
