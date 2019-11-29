@@ -14,6 +14,8 @@ library(jsonlite)
 library(readxl)
 library(corrr)
 library(corrplot)
+library(ggcorrplot)
+library(reshape2)
 
 ```
 
@@ -33,6 +35,8 @@ for (f in files) {
   raw_data <- bind_rows(raw_data, id)
 }
 
+unique(raw_data$subid)
+
 
 data <- raw_data %>%
   filter(trial != "training", 
@@ -41,19 +45,37 @@ data <- raw_data %>%
          trial != "train",
          trial != "train2")%>%
   filter(phase == "shape" | is.na(phase))%>%
+  mutate(subid = recode(subid, `13.2` = "Vp13.2",
+                        `13.2` = "Vp13.2",
+                        `14.2` = "Vp14.2",
+                        `16.2` = "Vp16.2",
+                        `19.1` = "Vp19.1",
+                        `12.1` = "Vp12.1"
+                        ))%>%
   select(subid, subage, test_date, task, trial, correct)%>%
-  separate(subid, into = c("id","test_day"), sep="\\.")
+  separate(subid, into = c("id","test_day"), sep="\\.")%>%
+  mutate(test_day = ifelse(id == "Vp12" & test_date =="2019-11-26", 2, test_day))
 
-raw_data %>%
-  filter(
-         trial == "filler1" | 
-         trial == "filler2")
+  
+
+
+data %>%
+  group_by(id, test_day, test_date)%>%
+  summarise(n())%>%
+  arrange(id,test_date)
 
 ```
 
 ```{r}
 data%>%
-  group_by(task)%>%
+  group_by(subage)%>%
+  summarise(n= length(unique(id)))
+```
+
+
+```{r}
+data%>%
+  group_by(test_day,task)%>%
   summarise(n= length(unique(id)))
 ```
 
@@ -78,5 +100,81 @@ ggplot()+
   theme_few()
   
 
+```
+
+```{r}
+p3 <- data%>%
+  filter(task != "training")%>%
+  group_by(id,task, test_day)%>%
+  summarise(mean = mean(correct))%>%
+  spread(test_day, mean)%>%
+  rename("Day1" = `1`,
+         "Day2" = `2`)%>%
+  na.omit()
+
+ggplot(p3, aes(x = Day1, y = Day2))+
+  geom_jitter(width = .05, height = .05, alpha = .5)+
+  geom_abline(intercept = 0, slope = 1, lty = 2, alpha = 0.7, size = 0.5)+
+  geom_smooth(method = "lm", col = "#af6300")+
+  facet_grid(~task)+
+  coord_fixed()+
+  xlim(-.1,1.1)+
+  ylim(-.1,1.1)+
+  theme_few()
+
+```
+
+
+
+```{r}
+reli <- data%>%
+  filter(task != "training")%>%
+  group_by(id,task, test_day)%>%
+  summarise(mean = mean(correct))%>%
+  spread(test_day, mean)%>%
+  na.omit()%>%
+  rename("Day1" = `1`,
+         "Day2" = `2`)%>%
+  group_by(task)%>%
+  summarize(reli = cor.test(Day1,Day2)$estimate,
+            lci = cor.test(Day1,Day2)$conf.int[1],
+            uci = cor.test(Day1,Day2)$conf.int[2],
+            p = cor.test(Day1,Day2)$p.value)%>%
+  mutate_if(is.numeric, round, digits = 2)
+
+
+reli
+```
+
+```{r}
+cor <- data%>%
+  filter(task != "training")%>%
+  group_by(id,task)%>%
+  summarise(mean = mean(correct))%>%
+  spread(task, mean)%>%
+  ungroup()%>%
+  select(-id)%>%
+  corrr::correlate(diagonal = reli$reli)%>%
+  gather(task, cor, -rowname)%>%
+  mutate_if(is.numeric, round, digits = 2)%>%
+  mutate(cor = replace(cor, duplicated(cor), NA))%>%
+  na.omit()
+  
+
+ggplot(cor, aes(x = rowname, y = task, fill = cor))+
+  geom_tile(color = "white")+
+  labs(x = "", y = "")+
+  scale_fill_gradient2(low = "#CC6677", high = "#117733", mid = "white", 
+   midpoint = 0, limit = c(-1,1), space = "Lab", 
+   name="Correlation") +
+   coord_fixed()+
+  theme_few(base_size = 12)+
+  geom_text(aes(label = cor), color = "black", size = 3) +
+  theme(legend.justification = c(1, 0),
+        legend.position = c(0.55, 0.7),
+        legend.direction = "horizontal",
+        axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))+
+  guides(fill = guide_colorbar(barwidth = 7, barheight = 1,
+                title.position = "top", title.hjust = 0.5))
 ```
 
