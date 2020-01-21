@@ -16,13 +16,15 @@ library(corrr)
 library(corrplot)
 library(ggcorrplot)
 library(reshape2)
+library(psych)
+library(readODS)
 
 ```
 
 
 ```{r}
 # importing data
-
+### die flogenden Zeilen kannst du überspringen. Weiter gehts in Zeile 68
 files <- dir("~/Work/PragBat/raw_data/")
 
 raw_data <- data_frame()
@@ -38,7 +40,7 @@ for (f in files) {
 unique(raw_data$subid)
 
 
-data <- raw_data %>%
+task_data <- raw_data %>%
   filter(trial != "training", 
          trial != "filler1", 
          trial != "filler2",
@@ -50,20 +52,33 @@ data <- raw_data %>%
                         `14.2` = "Vp14.2",
                         `16.2` = "Vp16.2",
                         `19.1` = "Vp19.1",
-                        `12.1` = "Vp12.1"
+                        `12.1` = "Vp12.1",
+                        `29.2` = "Vp29.2",
+                        `26.1` = "Vp26.2",
+                        `37.1` = "Vp37.1",
+                        `38.1` = "Vp38.1"
                         ))%>%
   select(subid, subage, test_date, task, trial, correct)%>%
   separate(subid, into = c("id","test_day"), sep="\\.")%>%
   mutate(test_day = ifelse(id == "Vp12" & test_date =="2019-11-26", 2, test_day))
 
-write.csv(data, file = "../data/data.csv")
+
+#write_csv(task_data, "../data/data.csv")
+
+task_data <- read_csv("../data/data.csv")
+
+# damit du das daten file mit dem log file (deine Liste) mergen kannst (brauchen wir für das numerische alter) legst du deine liste in den gleichen ordner in dem auch ader repository ordner liegt. Dann sollte es klappen.
+
+log <- read_ods("../../VP Liste.ods", sheet = 2)%>%
+  mutate(age = as.numeric(difftime(test_day_1, `birthday `, units = "days"))/365.25,
+         id = paste("Vp",`ID `, sep = ""))%>%
+  select(id, age, status)
   
 
+data <- task_data %>%
+  left_join(log)%>%
+  mutate(check_age = ifelse(subage == substr(age,1,1),T,F))
 
-data %>%
-  group_by(id, test_day, test_date)%>%
-  summarise(n())%>%
-  arrange(id,test_date)
 
 ```
 
@@ -71,6 +86,25 @@ data %>%
 data%>%
   group_by(subage)%>%
   summarise(n= length(unique(id)))
+
+```
+
+```{r}
+data %>%
+  group_by(subage,id)%>%
+  summarise(testdays = length(unique(test_day)))%>%
+  filter(testdays == 2)%>%
+  summarise(complete_retest_data = length(id))
+```
+
+
+
+```{r}
+data %>%
+  group_by(id,test_day)%>%
+  summarise(n())%>%
+  arrange(id,test_day)
+ 
 ```
 
 
@@ -83,6 +117,8 @@ data%>%
 ```{r}
 p1 <- data%>%
   group_by(id,subage,task)%>%
+  filter(subage != "5",
+         task != "training")%>%
   summarise(mean = mean(correct))
 
 
@@ -97,11 +133,30 @@ ggplot()+
   geom_pointrange(data = p2, aes(x = subage, y = mean, ymin = ci_lower, ymax = ci_upper, col = subage))+
   facet_wrap(~task)+
   labs(x = "Age Group", y = "Proportion Correct")+
-  scale_color_ptol()+
-  theme_few()
-  
-
+  scale_color_ptol(name = "Age")+
+  theme_few()+
+  theme(legend.position = c(.85,.2))
 ```
+
+
+```{r}
+p12 <- data%>%
+  group_by(id,age,task)%>%
+  filter(task != "training")%>%
+  summarise(mean = mean(correct))
+
+
+ggplot(data = p12, aes(x = age, y = mean))+
+  geom_hline(yintercept = .5, lty = 2)+
+  geom_jitter(alpha = .5, width = .2, height = .01)+
+  geom_smooth(method = "glm")+
+  facet_wrap(~task)+
+  labs(x = "Age", y = "Proportion Correct")+
+  scale_color_ptol(name = "Age")+
+  theme_few()+
+  theme(legend.position = c(.85,.2))
+```
+
 
 ```{r}
 p3 <- data%>%
@@ -116,7 +171,7 @@ p3 <- data%>%
 ggplot(p3, aes(x = Day1, y = Day2))+
   geom_jitter(width = .05, height = .05, alpha = .5)+
   geom_abline(intercept = 0, slope = 1, lty = 2, alpha = 0.7, size = 0.5)+
-  geom_smooth(method = "lm", col = "#af6300", se = F)+
+  geom_smooth(method = "lm", col = "#af6300", se = T)+
   facet_grid(~task)+
   coord_fixed()+
   xlim(-.1,1.1)+
@@ -148,6 +203,26 @@ reli
 ```
 
 ```{r}
+reli_age <- data%>%
+  filter(task != "training")%>%
+  group_by(subage, id,task, test_day)%>%
+  summarise(mean = mean(correct))%>%
+  spread(test_day, mean)%>%
+  na.omit()%>%
+  rename("Day1" = `1`,
+         "Day2" = `2`)%>%
+  group_by(subage,task)%>%
+  summarize(reli = cor.test(Day1,Day2)$estimate,
+            lci = cor.test(Day1,Day2)$conf.int[1],
+            uci = cor.test(Day1,Day2)$conf.int[2],
+            p = cor.test(Day1,Day2)$p.value)%>%
+  mutate_if(is.numeric, round, digits = 2)
+
+
+reli_age
+```
+
+```{r}
 cor <- data%>%
   filter(task != "training")%>%
   group_by(id,task)%>%
@@ -157,8 +232,8 @@ cor <- data%>%
   select(-id)%>%
   corrr::correlate(diagonal = reli$reli)%>%
   gather(task, cor, -rowname)%>%
-  mutate_if(is.numeric, round, digits = 2)%>%
   mutate(cor = replace(cor, duplicated(cor), NA))%>%
+  mutate_if(is.numeric, round, digits = 2)%>%
   na.omit()
   
 
@@ -178,4 +253,29 @@ ggplot(cor, aes(x = rowname, y = task, fill = cor))+
   guides(fill = guide_colorbar(barwidth = 7, barheight = 1,
                 title.position = "top", title.hjust = 0.5))
 ```
+
+```{r}
+library(psy)
+
+fa_data <- p1 %>%
+  spread(task, mean)%>%
+  ungroup()%>%
+  select(-id, -subage)%>%
+  na.omit()
+  
+
+pca <- principal(fa_data,nfactors=2, rotate="varimax")
+
+fit <- factanal(fa_data, 2, rotation="varimax")
+
+scree.plot(fit$correlation)
+
+fit$loadings
+
+pca$loadings
+
+plot(pca)
+
+```
+
 
