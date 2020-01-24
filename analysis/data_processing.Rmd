@@ -18,6 +18,7 @@ library(ggcorrplot)
 library(reshape2)
 library(psych)
 library(readODS)
+library(brms)
 
 ```
 
@@ -25,59 +26,65 @@ library(readODS)
 ```{r}
 # importing data
 ### die flogenden Zeilen kannst du überspringen. Weiter gehts in Zeile 68
-files <- dir("~/Work/PragBat/raw_data/")
-
-raw_data <- data_frame()
-for (f in files) {
-  jf <- paste("~/Work/PragBat/raw_data/",f,sep="")
-  jd <- jsonlite::fromJSON(paste(readLines(jf), collapse=""))
-  date <- str_sub(jf,33,str_length(jf)-11)
-  id <- as_data_frame(jd$data$data) %>% mutate(test_date = date, 
-                                               trial = as.character(trial))
-  raw_data <- bind_rows(raw_data, id)
-}
-
-unique(raw_data$subid)
-
-
-task_data <- raw_data %>%
-  filter(trial != "training", 
-         trial != "filler1", 
-         trial != "filler2",
-         trial != "train",
-         trial != "train2")%>%
-  filter(phase == "shape" | is.na(phase))%>%
-  mutate(subid = recode(subid, `13.2` = "Vp13.2",
-                        `13.2` = "Vp13.2",
-                        `14.2` = "Vp14.2",
-                        `16.2` = "Vp16.2",
-                        `19.1` = "Vp19.1",
-                        `12.1` = "Vp12.1",
-                        `29.2` = "Vp29.2",
-                        `26.1` = "Vp26.2",
-                        `37.1` = "Vp37.1",
-                        `38.1` = "Vp38.1"
-                        ))%>%
-  select(subid, subage, test_date, task, trial, correct)%>%
-  separate(subid, into = c("id","test_day"), sep="\\.")%>%
-  mutate(test_day = ifelse(id == "Vp12" & test_date =="2019-11-26", 2, test_day))
+# files <- dir("~/Work/PragBat/raw_data/")
+# 
+# raw_data <- data_frame()
+# for (f in files) {
+#   jf <- paste("~/Work/PragBat/raw_data/",f,sep="")
+#   jd <- jsonlite::fromJSON(paste(readLines(jf), collapse=""))
+#   date <- str_sub(jf,33,str_length(jf)-11)
+#   id <- as_data_frame(jd$data$data) %>% mutate(test_date = date, 
+#                                                trial = as.character(trial))
+#   raw_data <- bind_rows(raw_data, id)
+# }
+# 
+# unique(raw_data$subid)
+# 
+# 
+# task_data <- raw_data %>%
+#   filter(trial != "training", 
+#          trial != "filler1", 
+#          trial != "filler2",
+#          trial != "train",
+#          trial != "train2")%>%
+#   filter(phase == "shape" | is.na(phase))%>%
+#   mutate(subid = recode(subid, `13.2` = "Vp13.2",
+#                         `13.2` = "Vp13.2",
+#                         `14.2` = "Vp14.2",
+#                         `16.2` = "Vp16.2",
+#                         `19.1` = "Vp19.1",
+#                         `12.1` = "Vp12.1",
+#                         `29.2` = "Vp29.2",
+#                         `26.1` = "Vp26.2",
+#                         `37.1` = "Vp37.1",
+#                         `38.1` = "Vp38.1"
+#                         ))%>%
+#   select(subid, subage, test_date, task, trial, correct)%>%
+#   separate(subid, into = c("id","test_day"), sep="\\.")%>%
+#   mutate(test_day = ifelse(id == "Vp12" & test_date =="2019-11-26", 2, test_day))
 
 
 #write_csv(task_data, "../data/data.csv")
 
-task_data <- read_csv("../data/data.csv")
+#task_data <- read_csv("../data/data.csv")
 
 # damit du das daten file mit dem log file (deine Liste) mergen kannst (brauchen wir für das numerische alter) legst du deine liste in den gleichen ordner in dem auch ader repository ordner liegt. Dann sollte es klappen.
 
-log <- read_ods("../../VP Liste.ods", sheet = 2)%>%
-  mutate(age = as.numeric(difftime(test_day_1, `birthday `, units = "days"))/365.25,
-         id = paste("Vp",`ID `, sep = ""))%>%
-  select(id, age, status)
-  
+# log <- read_ods("../../VP Liste.ods", sheet = 2)%>%
+#   mutate(age = as.numeric(difftime(test_day_1, `birthday `, units = "days"))/365.25,
+#          id = paste("Vp",`ID `, sep = ""))%>%
+#   select(id, age, status)
+#   
+# 
+# data <- task_data %>%
+#   left_join(log)%>%
+#   mutate(check_age = ifelse(subage == substr(age,1,1),T,F))
 
-data <- task_data %>%
-  left_join(log)%>%
-  mutate(check_age = ifelse(subage == substr(age,1,1),T,F))
+
+data <- read_csv("../data/data.csv")%>%
+  mutate(subage = factor(subage),
+         trial = ifelse(test_day == "2", trial + 4, trial))%>%
+  select(-X)
 
 
 ```
@@ -117,8 +124,7 @@ data%>%
 ```{r}
 p1 <- data%>%
   group_by(id,subage,task)%>%
-  filter(subage != "5",
-         task != "training")%>%
+  filter(task != "training")%>%
   summarise(mean = mean(correct))
 
 
@@ -150,11 +156,110 @@ ggplot(data = p12, aes(x = age, y = mean))+
   geom_hline(yintercept = .5, lty = 2)+
   geom_jitter(alpha = .5, width = .2, height = .01)+
   geom_smooth(method = "glm")+
-  facet_wrap(~task)+
+  facet_grid(~task)+
   labs(x = "Age", y = "Proportion Correct")+
   scale_color_ptol(name = "Age")+
   theme_few()+
-  theme(legend.position = c(.85,.2))
+  theme(legend.position = c(.85,.2))+
+  coord_fixed(ratio = 2)
+```
+# Card Sorting model
+
+```{r}
+# card sorting
+
+card_sorting_data <- data %>%
+  filter(task == "card_sorting")
+
+
+card_sorting_model_data <- card_sorting_data %>%
+  mutate(age = age - mean(age),
+         trial = trial - mean(trial))
+
+# card_sorting_model1 <- brm(correct ~ age + trial + (trial|id),
+#                     data = card_sorting_model_data, family = bernoulli(),
+#           control = list(adapt_delta = 0.99),
+#           sample_prior = F,
+#           chains = 4, 
+#           cores = 4,
+#           save_all_pars = TRUE,
+#           iter = 10000)%>%
+#   add_criterion("waic")%>%
+#   saveRDS(., "../saves/card_sorting_model1.rds")
+# 
+# card_sorting_model2 <- brm(correct ~ trial + (trial|id),
+#                     data = card_sorting_model_data, family = bernoulli(),
+#           control = list(adapt_delta = 0.99),
+#           sample_prior = F,
+#           chains = 4, 
+#           cores = 4,
+#           save_all_pars = TRUE,
+#           iter = 10000)%>%
+#   add_criterion("waic")%>%
+#   saveRDS(., "../saves/card_sorting_model2.rds")
+
+card_sorting_model1 <-readRDS("../saves/card_sorting_model1.rds")
+
+card_sorting_model2 <-readRDS("../saves/card_sorting_model2.rds")
+
+
+ts <- loo_compare(card_sorting_model1, card_sorting_model2, criterion = "waic")%>%
+  as.data.frame() %>%
+  tibble::rownames_to_column("Model")%>%
+  mutate(
+    Model = recode(Model, card_sorting_model1 = "correct ~ age + trial + RE", 
+                   card_sorting_model2 = "correct ~ trial + RE"),
+    weight = exp(elpd_waic) / sum(exp(elpd_waic)),
+    weight = round(weight, 3),
+    WAIC = round(waic, 2),
+    SE = round(se_waic,2))%>%
+  select(Model, WAIC, SE, weight)
+
+ts
+
+summary(card_sorting_model1)
+
+```
+
+```{r}
+p_sum_cs1 <- card_sorting_data %>%
+  mutate(subage = as.numeric(as.character(subage)))%>%
+  group_by(age,subage,id) %>%
+  summarise(correct = mean(correct)) 
+
+p_sum_cs2 <- p_sum_cs1 %>%
+  group_by(subage) %>%
+  multi_boot_standard(col = "correct")
+
+samples_cs_1 <- posterior_samples(card_sorting_model1, "^b")%>%
+  mutate(sample = 1:length(b_age))
+
+samples_cs_2 <- expand_grid(samples_cs_1,card_sorting_model_data$age)%>%
+  mutate(y = plogis(b_Intercept + b_age * `card_sorting_model_data$age`),
+         age = `card_sorting_model_data$age` + mean(card_sorting_data$age),
+         experiment = "card_sorting")%>%
+  filter(sample < 1000)
+
+map_cs <- tibble(
+  age = card_sorting_model_data$age,
+  int = fixef(card_sorting_model1)[1,1],
+  slope = fixef(card_sorting_model1)[2,1]
+)%>%
+  mutate(y = plogis(int + slope * age),
+         age = age + mean(card_sorting_data$age_num))
+
+p_cs <- ggplot() +
+  geom_hline(yintercept = .5, lty=2, size = 1)+
+  geom_line(data = samples_cs_2, aes(x = age, y = y, group = sample), size = .025, col = "grey")+
+  geom_line(data = map_cs, aes(x = age, y = y), size = 1)+
+  geom_jitter(data = p_sum_cs1,aes(x = age, y= correct), width = .00, height = .01, alpha = .5)+
+  geom_pointrange(data = p_sum_cs2, aes(x = subage+.5, y = mean, ymin = ci_lower, ymax = ci_upper),size = .8, position = position_dodge(width = .2), pch = 4)+
+  labs(x="Age",y="Proportion correct")+
+  theme_few() +
+  ylim(-0.05,1.05)+
+  xlim(3,5)+
+  guides(alpha = F, col = F)+
+  scale_color_manual(values = "#CC6677")
 ```
 
 
@@ -185,6 +290,7 @@ ggplot(p3, aes(x = Day1, y = Day2))+
 ```{r}
 reli <- data%>%
   filter(task != "training")%>%
+  droplevels()%>%
   group_by(id,task, test_day)%>%
   summarise(mean = mean(correct))%>%
   spread(test_day, mean)%>%
@@ -205,6 +311,7 @@ reli
 ```{r}
 reli_age <- data%>%
   filter(task != "training")%>%
+  droplevels()%>%
   group_by(subage, id,task, test_day)%>%
   summarise(mean = mean(correct))%>%
   spread(test_day, mean)%>%
@@ -225,6 +332,7 @@ reli_age
 ```{r}
 cor <- data%>%
   filter(task != "training")%>%
+  droplevels()%>%
   group_by(id,task)%>%
   summarise(mean = mean(correct))%>%
   spread(task, mean)%>%
