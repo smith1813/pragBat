@@ -516,7 +516,8 @@ ggplot() +
   ylim(-0.05,1.05)+
   xlim(3,5)+
   guides(alpha = F, col = F)+
-  coord_fixed(ratio = 2)
+  coord_fixed(ratio = 2)+
+  ggsave("../graphs/task_results.png")
 ```
 
 
