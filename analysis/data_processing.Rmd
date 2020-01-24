@@ -83,7 +83,8 @@ library(brms)
 
 data <- read_csv("../data/data.csv")%>%
   mutate(subage = factor(subage),
-         trial = ifelse(test_day == "2", trial + 4, trial))%>%
+         trial = ifelse(test_day == "2", trial + 4, trial),
+         z_age = age - mean(age))%>%
   select(-X)
 
 
@@ -163,7 +164,9 @@ ggplot(data = p12, aes(x = age, y = mean))+
   theme(legend.position = c(.85,.2))+
   coord_fixed(ratio = 2)
 ```
-# Card Sorting model
+# Models
+
+## Card Sorting
 
 ```{r}
 # card sorting
@@ -173,10 +176,9 @@ card_sorting_data <- data %>%
 
 
 card_sorting_model_data <- card_sorting_data %>%
-  mutate(age = age - mean(age),
-         trial = trial - mean(trial))
+  mutate(trial = trial - mean(trial))
 
-# card_sorting_model1 <- brm(correct ~ age + trial + (trial|id),
+# card_sorting_model1 <- brm(correct ~ z_age + trial + (trial|id),
 #                     data = card_sorting_model_data, family = bernoulli(),
 #           control = list(adapt_delta = 0.99),
 #           sample_prior = F,
@@ -203,7 +205,7 @@ card_sorting_model1 <-readRDS("../saves/card_sorting_model1.rds")
 card_sorting_model2 <-readRDS("../saves/card_sorting_model2.rds")
 
 
-ts <- loo_compare(card_sorting_model1, card_sorting_model2, criterion = "waic")%>%
+cs_ts <- loo_compare(card_sorting_model1, card_sorting_model2, criterion = "waic")%>%
   as.data.frame() %>%
   tibble::rownames_to_column("Model")%>%
   mutate(
@@ -215,51 +217,306 @@ ts <- loo_compare(card_sorting_model1, card_sorting_model2, criterion = "waic")%
     SE = round(se_waic,2))%>%
   select(Model, WAIC, SE, weight)
 
-ts
+cs_ts
 
 summary(card_sorting_model1)
 
 ```
 
+## Inforamtiveness
+
 ```{r}
-p_sum_cs1 <- card_sorting_data %>%
+
+inf_data <- data %>%
+  filter(task == "informativeness")
+
+
+inf_model_data <- inf_data %>%
+  mutate(trial = trial - mean(trial))
+
+inf_model1 <- brm(correct ~ z_age + trial + (trial|id),
+                    data = inf_model_data, family = bernoulli(),
+          control = list(adapt_delta = 0.99),
+          sample_prior = F,
+          chains = 4,
+          cores = 4,
+          save_all_pars = TRUE,
+          iter = 10000)%>%
+  add_criterion("waic")%>%
+  saveRDS(., "../saves/inf_model1.rds")
+
+inf_model2 <- brm(correct ~ trial + (trial|id),
+                    data = inf_model_data, family = bernoulli(),
+          control = list(adapt_delta = 0.99),
+          sample_prior = F,
+          chains = 4,
+          cores = 4,
+          save_all_pars = TRUE,
+          iter = 10000)%>%
+  add_criterion("waic")%>%
+  saveRDS(., "../saves/inf_model2.rds")
+
+inf_model1 <-readRDS("../saves/inf_model1.rds")
+
+inf_model2 <-readRDS("../saves/inf_model2.rds")
+
+
+inf_ts <- loo_compare(inf_model1, inf_model2, criterion = "waic")%>%
+  as.data.frame() %>%
+  tibble::rownames_to_column("Model")%>%
+  mutate(
+    Model = recode(Model, inf_model1 = "correct ~ age + trial + RE", 
+                   inf_model2 = "correct ~ trial + RE"),
+    weight = exp(elpd_waic) / sum(exp(elpd_waic)),
+    weight = round(weight, 3),
+    WAIC = round(waic, 2),
+    SE = round(se_waic,2))%>%
+  select(Model, WAIC, SE, weight)
+
+inf_ts
+
+summary(inf_data_model1)
+
+```
+
+## Mutual Exclusivity
+
+```{r}
+
+me_data <- data %>%
+  filter(task == "mutual_exclusivity")
+
+
+me_model_data <- me_data %>%
+  mutate(trial = trial - mean(trial))
+
+me_model1 <- brm(correct ~ z_age + trial + (trial|id),
+                    data = me_model_data, family = bernoulli(),
+          control = list(adapt_delta = 0.99),
+          sample_prior = F,
+          chains = 4,
+          cores = 4,
+          save_all_pars = TRUE,
+          iter = 10000)%>%
+  add_criterion("waic")%>%
+  saveRDS(., "../saves/me_model1.rds")
+
+me_model2 <- brm(correct ~ trial + (trial|id),
+                    data = me_model_data, family = bernoulli(),
+          control = list(adapt_delta = 0.99),
+          sample_prior = F,
+          chains = 4,
+          cores = 4,
+          save_all_pars = TRUE,
+          iter = 10000)%>%
+  add_criterion("waic")%>%
+  saveRDS(., "../saves/me_model2.rds")
+
+me_model1 <-readRDS("../saves/me_model1.rds")
+
+me_model2 <-readRDS("../saves/me_model2.rds")
+
+
+me_ts <- loo_compare(me_model1, me_model2, criterion = "waic")%>%
+  as.data.frame() %>%
+  tibble::rownames_to_column("Model")%>%
+  mutate(
+    Model = recode(Model, me_model1 = "correct ~ age + trial + RE", 
+                   me_model2 = "correct ~ trial + RE"),
+    weight = exp(elpd_waic) / sum(exp(elpd_waic)),
+    weight = round(weight, 3),
+    WAIC = round(waic, 2),
+    SE = round(se_waic,2))%>%
+  select(Model, WAIC, SE, weight)
+
+me_ts
+
+summary(me_model1)
+
+```
+## Novelty
+
+```{r}
+
+nov_data <- data %>%
+  filter(task == "novelty")
+
+
+nov_model_data <- nov_data %>%
+  mutate(trial = trial - mean(trial))
+
+nov_model1 <- brm(correct ~ z_age + trial + (trial|id),
+                    data = nov_model_data, family = bernoulli(),
+          control = list(adapt_delta = 0.99),
+          sample_prior = F,
+          chains = 4,
+          cores = 4,
+          save_all_pars = TRUE,
+          iter = 10000)%>%
+  add_criterion("waic")%>%
+  saveRDS(., "../saves/nov_model1.rds")
+
+nov_model2 <- brm(correct ~ trial + (trial|id),
+                    data = nov_model_data, family = bernoulli(),
+          control = list(adapt_delta = 0.99),
+          sample_prior = F,
+          chains = 4,
+          cores = 4,
+          save_all_pars = TRUE,
+          iter = 10000)%>%
+  add_criterion("waic")%>%
+  saveRDS(., "../saves/nov_model2.rds")
+
+nov_model1 <-readRDS("../saves/nov_model1.rds")
+
+nov_model2 <-readRDS("../saves/nov_model2.rds")
+
+
+nov_ts <- loo_compare(nov_model1, nov_model2, criterion = "waic")%>%
+  as.data.frame() %>%
+  tibble::rownames_to_column("Model")%>%
+  mutate(
+    Model = recode(Model, nov_model1 = "correct ~ age + trial + RE", 
+                   nov_model2 = "correct ~ trial + RE"),
+    weight = exp(elpd_waic) / sum(exp(elpd_waic)),
+    weight = round(weight, 3),
+    WAIC = round(waic, 2),
+    SE = round(se_waic,2))%>%
+  select(Model, WAIC, SE, weight)
+
+nov_ts
+
+summary(nov_model1)
+
+```
+# Visualizing individual tasks
+
+```{r}
+# Files to plot data means
+p_data <- data %>%
+  filter(task != "training")%>%
   mutate(subage = as.numeric(as.character(subage)))%>%
-  group_by(age,subage,id) %>%
+  group_by(task, age,subage,id) %>%
   summarise(correct = mean(correct)) 
 
-p_sum_cs2 <- p_sum_cs1 %>%
-  group_by(subage) %>%
+p_data2 <- p_data %>%
+  group_by(task, subage) %>%
   multi_boot_standard(col = "correct")
 
-samples_cs_1 <- posterior_samples(card_sorting_model1, "^b")%>%
-  mutate(sample = 1:length(b_age))
 
-samples_cs_2 <- expand_grid(samples_cs_1,card_sorting_model_data$age)%>%
-  mutate(y = plogis(b_Intercept + b_age * `card_sorting_model_data$age`),
-         age = `card_sorting_model_data$age` + mean(card_sorting_data$age),
-         experiment = "card_sorting")%>%
-  filter(sample < 1000)
+# Files to plot individual samples from each task
+samples_to_draw <- sample(1:20000, 500)
 
+## card sorting
+samples_cs <- posterior_samples(card_sorting_model1, "^b")%>%
+  mutate(sample = 1:length(b_age))%>%
+  filter(sample %in% samples_to_draw)%>%
+  expand_grid(data$z_age)%>%
+  mutate(y = plogis(b_Intercept + b_age * `data$z_age`),
+         age = `data$z_age` + mean(data$age),
+         task = "card_sorting")
+
+## informativeness
+samples_inf <- posterior_samples(inf_model1, "^b")%>%
+  mutate(sample = 1:length(b_age))%>%
+  filter(sample %in% samples_to_draw)%>%
+  expand_grid(data$z_age)%>%
+  mutate(y = plogis(b_Intercept + b_age * `data$z_age`),
+         age = `data$z_age` + mean(data$age),
+         task = "informativeness")
+
+## mutual exclusivity
+samples_me <- posterior_samples(me_model1, "^b")%>%
+  mutate(sample = 1:length(b_z_age))%>%
+  filter(sample %in% samples_to_draw)%>%
+  expand_grid(data$z_age)%>%
+  mutate(y = plogis(b_Intercept + b_z_age * `data$z_age`),
+         age = `data$z_age` + mean(data$age),
+         task = "mutual_exclusivity")
+## novelty
+
+samples_nov <- posterior_samples(nov_model1, "^b")%>%
+  mutate(sample = 1:length(b_z_age))%>%
+  filter(sample %in% samples_to_draw)%>%
+  expand_grid(data$z_age)%>%
+  mutate(y = plogis(b_Intercept + b_z_age * `data$z_age`),
+         age = `data$z_age` + mean(data$age),
+         task = "novelty")
+
+## combine files
+samples <- bind_rows(
+  samples_cs,
+  samples_inf,
+  samples_me,
+  samples_nov
+)
+
+
+# File to plot means of distributions for each task
+
+## card sorting
 map_cs <- tibble(
-  age = card_sorting_model_data$age,
+  age = data$z_age,
   int = fixef(card_sorting_model1)[1,1],
   slope = fixef(card_sorting_model1)[2,1]
 )%>%
   mutate(y = plogis(int + slope * age),
-         age = age + mean(card_sorting_data$age_num))
+         age = age + mean(data$age),
+         task = "card_sorting")
 
-p_cs <- ggplot() +
+## informativeness
+map_inf <- tibble(
+  age = data$z_age,
+  int = fixef(inf_model1)[1,1],
+  slope = fixef(inf_model1)[2,1]
+)%>%
+  mutate(y = plogis(int + slope * age),
+         age = age + mean(data$age),
+         task = "informativeness")
+
+## mutual exclusivity
+map_me <- tibble(
+  age = data$z_age,
+  int = fixef(me_model1)[1,1],
+  slope = fixef(me_model1)[2,1]
+)%>%
+  mutate(y = plogis(int + slope * age),
+         age = age + mean(data$age),
+         task = "mutual_exclusivity")
+
+## novelty
+map_nov <- tibble(
+  age = data$z_age,
+  int = fixef(nov_model1)[1,1],
+  slope = fixef(nov_model1)[2,1]
+)%>%
+  mutate(y = plogis(int + slope * age),
+         age = age + mean(data$age),
+         task = "novelty")
+
+
+
+maps <- bind_rows(
+  map_cs,
+  map_inf,
+  map_me,
+  map_nov
+)
+
+
+ggplot() +
   geom_hline(yintercept = .5, lty=2, size = 1)+
-  geom_line(data = samples_cs_2, aes(x = age, y = y, group = sample), size = .025, col = "grey")+
-  geom_line(data = map_cs, aes(x = age, y = y), size = 1)+
-  geom_jitter(data = p_sum_cs1,aes(x = age, y= correct), width = .00, height = .01, alpha = .5)+
-  geom_pointrange(data = p_sum_cs2, aes(x = subage+.5, y = mean, ymin = ci_lower, ymax = ci_upper),size = .8, position = position_dodge(width = .2), pch = 4)+
+  geom_line(data = samples, aes(x = age, y = y, group = sample), size = .025, col = "grey")+
+  geom_line(data = maps, aes(x = age, y = y), size = 1)+
+  geom_jitter(data = p_data,aes(x = age, y= correct), width = .00, height = .01, alpha = .2)+
+  geom_pointrange(data = p_data2, aes(x = subage+.5, y = mean, ymin = ci_lower, ymax = ci_upper),size = .5, position = position_dodge(width = .2), pch = 5, col = "#6866cc")+
   labs(x="Age",y="Proportion correct")+
+  facet_wrap(~task, nrow = 2)+
   theme_few() +
   ylim(-0.05,1.05)+
   xlim(3,5)+
   guides(alpha = F, col = F)+
-  scale_color_manual(values = "#CC6677")
+  coord_fixed(ratio = 2)
 ```
 
 
