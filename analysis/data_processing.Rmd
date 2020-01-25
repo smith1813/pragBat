@@ -511,13 +511,55 @@ ggplot() +
   geom_jitter(data = p_data,aes(x = age, y= correct), width = .00, height = .01, alpha = .2)+
   geom_pointrange(data = p_data2, aes(x = subage+.5, y = mean, ymin = ci_lower, ymax = ci_upper),size = .5, position = position_dodge(width = .2), pch = 5, col = "#6866cc")+
   labs(x="Age",y="Proportion correct")+
-  facet_wrap(~task, nrow = 2)+
+  facet_wrap(~task, nrow = 1)+
   theme_few() +
   ylim(-0.05,1.05)+
   xlim(3,5)+
   guides(alpha = F, col = F)+
   coord_fixed(ratio = 2)+
-  ggsave("../graphs/task_results.png")
+  ggsave("../graphs/task_results.png", width = 10, height = 2.5, scale = 1.2)
+```
+
+# Visualizing predictor for age
+
+```{r}
+
+library(ggridges)
+
+x <- bind_rows(
+  posterior_samples(card_sorting_model1, "^b")%>%
+  select(b_age)%>%
+  mutate(task = "1 card_sorting",
+         ci = ifelse(b_age < fixef(card_sorting_model1)[2,3] | b_age > fixef(card_sorting_model1)[2,4], 1,2)),
+  posterior_samples(inf_model1, "^b")%>%
+  select(b_age)%>%
+  mutate(task = "4 informativeness",
+         ci = ifelse(b_age < fixef(inf_model1)[2,3] | b_age > fixef(inf_model1)[2,4], 1,2)),
+  posterior_samples(nov_model1, "^b")%>%
+  select(b_z_age)%>%
+  rename(b_age = b_z_age)%>%
+  mutate(task = "2 novelty",
+         ci = ifelse(b_age < fixef(nov_model1)[2,3] | b_age > fixef(nov_model1)[2,4], 1,2)),
+  posterior_samples(me_model1, "^b")%>%
+  select(b_z_age)%>%
+  rename(b_age = b_z_age)%>%
+  mutate(task = "3 mutual_exclusivity",
+         ci = ifelse(b_age < fixef(me_model1)[2,3] | b_age > fixef(me_model1)[2,4], 1,2))
+)
+  
+
+ggplot(x, aes(x = b_age, y = task, fill = factor(stat(quantile))))+
+  geom_vline(xintercept = 0, col = "grey", lty = 2)+
+  stat_density_ridges(
+    geom = "density_ridges_gradient",
+    calc_ecdf = TRUE,
+    quantiles = c(0.025, 0.975)
+  ) +
+  scale_fill_manual(values = c("white", "lightblue", "white"))+ 
+  guides(fill = F)+
+  xlim(-10,20)+
+  theme_few()
+
 ```
 
 
