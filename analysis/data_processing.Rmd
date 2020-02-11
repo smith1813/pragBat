@@ -1,10 +1,10 @@
 ---
-title: "Data Processing"
+title: "Prag Bat"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = F, warning = F, message = F)
 
 library(tidyverse)
 library(knitr)
@@ -19,9 +19,9 @@ library(reshape2)
 library(psych)
 library(readODS)
 library(brms)
+library(psy)
 
 ```
-
 
 ```{r}
 # importing data
@@ -90,37 +90,44 @@ data <- read_csv("../data/data.csv")%>%
 
 ```
 
+# Total sample size
+
 ```{r}
 data%>%
   group_by(subage)%>%
-  summarise(n= length(unique(id)))
+  summarise(n= length(unique(id)))%>%
+  kable()
 
 ```
+
+# Sample size with two test days
 
 ```{r}
 data %>%
   group_by(subage,id)%>%
   summarise(testdays = length(unique(test_day)))%>%
   filter(testdays == 2)%>%
-  summarise(complete_retest_data = length(id))
+  summarise(complete_retest_data = length(id))%>%
+  kable()
 ```
 
 
-
 ```{r}
-data %>%
-  group_by(id,test_day)%>%
-  summarise(n())%>%
-  arrange(id,test_day)
+# data %>%
+#   group_by(id,test_day)%>%
+#   summarise(n())%>%
+#   arrange(id,test_day)
  
 ```
 
 
 ```{r}
-data%>%
-  group_by(test_day,task)%>%
-  summarise(n= length(unique(id)))
+# data%>%
+#   group_by(test_day,task)%>%
+#   summarise(n= length(unique(id)))
 ```
+
+# Results by task binned by year
 
 ```{r}
 p1 <- data%>%
@@ -143,26 +150,6 @@ ggplot()+
   scale_color_ptol(name = "Age")+
   theme_few()+
   theme(legend.position = c(.85,.2))
-```
-
-
-```{r}
-p12 <- data%>%
-  group_by(id,age,task)%>%
-  filter(task != "training")%>%
-  summarise(mean = mean(correct))
-
-
-ggplot(data = p12, aes(x = age, y = mean))+
-  geom_hline(yintercept = .5, lty = 2)+
-  geom_jitter(alpha = .5, width = .2, height = .01)+
-  geom_smooth(method = "glm")+
-  facet_grid(~task)+
-  labs(x = "Age", y = "Proportion Correct")+
-  scale_color_ptol(name = "Age")+
-  theme_few()+
-  theme(legend.position = c(.85,.2))+
-  coord_fixed(ratio = 2)
 ```
 # Models
 
@@ -217,9 +204,10 @@ cs_ts <- loo_compare(card_sorting_model1, card_sorting_model2, criterion = "waic
     SE = round(se_waic,2))%>%
   select(Model, WAIC, SE, weight)
 
-cs_ts
+cs_ts%>%
+  kable()
 
-summary(card_sorting_model1)
+#summary(card_sorting_model1)
 
 ```
 
@@ -234,27 +222,27 @@ inf_data <- data %>%
 inf_model_data <- inf_data %>%
   mutate(trial = trial - mean(trial))
 
-inf_model1 <- brm(correct ~ z_age + trial + (trial|id),
-                    data = inf_model_data, family = bernoulli(),
-          control = list(adapt_delta = 0.99),
-          sample_prior = F,
-          chains = 4,
-          cores = 4,
-          save_all_pars = TRUE,
-          iter = 10000)%>%
-  add_criterion("waic")%>%
-  saveRDS(., "../saves/inf_model1.rds")
-
-inf_model2 <- brm(correct ~ trial + (trial|id),
-                    data = inf_model_data, family = bernoulli(),
-          control = list(adapt_delta = 0.99),
-          sample_prior = F,
-          chains = 4,
-          cores = 4,
-          save_all_pars = TRUE,
-          iter = 10000)%>%
-  add_criterion("waic")%>%
-  saveRDS(., "../saves/inf_model2.rds")
+# inf_model1 <- brm(correct ~ z_age + trial + (trial|id),
+#                     data = inf_model_data, family = bernoulli(),
+#           control = list(adapt_delta = 0.99),
+#           sample_prior = F,
+#           chains = 4,
+#           cores = 4,
+#           save_all_pars = TRUE,
+#           iter = 10000)%>%
+#   add_criterion("waic")%>%
+#   saveRDS(., "../saves/inf_model1.rds")
+# 
+# inf_model2 <- brm(correct ~ trial + (trial|id),
+#                     data = inf_model_data, family = bernoulli(),
+#           control = list(adapt_delta = 0.99),
+#           sample_prior = F,
+#           chains = 4,
+#           cores = 4,
+#           save_all_pars = TRUE,
+#           iter = 10000)%>%
+#   add_criterion("waic")%>%
+#   saveRDS(., "../saves/inf_model2.rds")
 
 inf_model1 <-readRDS("../saves/inf_model1.rds")
 
@@ -273,9 +261,10 @@ inf_ts <- loo_compare(inf_model1, inf_model2, criterion = "waic")%>%
     SE = round(se_waic,2))%>%
   select(Model, WAIC, SE, weight)
 
-inf_ts
+inf_ts%>%
+  kable()
 
-summary(inf_data_model1)
+#summary(inf_data_model1)
 
 ```
 
@@ -290,27 +279,27 @@ me_data <- data %>%
 me_model_data <- me_data %>%
   mutate(trial = trial - mean(trial))
 
-me_model1 <- brm(correct ~ z_age + trial + (trial|id),
-                    data = me_model_data, family = bernoulli(),
-          control = list(adapt_delta = 0.99),
-          sample_prior = F,
-          chains = 4,
-          cores = 4,
-          save_all_pars = TRUE,
-          iter = 10000)%>%
-  add_criterion("waic")%>%
-  saveRDS(., "../saves/me_model1.rds")
-
-me_model2 <- brm(correct ~ trial + (trial|id),
-                    data = me_model_data, family = bernoulli(),
-          control = list(adapt_delta = 0.99),
-          sample_prior = F,
-          chains = 4,
-          cores = 4,
-          save_all_pars = TRUE,
-          iter = 10000)%>%
-  add_criterion("waic")%>%
-  saveRDS(., "../saves/me_model2.rds")
+# me_model1 <- brm(correct ~ z_age + trial + (trial|id),
+#                     data = me_model_data, family = bernoulli(),
+#           control = list(adapt_delta = 0.99),
+#           sample_prior = F,
+#           chains = 4,
+#           cores = 4,
+#           save_all_pars = TRUE,
+#           iter = 10000)%>%
+#   add_criterion("waic")%>%
+#   saveRDS(., "../saves/me_model1.rds")
+# 
+# me_model2 <- brm(correct ~ trial + (trial|id),
+#                     data = me_model_data, family = bernoulli(),
+#           control = list(adapt_delta = 0.99),
+#           sample_prior = F,
+#           chains = 4,
+#           cores = 4,
+#           save_all_pars = TRUE,
+#           iter = 10000)%>%
+#   add_criterion("waic")%>%
+#   saveRDS(., "../saves/me_model2.rds")
 
 me_model1 <-readRDS("../saves/me_model1.rds")
 
@@ -329,11 +318,13 @@ me_ts <- loo_compare(me_model1, me_model2, criterion = "waic")%>%
     SE = round(se_waic,2))%>%
   select(Model, WAIC, SE, weight)
 
-me_ts
+me_ts%>%
+  kable()
 
-summary(me_model1)
+#summary(me_model1)
 
 ```
+
 ## Novelty
 
 ```{r}
@@ -345,27 +336,27 @@ nov_data <- data %>%
 nov_model_data <- nov_data %>%
   mutate(trial = trial - mean(trial))
 
-nov_model1 <- brm(correct ~ z_age + trial + (trial|id),
-                    data = nov_model_data, family = bernoulli(),
-          control = list(adapt_delta = 0.99),
-          sample_prior = F,
-          chains = 4,
-          cores = 4,
-          save_all_pars = TRUE,
-          iter = 10000)%>%
-  add_criterion("waic")%>%
-  saveRDS(., "../saves/nov_model1.rds")
-
-nov_model2 <- brm(correct ~ trial + (trial|id),
-                    data = nov_model_data, family = bernoulli(),
-          control = list(adapt_delta = 0.99),
-          sample_prior = F,
-          chains = 4,
-          cores = 4,
-          save_all_pars = TRUE,
-          iter = 10000)%>%
-  add_criterion("waic")%>%
-  saveRDS(., "../saves/nov_model2.rds")
+# nov_model1 <- brm(correct ~ z_age + trial + (trial|id),
+#                     data = nov_model_data, family = bernoulli(),
+#           control = list(adapt_delta = 0.99),
+#           sample_prior = F,
+#           chains = 4,
+#           cores = 4,
+#           save_all_pars = TRUE,
+#           iter = 10000)%>%
+#   add_criterion("waic")%>%
+#   saveRDS(., "../saves/nov_model1.rds")
+# 
+# nov_model2 <- brm(correct ~ trial + (trial|id),
+#                     data = nov_model_data, family = bernoulli(),
+#           control = list(adapt_delta = 0.99),
+#           sample_prior = F,
+#           chains = 4,
+#           cores = 4,
+#           save_all_pars = TRUE,
+#           iter = 10000)%>%
+#   add_criterion("waic")%>%
+#   saveRDS(., "../saves/nov_model2.rds")
 
 nov_model1 <-readRDS("../saves/nov_model1.rds")
 
@@ -384,14 +375,116 @@ nov_ts <- loo_compare(nov_model1, nov_model2, criterion = "waic")%>%
     SE = round(se_waic,2))%>%
   select(Model, WAIC, SE, weight)
 
-nov_ts
+nov_ts%>%
+  kable()
 
-summary(nov_model1)
+#summary(nov_model1)
 
 ```
-# Visualizing individual tasks
+
+## Preference
 
 ```{r}
+
+pref_data <- data %>%
+  filter(task == "preference")
+
+
+pref_model_data <- pref_data %>%
+  mutate(trial = trial - mean(trial))
+
+# pref_model1 <- brm(correct ~ z_age + trial + (trial|id),
+#                     data = pref_model_data, family = bernoulli(),
+#           control = list(adapt_delta = 0.99),
+#           sample_prior = F,
+#           chains = 4,
+#           cores = 4,
+#           save_all_pars = TRUE,
+#           iter = 10000)%>%
+#   add_criterion("waic")%>%
+#   saveRDS(., "../saves/pref_model1.rds")
+# 
+# pref_model2 <- brm(correct ~ trial + (trial|id),
+#                     data = pref_model_data, family = bernoulli(),
+#           control = list(adapt_delta = 0.99),
+#           sample_prior = F,
+#           chains = 4,
+#           cores = 4,
+#           save_all_pars = TRUE,
+#           iter = 10000)%>%
+#   add_criterion("waic")%>%
+#   saveRDS(., "../saves/pref_model2.rds")
+
+pref_model1 <-readRDS("../saves/pref_model1.rds")
+
+pref_model2 <-readRDS("../saves/pref_model2.rds")
+
+
+pref_ts <- loo_compare(pref_model1, pref_model2, criterion = "waic")%>%
+  as.data.frame() %>%
+  tibble::rownames_to_column("Model")%>%
+  mutate(
+    Model = recode(Model, pref_model1 = "correct ~ age + trial + RE", 
+                   pref_model2 = "correct ~ trial + RE"),
+    weight = exp(elpd_waic) / sum(exp(elpd_waic)),
+    weight = round(weight, 3),
+    WAIC = round(waic, 2),
+    SE = round(se_waic,2))%>%
+  select(Model, WAIC, SE, weight)
+
+pref_ts%>%
+  kable()
+
+#summary(pref_model1)
+
+```
+
+# Visualizing predictor for age and trial
+
+```{r}
+
+library(ggridges)
+
+x <- bind_rows(
+  posterior_samples(card_sorting_model1, "^b")%>%
+  select(-b_Intercept)%>%
+  mutate(task = "1 card_sorting"),
+  posterior_samples(inf_model1, "^b")%>%
+  select(-b_Intercept)%>%
+  mutate(task = "4 informativeness"),
+  posterior_samples(nov_model1, "^b")%>%
+  select(-b_Intercept)%>%
+  rename(b_age = b_z_age)%>%
+  mutate(task = "2 novelty"),
+  posterior_samples(me_model1, "^b")%>%
+  select(-b_Intercept)%>%
+  rename(b_age = b_z_age)%>%
+  mutate(task = "3 mutual_exclusivity"),
+  posterior_samples(pref_model1, "^b")%>%
+  select(-b_Intercept)%>%
+  rename(b_age = b_z_age)%>%
+  mutate(task = "0 preference")
+)%>%
+  gather(estimate, value, -task)
+  
+
+ggplot(x, aes(y = task, x = value, fill = factor(stat(quantile))))+
+  stat_density_ridges(
+    geom = "density_ridges_gradient",
+    calc_ecdf = TRUE,
+    quantiles = c(0.025, 0.975)
+  ) +
+  facet_grid(~estimate, scales = "free_x")+
+  geom_vline(xintercept = 0, col = "grey", lty = 2)+
+  scale_fill_manual(values = c("white", "lightblue", "white"))+ 
+  guides(fill = F)+
+  theme_few()
+
+```
+
+# Results by task continous
+
+```{r, cache = T}
 # Files to plot data means
 p_data <- data %>%
   filter(task != "training")%>%
@@ -443,12 +536,23 @@ samples_nov <- posterior_samples(nov_model1, "^b")%>%
          age = `data$z_age` + mean(data$age),
          task = "novelty")
 
+## preference
+
+samples_pref <- posterior_samples(pref_model1, "^b")%>%
+  mutate(sample = 1:length(b_z_age))%>%
+  filter(sample %in% samples_to_draw)%>%
+  expand_grid(data$z_age)%>%
+  mutate(y = plogis(b_Intercept + b_z_age * `data$z_age`),
+         age = `data$z_age` + mean(data$age),
+         task = "preference")
+
 ## combine files
 samples <- bind_rows(
   samples_cs,
   samples_inf,
   samples_me,
-  samples_nov
+  samples_nov,
+  samples_pref
 )
 
 
@@ -494,13 +598,24 @@ map_nov <- tibble(
          age = age + mean(data$age),
          task = "novelty")
 
+## preference
+map_pref <- tibble(
+  age = data$z_age,
+  int = fixef(pref_model1)[1,1],
+  slope = fixef(pref_model1)[2,1]
+)%>%
+  mutate(y = plogis(int + slope * age),
+         age = age + mean(data$age),
+         task = "preference")
+
 
 
 maps <- bind_rows(
   map_cs,
   map_inf,
   map_me,
-  map_nov
+  map_nov,
+  map_pref
 )
 
 
@@ -516,53 +631,13 @@ ggplot() +
   ylim(-0.05,1.05)+
   xlim(3,5)+
   guides(alpha = F, col = F)+
-  coord_fixed(ratio = 2)+
-  ggsave("../graphs/task_results.png", width = 10, height = 2.5, scale = 1.2)
+  coord_fixed(ratio = 2)#+
+  #ggsave("../graphs/task_results.png", width = 10, height = 2.5, scale = 1.2)
 ```
 
-# Visualizing predictor for age
+# Reliability
 
-```{r}
-
-library(ggridges)
-
-x <- bind_rows(
-  posterior_samples(card_sorting_model1, "^b")%>%
-  select(b_age)%>%
-  mutate(task = "1 card_sorting",
-         ci = ifelse(b_age < fixef(card_sorting_model1)[2,3] | b_age > fixef(card_sorting_model1)[2,4], 1,2)),
-  posterior_samples(inf_model1, "^b")%>%
-  select(b_age)%>%
-  mutate(task = "4 informativeness",
-         ci = ifelse(b_age < fixef(inf_model1)[2,3] | b_age > fixef(inf_model1)[2,4], 1,2)),
-  posterior_samples(nov_model1, "^b")%>%
-  select(b_z_age)%>%
-  rename(b_age = b_z_age)%>%
-  mutate(task = "2 novelty",
-         ci = ifelse(b_age < fixef(nov_model1)[2,3] | b_age > fixef(nov_model1)[2,4], 1,2)),
-  posterior_samples(me_model1, "^b")%>%
-  select(b_z_age)%>%
-  rename(b_age = b_z_age)%>%
-  mutate(task = "3 mutual_exclusivity",
-         ci = ifelse(b_age < fixef(me_model1)[2,3] | b_age > fixef(me_model1)[2,4], 1,2))
-)
-  
-
-ggplot(x, aes(x = b_age, y = task, fill = factor(stat(quantile))))+
-  geom_vline(xintercept = 0, col = "grey", lty = 2)+
-  stat_density_ridges(
-    geom = "density_ridges_gradient",
-    calc_ecdf = TRUE,
-    quantiles = c(0.025, 0.975)
-  ) +
-  scale_fill_manual(values = c("white", "lightblue", "white"))+ 
-  guides(fill = F)+
-  xlim(-10,20)+
-  theme_few()
-
-```
-
-
+## Plot
 ```{r}
 p3 <- data%>%
   filter(task != "training")%>%
@@ -585,8 +660,7 @@ ggplot(p3, aes(x = Day1, y = Day2))+
 
 ```
 
-
-
+## Table
 ```{r}
 reli <- data%>%
   filter(task != "training")%>%
@@ -605,29 +679,32 @@ reli <- data%>%
   mutate_if(is.numeric, round, digits = 2)
 
 
-reli
+reli%>%
+  kable()
 ```
 
 ```{r}
-reli_age <- data%>%
-  filter(task != "training")%>%
-  droplevels()%>%
-  group_by(subage, id,task, test_day)%>%
-  summarise(mean = mean(correct))%>%
-  spread(test_day, mean)%>%
-  na.omit()%>%
-  rename("Day1" = `1`,
-         "Day2" = `2`)%>%
-  group_by(subage,task)%>%
-  summarize(reli = cor.test(Day1,Day2)$estimate,
-            lci = cor.test(Day1,Day2)$conf.int[1],
-            uci = cor.test(Day1,Day2)$conf.int[2],
-            p = cor.test(Day1,Day2)$p.value)%>%
-  mutate_if(is.numeric, round, digits = 2)
-
-
-reli_age
+# reli_age <- data%>%
+#   filter(task != "training")%>%
+#   droplevels()%>%
+#   group_by(subage, id,task, test_day)%>%
+#   summarise(mean = mean(correct))%>%
+#   spread(test_day, mean)%>%
+#   na.omit()%>%
+#   rename("Day1" = `1`,
+#          "Day2" = `2`)%>%
+#   group_by(subage,task)%>%
+#   summarize(reli = cor.test(Day1,Day2)$estimate,
+#             lci = cor.test(Day1,Day2)$conf.int[1],
+#             uci = cor.test(Day1,Day2)$conf.int[2],
+#             p = cor.test(Day1,Day2)$p.value)%>%
+#   mutate_if(is.numeric, round, digits = 2)
+# 
+# 
+# reli_age
 ```
+
+# Overview: reliability and bi-variat correlations
 
 ```{r}
 cor <- data%>%
@@ -662,9 +739,9 @@ ggplot(cor, aes(x = rowname, y = task, fill = cor))+
                 title.position = "top", title.hjust = 0.5))
 ```
 
-```{r}
-library(psy)
+# Factor analysis
 
+```{r}
 fa_data <- p1 %>%
   spread(task, mean)%>%
   ungroup()%>%
@@ -674,15 +751,15 @@ fa_data <- p1 %>%
 
 pca <- principal(fa_data,nfactors=2, rotate="varimax")
 
-fit <- factanal(fa_data, 2, rotation="varimax")
+#fit <- factanal(fa_data, 2, rotation="varimax")
 
-scree.plot(fit$correlation)
+#scree.plot(fit$correlation)
 
-fit$loadings
+#fit$loadings
 
 pca$loadings
 
-plot(pca)
+#plot(pca)
 
 ```
 

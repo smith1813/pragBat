@@ -47,7 +47,7 @@ button {
 	padding-right: 5px;
 	height: 29px;
 	min-width: 70px;
-  
+
 }
 button:active {
 	border-left: 1px solid #c9c9c9;
@@ -79,7 +79,7 @@ startButton {
     position: absolute;
     bottom: 80px;
     left: 410px;
-   
+
 }
 
 startButton:active {
@@ -168,6 +168,23 @@ prefButton {
 }
 
 meButton {
+    position: absolute;
+    left:150;
+    top:200;
+    width:200;
+    font-family: sans-serif;
+    background-color: #c9c9c9;
+    border: none;
+    color: black;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+
+}
+
+adhocButton {
     position: absolute;
     left:150;
     top:300;
@@ -304,6 +321,27 @@ sortButton {
 }
 
 
+
+.adhoc_agent {
+    position: absolute;
+    bottom: 361px;
+    left: 370px;
+    width: 300px;
+}
+
+
+
+.window {
+    position: absolute;
+    bottom: 350px;
+    left: 320px;
+    width: 400px;
+    z-index: 1;
+    opacity: 0.6
+}
+
+
+
 .animal_intro {
     position: relative;
     width: 150px;
@@ -311,7 +349,7 @@ sortButton {
 
 .fruit_r {
     position: absolute;
-    bottom: 225px;  
+    bottom: 225px;
     left: 747px;
     width: 150px;
     z-index: 2
@@ -329,7 +367,7 @@ sortButton {
 
 .fruit_inf_r {
     position: absolute;
-    bottom: 490px;  
+    bottom: 490px;
     left: 605px;
     width: 160px;
     z-index: 2
@@ -337,7 +375,7 @@ sortButton {
 
 .fruit_inf_r2 {
     position: absolute;
-    bottom: 490px;  
+    bottom: 490px;
     left: 810px;
     width: 160px;
     z-index: 2
@@ -375,6 +413,62 @@ sortButton {
     bottom: 80px;
     left: 30px;
     width: 280px;
+    z-index: 0
+}
+
+
+.inf_ob_r {
+    position: absolute;
+    bottom: 100px;
+    left: 665px;
+    width: 350px;
+    z-index: 0
+}
+
+.inf_ob_l {
+    position: absolute;
+    bottom: 100px;
+    left: 15px;
+    width: 350px;
+    z-index: 0
+}
+
+
+.choice_inf_ob_r {
+    position: absolute;
+    bottom: 100px;
+    left: 665px;
+    width: 350px;
+    z-index: 0
+}
+
+.choice_inf_ob_l {
+    position: absolute;
+    bottom: 100px;
+    left: 15px;
+    width: 350px;
+    z-index: 0
+}
+
+
+
+
+
+
+
+.object_r {
+    position: absolute;
+    bottom: 0px;
+    left: 665px;
+    width: 350px;
+    z-index: 0
+}
+
+.object_l {
+    position: absolute;
+    bottom: 0px;
+    left: 15px;
+    width: 350px;
     z-index: 0
 }
 
@@ -482,10 +576,10 @@ sortButton {
 
 .selector_l {
     position: absolute;
-    bottom: 160px;
+    bottom: 100px;
     left: 10px;
-    width: 350px;
-    height: 550px;
+    width: 355px;
+    height: 380px;
     z-index: 3
 }
 
@@ -501,10 +595,10 @@ sortButton {
 
 .selector_r {
     position: absolute;
-    bottom: 160px;
-    left: 620px;
-    width: 350px;
-    height: 550px;
+    bottom: 100px;
+    left: 660px;
+    width: 355px;
+    height: 380px;
     z-index: 3
 }
 
@@ -530,7 +624,7 @@ sortButton {
 
 #item_r {
     position: absolute;
-    bottom: 450px;  
+    bottom: 450px;
     left: 700px;
     width: 150px;
     z-index: 2
@@ -596,4 +690,41 @@ div#preload { display: none; }
     width: 1%;
     height: 30px;
     background-color: green;
+}
+
+.look_agent_r_inf {
+    position: absolute;
+    bottom: 350px;
+    left: 350px;
+    width: 350px;
+}
+
+
+.look_agent_l_inf {
+    position: absolute;
+    bottom: 350px;
+    left: 350px;
+    width: 350px;
+}
+
+.agent_inf {
+    position: absolute;
+    bottom: 350px;
+    left: 350px;
+    width: 350px;
+}
+
+.point_agent_r_inf {
+    position: absolute;
+    bottom: 350px;
+    left: 310px;
+    width: 350px;
+}
+
+
+.point_agent_l_inf {
+    position: absolute;
+    bottom: 350px;
+    left: 390px;
+    width: 350px;
 }

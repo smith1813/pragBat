@@ -1,0 +1,45 @@
+---
+title: "Prag Bat Round 2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, warning = F, message = F)
+
+library(tidyverse)
+library(knitr)
+library(langcog)
+library(ggthemes)
+library(jsonlite)
+library(readxl)
+library(corrr)
+library(corrplot)
+library(ggcorrplot)
+library(reshape2)
+library(psych)
+library(readODS)
+library(brms)
+library(psy)
+
+```
+
+```{r}
+## die flogenden Zeilen kannst du überspringen. Weiter gehts in Zeile 68
+files <- dir("~/Work/PragBat/raw_data2/")
+
+raw_data <- data_frame()
+for (f in files) {
+  jf <- paste("~/Work/PragBat/raw_data2/",f,sep="")
+  jd <- jsonlite::fromJSON(paste(readLines(jf), collapse=""))
+  date <- str_sub(jf,34,str_length(jf)-11)
+  id <- as_data_frame(jd$data$data) %>% mutate(test_date = date,
+                                               trial = as.character(trial))
+  raw_data <- bind_rows(raw_data, id)
+}
+
+raw_data
+  
+```
+
+
+
