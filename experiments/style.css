@@ -186,7 +186,7 @@ meButton {
 
 adhocButton {
     position: absolute;
-    left:150;
+    left:550;
     top:300;
     width:200;
     font-family: sans-serif;
@@ -241,7 +241,7 @@ infButton {
 
 disconButton {
     position: absolute;
-    left:550;
+    left:150;
     top:300;
     width:200;
     font-family: sans-serif;

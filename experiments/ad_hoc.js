@@ -126,13 +126,25 @@ eat2: function(event) {
     };
 
 
-     // sourceSound("sound/adhoc/"+adhoc.agents[0]+"_"+adhoc.stimulus[0]+".mp3");
-     // playSound();
-
-
     showSlide("adhoc");
 
     showAgent(adhoc.agents[0],"straight");
+
+    if (adhoc.trial[0] == "train1"){
+
+      sourceSound("sound/adhoc/sheep_hello_adhoc.mp3");
+      playSound();
+
+setTimeout(function() {
+      sourceSound("sound/adhoc/"+adhoc.agents[0]+"_"+adhoc.stimulus[0]+".mp3");
+      playSound();
+}, 3000);
+
+    } else {
+
+     sourceSound("sound/adhoc/"+adhoc.agents[0]+"_"+adhoc.stimulus[0]+".mp3");
+     playSound();
+    }
 
     // specify what is shown on the objects depending on training and test condition
     if (adhoc.infPos[0] == "left"){
@@ -149,7 +161,7 @@ eat2: function(event) {
 
         }
 
-  
+
     // choice can be made by clicking the objects after - possible after 5s
     setTimeout(function() {
         $(".object_l").click(adhoc.eat);
