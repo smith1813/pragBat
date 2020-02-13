@@ -359,7 +359,7 @@ var simple_inf = {
 
             $("#inf_ob_l").animate({bottom: '100', queue:  true},300)
 
-          }, 4300)
+          }, 3700)
 
           setTimeout(function() {
             showInfAgent(simple_inf.agents[0],"look_l")
@@ -388,7 +388,7 @@ var simple_inf = {
 
             $("#inf_ob_r").animate({bottom: '100', queue:    true},300)
 
-          }, 4300)
+          }, 3700)
 
           setTimeout(function() {
             showInfAgent(simple_inf.agents[0],"look_r")
