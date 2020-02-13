@@ -132,17 +132,17 @@ eat2: function(event) {
 
     if (adhoc.trial[0] == "train1"){
 
-      sourceSound("sound/adhoc/sheep_hello_adhoc.mp3");
+      sourceSound("sound/sheep_hello_adhoc.mp3");
       playSound();
 
 setTimeout(function() {
-      sourceSound("sound/adhoc/"+adhoc.agents[0]+"_"+adhoc.stimulus[0]+".mp3");
+      sourceSound("sound/"+adhoc.agents[0]+"_"+adhoc.stimulus[0]+".mp3");
       playSound();
 }, 3000);
 
     } else {
 
-     sourceSound("sound/adhoc/"+adhoc.agents[0]+"_"+adhoc.stimulus[0]+".mp3");
+     sourceSound("sound/"+adhoc.agents[0]+"_"+adhoc.stimulus[0]+".mp3");
      playSound();
     }
 
