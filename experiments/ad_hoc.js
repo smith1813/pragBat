@@ -136,13 +136,13 @@ eat2: function(event) {
       playSound();
 
 setTimeout(function() {
-      sourceSound("sound/"+adhoc.agents[0]+"_"+adhoc.stimulus[0]+".mp3");
+     sourceSound("sound/adhoc/"+adhoc.stimulus[0]+".mp3");
       playSound();
 }, 3000);
 
     } else {
 
-     sourceSound("sound/"+adhoc.agents[0]+"_"+adhoc.stimulus[0]+".mp3");
+     sourceSound("sound/adhoc/"+adhoc.stimulus[0]+".mp3");
      playSound();
     }
 

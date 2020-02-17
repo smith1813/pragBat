@@ -96,7 +96,7 @@ var simple_inf = {
         sourceSound("sound/simpinf/"+simple_inf.object[0]+"_which.mp3");
         playSound();
 
-      }, 2000)
+      }, 3000)
 
       choiceLeftInfObject("images/empty.png")
       choiceRightInfObject("images/empty.png")
@@ -335,22 +335,26 @@ var simple_inf = {
         sourceSound("sound/simpinf/"+simple_inf.object[0]+"_label.mp3");
         playSound();
 
-        pause("moveButton",6000);
+        pause("moveButton2",7000);
 
         if (simple_inf.inf[0] == "left"){
 
+showInfAgent(simple_inf.agents[0],"straight")
+
+
+        setTimeout(function() {
           showInfAgent(simple_inf.agents[0],"point_l")
 
           $("#inf_ob_l").animate({bottom: '140', queue:  true},300)
 
           $("#inf_ob_l").animate({bottom: '100', queue:  true},300)
-
+        }, 1500)
 
 
 
           setTimeout(function() {
             showInfAgent(simple_inf.agents[0],"look_l")
-          }, 2600)
+          }, 4300)
 
           setTimeout(function() {
             showInfAgent(simple_inf.agents[0],"point_l")
@@ -359,13 +363,15 @@ var simple_inf = {
 
             $("#inf_ob_l").animate({bottom: '100', queue:  true},300)
 
-          }, 3700)
+          }, 5400)
 
           setTimeout(function() {
             showInfAgent(simple_inf.agents[0],"look_l")
-          }, 6000)
+          }, 7700)
 
         } else {
+showInfAgent(simple_inf.agents[0],"straight")
+                  setTimeout(function() {
 
           showInfAgent(simple_inf.agents[0],"point_r")
 
@@ -373,13 +379,13 @@ var simple_inf = {
 
           $("#inf_ob_r").animate({bottom: '100', queue:    true},300)
 
-
+        }, 1500)
 
 
           setTimeout(function() {
             showInfAgent(simple_inf.agents[0],"look_r")
 
-          }, 2600)
+          }, 4300)
 
           setTimeout(function() {
             showInfAgent(simple_inf.agents[0],"point_r")
@@ -388,11 +394,11 @@ var simple_inf = {
 
             $("#inf_ob_r").animate({bottom: '100', queue:    true},300)
 
-          }, 3700)
+          }, 5400)
 
           setTimeout(function() {
             showInfAgent(simple_inf.agents[0],"look_r")
-          }, 6000)
+          }, 7700)
         };
 
       } else if (simple_inf.agentOrient[0][0] == "down") {
