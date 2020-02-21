@@ -138,7 +138,7 @@ eat2: function(event) {
 setTimeout(function() {
      sourceSound("sound/adhoc/"+adhoc.stimulus[0]+".mp3");
       playSound();
-}, 3000);
+}, 4000);
 
     } else {
 

@@ -37,7 +37,8 @@ for (f in files) {
   raw_data <- bind_rows(raw_data, id)
 }
 
-raw_data
+raw_data%>%
+  select(task, trial, correct)
   
 ```
 
