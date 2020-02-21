@@ -69,7 +69,7 @@ task_data <- raw_data %>%
 
 # damit du das daten file mit dem log file (deine Liste) mergen kannst (brauchen wir für das numerische alter) legst du deine liste in den gleichen ordner in dem auch ader repository ordner liegt. Dann sollte es klappen.
 
-log <- read_ods("../../VP Liste.ods", sheet = 2)%>%
+log <- read_ods("../../VP Liste_Manuel.ods", sheet = 2)%>%
   mutate(age = as.numeric(difftime(test_day_1, `birthday `, units = "days"))/365.25,
          id = paste("Vp",`ID `, sep = ""))%>%
   select(id, age, status)
@@ -77,8 +77,9 @@ log <- read_ods("../../VP Liste.ods", sheet = 2)%>%
 
 data <- task_data %>%
   left_join(log)%>%
+  filter(status == "keep")%>%
   mutate(check_age = ifelse(subage == substr(age,1,1),T,F),
-         subage = as.numeric(substr(age,1,1)),
+         subage = factor(as.numeric(substr(age,1,1))),
          trial = as.numeric(trial))%>%
   select(-test_date, - status, -check_age)%>%
   mutate(trial = ifelse(test_day == "2", 
@@ -165,12 +166,8 @@ ggplot()+
 card_sorting_data <- data %>%
   filter(task == "card_sorting")
 
-
-card_sorting_model_data <- card_sorting_data %>%
-  mutate(trial = trial - mean(trial))
-
-card_sorting_model1 <- brm(correct ~ z_age + trial + (trial|id),
-                    data = card_sorting_model_data, family = bernoulli(),
+card_sorting_model1 <- brm(correct ~ z_age + z_trial + (z_trial|id) + (z_age|item),
+                    data = card_sorting_data, family = bernoulli(),
           control = list(adapt_delta = 0.99),
           sample_prior = F,
           chains = 4,
@@ -180,8 +177,8 @@ card_sorting_model1 <- brm(correct ~ z_age + trial + (trial|id),
   add_criterion("waic")%>%
   saveRDS(., "../saves/card_sorting_model1.rds")
 
-card_sorting_model2 <- brm(correct ~ trial + (trial|id),
-                    data = card_sorting_model_data, family = bernoulli(),
+card_sorting_model2 <- brm(correct ~ z_trial + (z_trial|id) + (z_age|item),
+                    data = card_sorting_data, family = bernoulli(),
           control = list(adapt_delta = 0.99),
           sample_prior = F,
           chains = 4,
@@ -222,31 +219,27 @@ cs_ts%>%
 inf_data <- data %>%
   filter(task == "informativeness")
 
+inf_model1 <- brm(correct ~ z_age + z_trial + (z_trial|id) + (z_age|item),
+                    data = inf_data, family = bernoulli(),
+          control = list(adapt_delta = 0.99),
+          sample_prior = F,
+          chains = 4,
+          cores = 4,
+          save_all_pars = TRUE,
+          iter = 10000)%>%
+  add_criterion("waic")%>%
+  saveRDS(., "../saves/inf_model1.rds")
 
-inf_model_data <- inf_data %>%
-  mutate(trial = trial - mean(trial))
-
-# inf_model1 <- brm(correct ~ z_age + trial + (trial|id),
-#                     data = inf_model_data, family = bernoulli(),
-#           control = list(adapt_delta = 0.99),
-#           sample_prior = F,
-#           chains = 4,
-#           cores = 4,
-#           save_all_pars = TRUE,
-#           iter = 10000)%>%
-#   add_criterion("waic")%>%
-#   saveRDS(., "../saves/inf_model1.rds")
-# 
-# inf_model2 <- brm(correct ~ trial + (trial|id),
-#                     data = inf_model_data, family = bernoulli(),
-#           control = list(adapt_delta = 0.99),
-#           sample_prior = F,
-#           chains = 4,
-#           cores = 4,
-#           save_all_pars = TRUE,
-#           iter = 10000)%>%
-#   add_criterion("waic")%>%
-#   saveRDS(., "../saves/inf_model2.rds")
+inf_model2 <- brm(correct ~ z_trial + (z_trial|id) + (z_age|item),
+                    data = inf_data, family = bernoulli(),
+          control = list(adapt_delta = 0.99),
+          sample_prior = F,
+          chains = 4,
+          cores = 4,
+          save_all_pars = TRUE,
+          iter = 10000)%>%
+  add_criterion("waic")%>%
+  saveRDS(., "../saves/inf_model2.rds")
 
 inf_model1 <-readRDS("../saves/inf_model1.rds")
 
@@ -279,31 +272,27 @@ inf_ts%>%
 me_data <- data %>%
   filter(task == "mutual_exclusivity")
 
+me_model1 <- brm(correct ~ z_age + z_trial + (z_trial|id) + (z_age|item),
+                    data = me_data, family = bernoulli(),
+          control = list(adapt_delta = 0.99),
+          sample_prior = F,
+          chains = 4,
+          cores = 4,
+          save_all_pars = TRUE,
+          iter = 10000)%>%
+  add_criterion("waic")%>%
+  saveRDS(., "../saves/me_model1.rds")
 
-me_model_data <- me_data %>%
-  mutate(trial = trial - mean(trial))
-
-# me_model1 <- brm(correct ~ z_age + trial + (trial|id),
-#                     data = me_model_data, family = bernoulli(),
-#           control = list(adapt_delta = 0.99),
-#           sample_prior = F,
-#           chains = 4,
-#           cores = 4,
-#           save_all_pars = TRUE,
-#           iter = 10000)%>%
-#   add_criterion("waic")%>%
-#   saveRDS(., "../saves/me_model1.rds")
-# 
-# me_model2 <- brm(correct ~ trial + (trial|id),
-#                     data = me_model_data, family = bernoulli(),
-#           control = list(adapt_delta = 0.99),
-#           sample_prior = F,
-#           chains = 4,
-#           cores = 4,
-#           save_all_pars = TRUE,
-#           iter = 10000)%>%
-#   add_criterion("waic")%>%
-#   saveRDS(., "../saves/me_model2.rds")
+me_model2 <- brm(correct ~ z_trial + (z_trial|id) + (z_age|item),
+                    data = me_data, family = bernoulli(),
+          control = list(adapt_delta = 0.99),
+          sample_prior = F,
+          chains = 4,
+          cores = 4,
+          save_all_pars = TRUE,
+          iter = 10000)%>%
+  add_criterion("waic")%>%
+  saveRDS(., "../saves/me_model2.rds")
 
 me_model1 <-readRDS("../saves/me_model1.rds")
 
@@ -336,31 +325,27 @@ me_ts%>%
 nov_data <- data %>%
   filter(task == "novelty")
 
+nov_model1 <- brm(correct ~ z_age + z_trial + (z_trial|id) + (z_age|item),
+                    data = nov_data, family = bernoulli(),
+          control = list(adapt_delta = 0.99),
+          sample_prior = F,
+          chains = 4,
+          cores = 4,
+          save_all_pars = TRUE,
+          iter = 10000)%>%
+  add_criterion("waic")%>%
+  saveRDS(., "../saves/nov_model1.rds")
 
-nov_model_data <- nov_data %>%
-  mutate(trial = trial - mean(trial))
-
-# nov_model1 <- brm(correct ~ z_age + trial + (trial|id),
-#                     data = nov_model_data, family = bernoulli(),
-#           control = list(adapt_delta = 0.99),
-#           sample_prior = F,
-#           chains = 4,
-#           cores = 4,
-#           save_all_pars = TRUE,
-#           iter = 10000)%>%
-#   add_criterion("waic")%>%
-#   saveRDS(., "../saves/nov_model1.rds")
-# 
-# nov_model2 <- brm(correct ~ trial + (trial|id),
-#                     data = nov_model_data, family = bernoulli(),
-#           control = list(adapt_delta = 0.99),
-#           sample_prior = F,
-#           chains = 4,
-#           cores = 4,
-#           save_all_pars = TRUE,
-#           iter = 10000)%>%
-#   add_criterion("waic")%>%
-#   saveRDS(., "../saves/nov_model2.rds")
+nov_model2 <- brm(correct ~ z_trial + (z_trial|id) + (z_age|item),
+                    data = nov_data, family = bernoulli(),
+          control = list(adapt_delta = 0.99),
+          sample_prior = F,
+          chains = 4,
+          cores = 4,
+          save_all_pars = TRUE,
+          iter = 10000)%>%
+  add_criterion("waic")%>%
+  saveRDS(., "../saves/nov_model2.rds")
 
 nov_model1 <-readRDS("../saves/nov_model1.rds")
 
@@ -393,31 +378,27 @@ nov_ts%>%
 pref_data <- data %>%
   filter(task == "preference")
 
+pref_model1 <- brm(correct ~ z_age + z_trial + (z_trial|id) + (z_age|item),
+                    data = pref_data, family = bernoulli(),
+          control = list(adapt_delta = 0.99),
+          sample_prior = F,
+          chains = 4,
+          cores = 4,
+          save_all_pars = TRUE,
+          iter = 10000)%>%
+  add_criterion("waic")%>%
+  saveRDS(., "../saves/pref_model1.rds")
 
-pref_model_data <- pref_data %>%
-  mutate(trial = trial - mean(trial))
-
-# pref_model1 <- brm(correct ~ z_age + trial + (trial|id),
-#                     data = pref_model_data, family = bernoulli(),
-#           control = list(adapt_delta = 0.99),
-#           sample_prior = F,
-#           chains = 4,
-#           cores = 4,
-#           save_all_pars = TRUE,
-#           iter = 10000)%>%
-#   add_criterion("waic")%>%
-#   saveRDS(., "../saves/pref_model1.rds")
-# 
-# pref_model2 <- brm(correct ~ trial + (trial|id),
-#                     data = pref_model_data, family = bernoulli(),
-#           control = list(adapt_delta = 0.99),
-#           sample_prior = F,
-#           chains = 4,
-#           cores = 4,
-#           save_all_pars = TRUE,
-#           iter = 10000)%>%
-#   add_criterion("waic")%>%
-#   saveRDS(., "../saves/pref_model2.rds")
+pref_model2 <- brm(correct ~ z_trial + (z_trial|id) + (z_age|item),
+                    data = pref_data, family = bernoulli(),
+          control = list(adapt_delta = 0.99),
+          sample_prior = F,
+          chains = 4,
+          cores = 4,
+          save_all_pars = TRUE,
+          iter = 10000)%>%
+  add_criterion("waic")%>%
+  saveRDS(., "../saves/pref_model2.rds")
 
 pref_model1 <-readRDS("../saves/pref_model1.rds")
 
@@ -458,15 +439,12 @@ x <- bind_rows(
   mutate(task = "4 informativeness"),
   posterior_samples(nov_model1, "^b")%>%
   select(-b_Intercept)%>%
-  rename(b_age = b_z_age)%>%
   mutate(task = "2 novelty"),
   posterior_samples(me_model1, "^b")%>%
   select(-b_Intercept)%>%
-  rename(b_age = b_z_age)%>%
   mutate(task = "3 mutual_exclusivity"),
   posterior_samples(pref_model1, "^b")%>%
   select(-b_Intercept)%>%
-  rename(b_age = b_z_age)%>%
   mutate(task = "0 preference")
 )%>%
   gather(estimate, value, -task)
@@ -506,19 +484,19 @@ samples_to_draw <- sample(1:20000, 500)
 
 ## card sorting
 samples_cs <- posterior_samples(card_sorting_model1, "^b")%>%
-  mutate(sample = 1:length(b_age))%>%
+  mutate(sample = 1:length(b_z_age))%>%
   filter(sample %in% samples_to_draw)%>%
   expand_grid(data$z_age)%>%
-  mutate(y = plogis(b_Intercept + b_age * `data$z_age`),
+  mutate(y = plogis(b_Intercept + b_z_age * `data$z_age`),
          age = `data$z_age` + mean(data$age),
          task = "card_sorting")
 
 ## informativeness
 samples_inf <- posterior_samples(inf_model1, "^b")%>%
-  mutate(sample = 1:length(b_age))%>%
+  mutate(sample = 1:length(b_z_age))%>%
   filter(sample %in% samples_to_draw)%>%
   expand_grid(data$z_age)%>%
-  mutate(y = plogis(b_Intercept + b_age * `data$z_age`),
+  mutate(y = plogis(b_Intercept + b_z_age * `data$z_age`),
          age = `data$z_age` + mean(data$age),
          task = "informativeness")
 
