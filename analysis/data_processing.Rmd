@@ -19,79 +19,80 @@ library(reshape2)
 library(psych)
 library(readODS)
 library(brms)
+library(broom)
 library(psy)
-library(BayesianFirstAid)
+library(ggridges)
 
 #devtools::install_github("rasmusab/bayesian_first_aid")
-
+#library(BayesianFirstAid)
 ```
 
 ```{r}
 #importing data
 ## die flogenden Zeilen kannst du überspringen. Weiter gehts in Zeile 68
-files <- dir("~/Work/PragBat/raw_data/")
-
-raw_data <- data_frame()
-for (f in files) {
-  jf <- paste("~/Work/PragBat/raw_data/",f,sep="")
-  jd <- jsonlite::fromJSON(paste(readLines(jf), collapse=""))
-  date <- str_sub(jf,33,str_length(jf)-11)
-  id <- as_data_frame(jd$data$data) %>% mutate(test_date = date,
-                                               trial = as.character(trial))
-  raw_data <- bind_rows(raw_data, id)
-}
-
-unique(raw_data$subid)
-
-
-task_data <- raw_data %>%
-  filter(trial != "training",
-         trial != "filler1",
-         trial != "filler2",
-         trial != "train",
-         trial != "train2")%>%
-  filter(phase == "shape" | is.na(phase))%>%
-  mutate(subid = recode(subid, `13.2` = "Vp13.2",
-                        `13.2` = "Vp13.2",
-                        `14.2` = "Vp14.2",
-                        `16.2` = "Vp16.2",
-                        `19.1` = "Vp19.1",
-                        `12.1` = "Vp12.1",
-                        `29.2` = "Vp29.2",
-                        `26.1` = "Vp26.2",
-                        `37.1` = "Vp37.1",
-                        `38.1` = "Vp38.1"
-                        ),
-         item = ifelse(task == "card_sorting", sample,leftObject))%>%
-  select(subid, subage, test_date, task,item, trial, correct)%>%
-  separate(subid, into = c("id","test_day"), sep="\\.")%>%
-  mutate(test_day = ifelse(id == "Vp12" & test_date =="2019-11-26", 2, test_day))
-
-
-#task_data <- read_csv("../data/data.csv")
-
-# damit du das daten file mit dem log file (deine Liste) mergen kannst (brauchen wir für das numerische alter) legst du deine liste in den gleichen ordner in dem auch ader repository ordner liegt. Dann sollte es klappen.
-
-log <- read_ods("../../VP Liste_Manuel.ods", sheet = 2)%>%
-  mutate(age = as.numeric(difftime(test_day_1, `birthday `, units = "days"))/365.25,
-         id = paste("Vp",`ID `, sep = ""))%>%
-  select(id, age, status)
-
-
-data <- task_data %>%
-  left_join(log)%>%
-  filter(status == "keep")%>%
-  mutate(check_age = ifelse(subage == substr(age,1,1),T,F),
-         subage = factor(as.numeric(substr(age,1,1))),
-         trial = as.numeric(trial))%>%
-  select(-test_date, - status, -check_age)%>%
-  mutate(trial = ifelse(test_day == "2", 
-                        ifelse(task == "card_sorting", trial + 6, trial +5),
-                        trial),
-         z_age = age - mean(age),
-         z_trial = trial - mean(trial))
-
-write_csv(data, "../data/data.csv")
+# files <- dir("~/Work/PragBat/raw_data/")
+# 
+# raw_data <- data_frame()
+# for (f in files) {
+#   jf <- paste("~/Work/PragBat/raw_data/",f,sep="")
+#   jd <- jsonlite::fromJSON(paste(readLines(jf), collapse=""))
+#   date <- str_sub(jf,33,str_length(jf)-11)
+#   id <- as_data_frame(jd$data$data) %>% mutate(test_date = date,
+#                                                trial = as.character(trial))
+#   raw_data <- bind_rows(raw_data, id)
+# }
+# 
+# unique(raw_data$subid)
+# 
+# 
+# task_data <- raw_data %>%
+#   filter(trial != "training",
+#          trial != "filler1",
+#          trial != "filler2",
+#          trial != "train",
+#          trial != "train2")%>%
+#   filter(phase == "shape" | is.na(phase))%>%
+#   mutate(subid = recode(subid, `13.2` = "Vp13.2",
+#                         `13.2` = "Vp13.2",
+#                         `14.2` = "Vp14.2",
+#                         `16.2` = "Vp16.2",
+#                         `19.1` = "Vp19.1",
+#                         `12.1` = "Vp12.1",
+#                         `29.2` = "Vp29.2",
+#                         `26.1` = "Vp26.2",
+#                         `37.1` = "Vp37.1",
+#                         `38.1` = "Vp38.1"
+#                         ),
+#          item = ifelse(task == "card_sorting", sample,leftObject))%>%
+#   select(subid, subage, test_date, task,item, trial, correct)%>%
+#   separate(subid, into = c("id","test_day"), sep="\\.")%>%
+#   mutate(test_day = ifelse(id == "Vp12" & test_date =="2019-11-26", 2, test_day))
+# 
+# 
+# #task_data <- read_csv("../data/data.csv")
+# 
+# # damit du das daten file mit dem log file (deine Liste) mergen kannst (brauchen wir für das numerische alter) legst du deine liste in den gleichen ordner in dem auch ader repository ordner liegt. Dann sollte es klappen.
+# 
+# log <- read_ods("../../VP Liste_Manuel.ods", sheet = 2)%>%
+#   mutate(age = as.numeric(difftime(test_day_1, `birthday `, units = "days"))/365.25,
+#          id = paste("Vp",`ID `, sep = ""))%>%
+#   select(id, age, status)
+# 
+# 
+# data <- task_data %>%
+#   left_join(log)%>%
+#   filter(status == "keep")%>%
+#   mutate(check_age = ifelse(subage == substr(age,1,1),T,F),
+#          subage = factor(as.numeric(substr(age,1,1))),
+#          trial = as.numeric(trial))%>%
+#   select(-test_date, - status, -check_age)%>%
+#   mutate(trial = ifelse(test_day == "2", 
+#                         ifelse(task == "card_sorting", trial + 6, trial +5),
+#                         trial),
+#          z_age = age - mean(age),
+#          z_trial = trial - mean(trial))
+# 
+# write_csv(data, "../data/data.csv")
 
 data <- read_csv("../data/data.csv")
 
@@ -159,13 +160,6 @@ ggplot()+
   theme_few()+
   theme(legend.position = c(.85,.2))
 ```
-
-```{r}
-ggplot(p1, aes(x = mean))+
-  geom_density()+
-  facet_grid(~task)
-```
-
 
 # Models
 
@@ -439,8 +433,6 @@ pref_ts%>%
 
 ```{r}
 
-library(ggridges)
-
 x <- bind_rows(
   posterior_samples(card_sorting_model1, "^b")%>%
   select(-b_Intercept)%>%
@@ -655,7 +647,7 @@ ggplot(p3, aes(x = Day1, y = Day2))+
 
 ## Table
 ```{r}
-reli <- data%>%
+reli_data <- data%>%
   filter(task != "training")%>%
   droplevels()%>%
   group_by(id,task, test_day)%>%
@@ -666,98 +658,282 @@ reli <- data%>%
          "Day2" = `2`)
 
 
-card_sorting_data <- reli %>%
-  filter(task == "card_sorting")
+
+# reli_card_sorting <- reli_data %>%
+#   filter(task == "card_sorting")%>%
+#   bayes.cor.test( ~Day1 + Day2, data =. )
+# 
+# reli_informativeness <- reli_data %>%
+#   filter(task == "informativeness")%>%
+#   bayes.cor.test( ~Day1 + Day2, data =. )
+# 
+# reli_novelty <- reli_data %>%
+#   filter(task == "novelty")%>%
+#   bayes.cor.test( ~Day1 + Day2, data =. )
+# 
+# reli_mutual_exclusivity <- reli_data %>%
+#   filter(task == "mutual_exclusivity")%>%
+#   bayes.cor.test( ~Day1 + Day2, data =. )
+# 
+# reli_preference <- reli_data %>%
+#   filter(task == "preference")%>%
+#   bayes.cor.test( ~Day1 + Day2, data =. )
+# 
+# 
+# reli_table <- bind_rows(
+# 
+#   reli_card_sorting%>%
+#   summary()%>%
+#   tidy()%>%
+#   as_tibble()%>%
+#   filter(.rownames == "rho")%>%
+#   mutate(task = "card_sorting")%>%
+#   select(task,mean,HDIlo,HDIup),
+# 
+#   reli_informativeness%>%
+#   summary()%>%
+#   tidy()%>%
+#   as_tibble()%>%
+#   filter(.rownames == "rho")%>%
+#   mutate(task = "informativeness")%>%
+#   select(task,mean,HDIlo,HDIup),
+# 
+#   reli_novelty%>%
+#   summary()%>%
+#   tidy()%>%
+#   as_tibble()%>%
+#   filter(.rownames == "rho")%>%
+#   mutate(task = "novelty")%>%
+#   select(task,mean,HDIlo,HDIup),
+# 
+#   reli_mutual_exclusivity%>%
+#   summary()%>%
+#   tidy()%>%
+#   as_tibble()%>%
+#   filter(.rownames == "rho")%>%
+#   mutate(task = "mutual_exclusivity")%>%
+#   select(task,mean,HDIlo,HDIup),
+# 
+#   reli_preference%>%
+#   summary()%>%
+#   tidy()%>%
+#   as_tibble()%>%
+#   filter(.rownames == "rho")%>%
+#   mutate(task = "preference")%>%
+#   select(task,mean,HDIlo,HDIup)
+# )
 
 
-f2 <- 
-  brm(data = reli, 
-      family = student,
-      mvbind(Day1, Day2) ~ 1,
-      prior = c(prior(gamma(2, .1), class = nu),
-                prior(normal(0, 100), class = Intercept),
-                prior(normal(0, 100), class = sigma, resp = Day1),
-                prior(normal(0, 100), class = sigma, resp = Day2),
-                prior(lkj(1), class = rescor)),
-      iter = 2000, warmup = 500, chains = 4, cores = 4)
+#write_csv(reli_table, "../data/reli_table.csv")
+
+reli_table <- read_csv("../data/reli_table.csv")
 
 
-
-
-
-y <- reli%>%
-  group_by(task)%>%
-  bayes.cor.test( ~Day1 + Day2, data= .)
-
-xx <- bayes.cor.test( ~Day1 + Day2, data= card_sorting_data, method = "spearman")
-
-$stats%>%
-  as_data_frame(.,rownames = "par")%>%
-  filter(par == "rho")%>%
-  mutate(task = "card_sorting")%>%
-  select(task,mean,HDIlo,HDIup)
-  
-
-
-
-
-x <- bayes.cor.test(reli$Day1, reli$Day2)
-
-plot(x)
-
-y <- x$stats
-
-
-y <- summary(x)
-
-as_data_frame(y,rownames = "par")%>%filter(par == "rho")%>%pull(mean)
-
-rownames(y)
-
-reli%>%
-  kable()
+reli_table
 ```
 
 ```{r}
-# reli_age <- data%>%
-#   filter(task != "training")%>%
-#   droplevels()%>%
-#   group_by(subage, id,task, test_day)%>%
-#   summarise(mean = mean(correct))%>%
-#   spread(test_day, mean)%>%
-#   na.omit()%>%
-#   rename("Day1" = `1`,
-#          "Day2" = `2`)%>%
-#   group_by(subage,task)%>%
-#   summarize(reli = cor.test(Day1,Day2)$estimate,
-#             lci = cor.test(Day1,Day2)$conf.int[1],
-#             uci = cor.test(Day1,Day2)$conf.int[2],
-#             p = cor.test(Day1,Day2)$p.value)%>%
-#   mutate_if(is.numeric, round, digits = 2)
+# reli_plot <- bind_rows(
+#   reli_card_sorting%>%
+#     as_tibble()%>%
+#     mutate(task = "card_sorting"),
 # 
+#   reli_informativeness%>%
+#     as_tibble()%>%
+#     mutate(task = "informativeness"),
 # 
-# reli_age
+#   reli_novelty%>%
+#     as_tibble()%>%
+#     mutate(task = "novelty"),
+# 
+#   reli_mutual_exclusivity%>%
+#     as_tibble()%>%
+#     mutate(task = "mutual_exclusivity"),
+# 
+#   reli_preference%>%
+#     as_tibble()%>%
+#     mutate(task = "preference")
+# )
+# 
+# write_csv(reli_plot, "../data/reli_plot.csv")
+
+reli_plot <- read_csv("../data/reli_plot.csv")
+
+
+ggplot(reli_plot, aes(y = task, x = rho, fill = factor(stat(quantile))))+
+  stat_density_ridges(
+    geom = "density_ridges_gradient",
+    calc_ecdf = TRUE,
+    quantiles = c(0.025,0.5, 0.975)
+  ) +
+  xlim(-1,1)+
+  geom_vline(xintercept = 0, col = "grey", lty = 2)+
+  xlab("test - retest correlation")+
+  scale_fill_manual(values = c("white", "lightblue", "lightblue", "white"))+ 
+  guides(fill = F)+
+  theme_few()
+
 ```
+
+
 
 # Overview: reliability and bi-variat correlations
 
 ```{r}
-cor <- data%>%
+cor_data <- data%>%
   filter(task != "training")%>%
   droplevels()%>%
   group_by(id,task)%>%
   summarise(mean = mean(correct))%>%
   spread(task, mean)%>%
   ungroup()%>%
-  select(-id)%>%
-  corrr::correlate(diagonal = reli$reli)%>%
-  gather(task, cor, -rowname)%>%
-  mutate(cor = replace(cor, duplicated(cor), NA))%>%
-  mutate_if(is.numeric, round, digits = 2)%>%
-  na.omit()
+  select(-id)
   
+# cor_ci <- cor_data %>%
+#   bayes.cor.test(~card_sorting + informativeness, data =. )%>%
+#   summary()%>%
+#   tidy()%>%
+#   as_tibble()%>%
+#   filter(.rownames == "rho")%>%
+#   mutate(task1 = "card_sorting",
+#          task2 = "informativeness")%>%
+#   select(task1, task2 ,mean,HDIlo,HDIup)%>%
+#   mutate_if(is.numeric,round, digits = 2)
+# 
+# cor_cm <- cor_data %>%
+#   bayes.cor.test(~card_sorting + mutual_exclusivity, data =. )%>%
+#   summary()%>%
+#   tidy()%>%
+#   as_tibble()%>%
+#   filter(.rownames == "rho")%>%
+#   mutate(task1 = "card_sorting",
+#          task2 = "mutual_exclusivity")%>%
+#   select(task1, task2 ,mean,HDIlo,HDIup)%>%
+#   mutate_if(is.numeric,round, digits = 2)
+# 
+# cor_cn <- cor_data %>%
+#   bayes.cor.test(~card_sorting + novelty, data =. )%>%
+#   summary()%>%
+#   tidy()%>%
+#   as_tibble()%>%
+#   filter(.rownames == "rho")%>%
+#   mutate(task1 = "card_sorting",
+#          task2 = "novelty")%>%
+#   select(task1, task2 ,mean,HDIlo,HDIup)%>%
+#   mutate_if(is.numeric,round, digits = 2)
+# 
+# cor_cp <- cor_data %>%
+#   bayes.cor.test(~card_sorting + preference, data =. )%>%
+#   summary()%>%
+#   tidy()%>%
+#   as_tibble()%>%
+#   filter(.rownames == "rho")%>%
+#   mutate(task1 = "card_sorting",
+#          task2 = "preference")%>%
+#   select(task1, task2 ,mean,HDIlo,HDIup)%>%
+#   mutate_if(is.numeric,round, digits = 2)
+# 
+# cor_im <- cor_data %>%
+#   bayes.cor.test(~informativeness + mutual_exclusivity, data =. )%>%
+#   summary()%>%
+#   tidy()%>%
+#   as_tibble()%>%
+#   filter(.rownames == "rho")%>%
+#   mutate(task1 = "informativeness",
+#          task2 = "mutual_exclusivity")%>%
+#   select(task1, task2 ,mean,HDIlo,HDIup)%>%
+#   mutate_if(is.numeric,round, digits = 2)
+# 
+# cor_in <- cor_data %>%
+#   bayes.cor.test(~informativeness + novelty, data =. )%>%
+#   summary()%>%
+#   tidy()%>%
+#   as_tibble()%>%
+#   filter(.rownames == "rho")%>%
+#   mutate(task1 = "informativeness",
+#          task2 = "novelty")%>%
+#   select(task1, task2 ,mean,HDIlo,HDIup)%>%
+#   mutate_if(is.numeric,round, digits = 2)
+# 
+# cor_ip <- cor_data %>%
+#   bayes.cor.test(~informativeness + preference, data =. )%>%
+#   summary()%>%
+#   tidy()%>%
+#   as_tibble()%>%
+#   filter(.rownames == "rho")%>%
+#   mutate(task1 = "informativeness",
+#          task2 = "preference")%>%
+#   select(task1, task2 ,mean,HDIlo,HDIup)%>%
+#   mutate_if(is.numeric,round, digits = 2)
+# 
+# cor_mn <- cor_data %>%
+#   bayes.cor.test(~mutual_exclusivity + novelty, data =. )%>%
+#   summary()%>%
+#   tidy()%>%
+#   as_tibble()%>%
+#   filter(.rownames == "rho")%>%
+#   mutate(task1 = "mutual_exclusivity",
+#          task2 = "novelty")%>%
+#   select(task1, task2 ,mean,HDIlo,HDIup)%>%
+#   mutate_if(is.numeric,round, digits = 2)
+# 
+# cor_mp <- cor_data %>%
+#   bayes.cor.test(~mutual_exclusivity + preference, data =. )%>%
+#   summary()%>%
+#   tidy()%>%
+#   as_tibble()%>%
+#   filter(.rownames == "rho")%>%
+#   mutate(task1 = "mutual_exclusivity",
+#          task2 = "preference")%>%
+#   select(task1, task2 ,mean,HDIlo,HDIup)%>%
+#   mutate_if(is.numeric,round, digits = 2)
+# 
+# cor_np <- cor_data %>%
+#   bayes.cor.test(~novelty + preference, data =. )%>%
+#   summary()%>%
+#   tidy()%>%
+#   as_tibble()%>%
+#   filter(.rownames == "rho")%>%
+#   mutate(task1 = "novelty",
+#          task2 = "preference")%>%
+#   select(task1, task2 ,mean,HDIlo,HDIup)%>%
+#   mutate_if(is.numeric,round, digits = 2)
+# 
+# 
+# 
+# cor <- bind_rows(
+# cor_ci,
+# cor_cm,
+# cor_cn,
+# cor_cp,
+# cor_im,
+# cor_in,
+# cor_ip,
+# cor_mn,
+# cor_mp,
+# cor_np
+# )
+# 
+# write_csv(cor, "../data/bivariate_correlations.csv")
 
-ggplot(cor, aes(x = rowname, y = task, fill = cor))+
+cor <- read_csv("../data/bivariate_correlations.csv")
+```
+
+
+```{r}
+cor_plot <- bind_rows(
+  cor,  
+  reli_table%>%
+    mutate(task1 = task,
+          task2 = task)%>%
+    select(task1, task2, mean, HDIlo,HDIup)%>%
+    mutate_if(is.numeric,round, digits = 2)
+)
+```
+
+
+```{r}
+ggplot(cor_plot, aes(x = task2, y = task1, fill = mean))+
   geom_tile(color = "white")+
   labs(x = "", y = "")+
   scale_fill_gradient2(low = "#CC6677", high = "#117733", mid = "white", 
@@ -765,7 +941,7 @@ ggplot(cor, aes(x = rowname, y = task, fill = cor))+
    name="Correlation") +
    coord_fixed()+
   theme_few(base_size = 12)+
-  geom_text(aes(label = cor), color = "black", size = 3) +
+  geom_text(aes(label = mean), color = "black", size = 3) +
   theme(legend.justification = c(1, 0),
         legend.position = c(0.55, 0.7),
         legend.direction = "horizontal",
@@ -773,6 +949,7 @@ ggplot(cor, aes(x = rowname, y = task, fill = cor))+
   guides(fill = guide_colorbar(barwidth = 7, barheight = 1,
                 title.position = "top", title.hjust = 0.5))
 ```
+
 
 # Factor analysis
 
@@ -786,15 +963,7 @@ fa_data <- p1 %>%
 
 pca <- principal(fa_data,nfactors=2, rotate="varimax")
 
-#fit <- factanal(fa_data, 2, rotation="varimax")
-
-#scree.plot(fit$correlation)
-
-#fit$loadings
-
-pca$loadings
-
-#plot(pca)
+pca
 
 ```
 
