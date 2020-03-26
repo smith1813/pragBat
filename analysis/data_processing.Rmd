@@ -20,6 +20,9 @@ library(psych)
 library(readODS)
 library(brms)
 library(psy)
+library(BayesianFirstAid)
+
+#devtools::install_github("rasmusab/bayesian_first_aid")
 
 ```
 
@@ -156,6 +159,14 @@ ggplot()+
   theme_few()+
   theme(legend.position = c(.85,.2))
 ```
+
+```{r}
+ggplot(p1, aes(x = mean))+
+  geom_density()+
+  facet_grid(~task)
+```
+
+
 # Models
 
 ## Card Sorting
@@ -652,14 +663,56 @@ reli <- data%>%
   spread(test_day, mean)%>%
   na.omit()%>%
   rename("Day1" = `1`,
-         "Day2" = `2`)%>%
-  group_by(task)%>%
-  summarize(reli = cor.test(Day1,Day2)$estimate,
-            lci = cor.test(Day1,Day2)$conf.int[1],
-            uci = cor.test(Day1,Day2)$conf.int[2],
-            p = cor.test(Day1,Day2)$p.value)%>%
-  mutate_if(is.numeric, round, digits = 2)
+         "Day2" = `2`)
 
+
+card_sorting_data <- reli %>%
+  filter(task == "card_sorting")
+
+
+f2 <- 
+  brm(data = reli, 
+      family = student,
+      mvbind(Day1, Day2) ~ 1,
+      prior = c(prior(gamma(2, .1), class = nu),
+                prior(normal(0, 100), class = Intercept),
+                prior(normal(0, 100), class = sigma, resp = Day1),
+                prior(normal(0, 100), class = sigma, resp = Day2),
+                prior(lkj(1), class = rescor)),
+      iter = 2000, warmup = 500, chains = 4, cores = 4)
+
+
+
+
+
+y <- reli%>%
+  group_by(task)%>%
+  bayes.cor.test( ~Day1 + Day2, data= .)
+
+xx <- bayes.cor.test( ~Day1 + Day2, data= card_sorting_data, method = "spearman")
+
+$stats%>%
+  as_data_frame(.,rownames = "par")%>%
+  filter(par == "rho")%>%
+  mutate(task = "card_sorting")%>%
+  select(task,mean,HDIlo,HDIup)
+  
+
+
+
+
+x <- bayes.cor.test(reli$Day1, reli$Day2)
+
+plot(x)
+
+y <- x$stats
+
+
+y <- summary(x)
+
+as_data_frame(y,rownames = "par")%>%filter(par == "rho")%>%pull(mean)
+
+rownames(y)
 
 reli%>%
   kable()
