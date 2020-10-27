@@ -1,0 +1,133 @@
+---
+title: "Prag Bat"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, warning = F, message = F)
+
+library(tidyverse)
+library(brms)
+```
+
+```{r}
+
+data <- read_csv("../data/data.csv")
+
+```
+
+# Total sample size
+
+```{r}
+data%>%
+  group_by(subage)%>%
+  summarise(n= length(unique(id)))%>%
+  kable()
+
+```
+
+# Sample size with two test days
+
+```{r}
+data %>%
+  group_by(subage,id)%>%
+  summarise(testdays = length(unique(test_day)))%>%
+  filter(testdays == 2)%>%
+  summarise(complete_retest_data = length(id))%>%
+  kable()
+```
+
+
+```{r}
+# data %>%
+#   group_by(id,test_day)%>%
+#   summarise(n())%>%
+#   arrange(id,test_day)
+ 
+```
+
+
+```{r}
+# data%>%
+#   group_by(test_day,task)%>%
+#   summarise(n= length(unique(id)))
+```
+
+# Models
+
+## correlations
+
+
+```{r}
+# card sorting
+
+complete_data <- reli_data %>%
+  group_by(subage,id)%>%
+  summarise(testdays = length(unique(test_day)))%>%
+  filter(testdays == 2)%>%
+  pull(id)
+
+reli_data <- data%>%
+  filter(task != "training", 
+         id %in% complete_data)%>%
+  mutate(test_day = ifelse(test_day == 1, "day1", "day2"))
+
+
+rel_model <- brm(correct ~ (test_day|task/id),
+                 data = reli_data, 
+                 family = bernoulli(),
+                 control = list(adapt_delta = 0.9),
+          sample_prior = F,
+          chains = 4,
+          cores = 4,
+          save_all_pars = F,
+          iter = 2000)
+
+summary(rel_model)
+
+task <- as_tibble(ranef(rel_model)$task, rownames = "task")%>%
+  select(task,Estimate.Intercept, Estimate.test_dayday2)%>%
+  rename("Day1_int" = Estimate.Intercept,
+         "Day2_int" = Estimate.test_dayday2)%>%
+  mutate(task = str_replace(task, "card_sorting", "cardsorting"),
+         task = str_replace(task, "mutual_exclusivity", "mutualexclusivity"))
+  
+
+id <- as_tibble(ranef(rel_model)$`task:id`, rownames = "id")%>%
+  select(id,Estimate.Intercept, Estimate.test_dayday2)%>%
+  rename("Day1" = Estimate.Intercept,
+         "Day2" = Estimate.test_dayday2)%>%
+  mutate(id = str_replace(id, "card_sorting", "cardsorting"),
+         id = str_replace(id, "mutual_exclusivity", "mutualexclusivity"),
+         Day1 = plogis(Day1),
+         Day2 = plogis(Day2))%>%
+  separate(id, c("task", "id"), sep = "_")
+
+left_join(id, task)%>%
+  mutate(est_1 = plogis(Day1_int + Day1),
+         est_2 = plogis(Day2_int + Day2))%>%
+  group_by(task)%>%
+  summarise(cor = cor(est_1, est_2))
+
+```
+
+
+## reliability
+
+```{r}
+# card sorting
+
+cor_model <- brm(correct ~ 1 + (task|id) + (task|item),
+                    data = data, family = bernoulli(),
+          control = list(adapt_delta = 0.99),
+          sample_prior = F,
+          chains = 4,
+          cores = 4,
+          save_all_pars = TRUE,
+          iter = 2000)
+
+summary(cor_model)
+
+```
+
+

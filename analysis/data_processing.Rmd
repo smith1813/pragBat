@@ -16,7 +16,7 @@ library(corrr)
 library(corrplot)
 library(ggcorrplot)
 library(reshape2)
-library(psych)
+#library(psych)
 library(readODS)
 library(brms)
 library(broom)
@@ -94,7 +94,7 @@ library(ggridges)
 # 
 # write_csv(data, "../data/data.csv")
 
-data <- read_csv("../data/data.csv")
+data <- read_csv("../data/data_r1.csv")
 
 
 ```
@@ -774,6 +774,12 @@ ggplot(reli_plot, aes(y = task, x = rho, fill = factor(stat(quantile))))+
   theme_few()
 
 ```
+
+```{r}
+plot(reli_mutual_exclusivity)
+```
+
+
 
 
 
