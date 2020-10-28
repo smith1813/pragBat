@@ -19,27 +19,27 @@ library(ggcorrplot)
 library(reshape2)
 #library(psych)
 library(readODS)
-library(brms)
+#library(brms)
 library(psy)
 library(tidyboot)
 library(lubridate)
 library(ggpubr)
-
+library(lavaan)
 ```
 
 ```{r, include=FALSE}
 data <- bind_rows(
-  read_csv("../data/data_r1.csv")%>%filter(task != "training")%>%mutate(round = "R1"),
-  read_csv("../data/data_r2.csv")%>%mutate(round = "R2")
-  )%>%
+  read_csv("../data/data_r1.csv") %>%filter(task != "training") %>%mutate(round = "R1"),
+  read_csv("../data/data_r2.csv") %>%mutate(round = "R2")
+  ) %>%
   mutate(round = factor(round),
          id = paste(round, id, sep = "_"))
   
 ```
 
 ```{r, include=FALSE}
-data%>%
-  group_by(subage)%>%
+data %>%
+  group_by(subage) %>%
   summarise(n= length(unique(id)))
 ```
 # Objective
@@ -52,11 +52,11 @@ Our goal was to test at least 20 children per age group and round twice. Childre
 
 ```{r}
 data %>%
-  group_by(subage,id,round)%>%
-  summarise(testdays = length(unique(test_day)))%>%
-  group_by(round,subage)%>%
+  group_by(subage,id,round) %>%
+  summarise(testdays = length(unique(test_day))) %>%
+  group_by(round,subage) %>%
   summarise(n = length(unique(id)),
-            complete_retest_data = sum(testdays == 2))%>%
+            complete_retest_data = sum(testdays == 2)) %>%
   kable()
 ```
 
@@ -72,7 +72,7 @@ Round 1 included the following tasks:
 * Mutual exclusivity (as in SPIN, with fewer items)
 * Card sorting (DCCS sensu Zelazo, 2006)
 
-Round 1 included the following tasks: 
+Round 2 included the following tasks: 
 
 * Simple informativeness (same setup and stimuli as in Frank & Goodman, 2014)
 * Ad-hoc implicature (same stimuli as Yoon & Frank, 2019)
@@ -83,14 +83,14 @@ Round 1 included the following tasks:
 For mutual exclusivity and card sorting we have a direct replication. The plot below shows all data, including data from children who were tested only once.
 
 ```{r}
-p1 <- data%>%
-  group_by(round, id,age, subage,task)%>%
-  filter(task != "training")%>%
+p1 <- data %>%
+  group_by(round, id,age, subage,task) %>%
+  filter(task != "training") %>%
   summarise(mean = mean(correct))
 
 p2 <- p1 %>%
-  group_by(round,subage,task)%>%
-  tidyboot_mean(column = mean)%>%
+  group_by(round,subage,task) %>%
+  tidyboot_mean(column = mean) %>%
   mutate(chance = ifelse(task == "discourse_continuity", 1/3, 1/2))
 
 ggplot()+
@@ -99,8 +99,8 @@ ggplot()+
   geom_jitter(data = p1, aes(x = age, y = mean, pch = round), alpha = .5, width = .05, height = .01)+
   geom_pointrange(data = p2, aes(x = as.numeric(as.character(subage))+.5, y = mean, ymin = ci_lower, ymax = ci_upper, col = factor(subage), pch = round), position = position_dodge(width = .5))+
   facet_wrap(~task)+
-  labs(x = "Age Group", y = "Proportion Correct")+
-  scale_color_ptol(name = "Age")+
+  labs(x = "Age Group", y = "Proportion Correct") +
+  scale_color_ptol(name = "Age") +
   ylim(-0.05, 1.05)+
   theme_few()+
   theme(legend.position = c(.85,.1), legend.direction = "horizontal")
@@ -112,23 +112,42 @@ ggplot()+
 Based on simple Pearson correlations on the data aggregated by subject, task and test day.
 
 ```{r}
-reli <- data%>%
-  filter(task != "training")%>%
-  droplevels()%>%
-  group_by(round,id,task, test_day)%>%
-  summarise(mean = mean(correct))%>%
-  spread(test_day, mean)%>%
-  na.omit()%>%
+wide_data <- data %>%
+  filter(task != "training") %>%
+  droplevels() %>%
+  group_by(round,id,task, test_day) %>%
+  summarise(mean = mean(correct)) %>%
+  spread(test_day, mean) %>%
+  na.omit() %>%
   rename("Day1" = `1`,
-         "Day2" = `2`)%>%
-  group_by(round,task)%>%
+         "Day2" = `2`) 
+
+reli <- wide_data %>%
+  group_by(round, task) %>%
   summarize(reli = cor.test(Day1,Day2)$estimate,
             lci = cor.test(Day1,Day2)$conf.int[1],
             uci = cor.test(Day1,Day2)$conf.int[2],
-            p = cor.test(Day1,Day2)$p.value)%>%
+            p = cor.test(Day1,Day2)$p.value, 
+            n = n()) %>%
   mutate_if(is.numeric, round, digits = 2)
 
-reli%>%
+reli %>%
+  kable()
+```
+Explore consolidating across rounds. 
+
+```{r}
+reli_task <- wide_data %>%
+  group_by(task) %>%
+  summarize(reli = cor.test(Day1,Day2)$estimate,
+            lci = cor.test(Day1,Day2)$conf.int[1],
+            uci = cor.test(Day1,Day2)$conf.int[2],
+            p = cor.test(Day1,Day2)$p.value, 
+            n = n()) %>%
+  mutate_if(is.numeric, round, digits = 2)
+
+reli_task %>%
+  arrange(desc(reli)) %>%
   kable()
 ```
 
@@ -137,34 +156,36 @@ reli%>%
 Based on simple Pearson correlations on the data aggregated by subject and task.
 
 ```{r, fig.align="center"}
-cor_r1 <- data%>%
-  filter(round == "R1")%>%
-  droplevels()%>%
-  group_by(id,task)%>%
-  summarise(mean = mean(correct))%>%
-  spread(task, mean)%>%
-  ungroup()%>%
-  select(-id)%>%
-  corrr::correlate(diagonal = reli%>%filter(round == "R1")%>%pull(reli))%>%
-  gather(task, cor, -rowname)%>%
-  mutate(cor = replace(cor, duplicated(cor), NA))%>%
-  mutate_if(is.numeric, round, digits = 2)%>%
-  na.omit()%>%
+cor_r1 <- data %>%
+  filter(round == "R1") %>%
+  droplevels() %>%
+  group_by(id,task) %>%
+  summarise(mean = mean(correct)) %>%
+  spread(task, mean) %>%
+  ungroup() %>%
+  select(-id) %>%
+  corrr::correlate(diagonal = reli %>%
+                     filter(round == "R1") %>%
+                     pull(reli)) %>%
+  gather(task, cor, -rowname) %>%
+  mutate(cor = replace(cor, duplicated(cor), NA)) %>%
+  mutate_if(is.numeric, round, digits = 2) %>%
+  na.omit() %>%
   mutate(round = "R1")
 
 cor_r2 <- data%>%
-  filter(round == "R2")%>%
-  droplevels()%>%
-  group_by(id,task)%>%
-  summarise(mean = mean(correct))%>%
-  spread(task, mean)%>%
-  ungroup()%>%
-  select(-id)%>%
-  corrr::correlate(diagonal = reli%>%filter(round == "R2")%>%pull(reli))%>%
-  gather(task, cor, -rowname)%>%
-  mutate(cor = replace(cor, duplicated(cor), NA))%>%
-  mutate_if(is.numeric, round, digits = 2)%>%
-  na.omit()%>%
+  filter(round == "R2") %>%
+  droplevels() %>%
+  group_by(id,task) %>%
+  summarise(mean = mean(correct)) %>%
+  spread(task, mean) %>%
+  ungroup() %>%
+  select(-id) %>%
+  corrr::correlate(diagonal = reli%>%filter(round == "R2") %>%pull(reli)) %>%
+  gather(task, cor, -rowname) %>%
+  mutate(cor = replace(cor, duplicated(cor), NA)) %>%
+  mutate_if(is.numeric, round, digits = 2) %>%
+  na.omit() %>%
   mutate(round = "R2")
   
 cor <- bind_rows(
@@ -206,5 +227,53 @@ ggplot(cor_r2, aes(x = rowname, y = task, fill = cor))+
 common.legend = T, legend = "top"
 
 )
+```
+
+# Factor analysis
+
+## EFA
+
+Average across task days. 
+
+```{r}
+efa_data <- filter(data, round == "R1") %>%
+  group_by(id, task) %>% 
+  summarise(correct = mean(correct)) %>%
+  pivot_wider(names_from = task, values_from = correct)
+```
+
+```{r}
+fa_data <- as.matrix(dplyr::select(ungroup(efa_data), -1))
+f1 <- factanal(fa_data, 1)
+f1
+```
+
+
+```{r}
+f2 <- factanal(fa_data, 2)
+f2
+```
+`
+
+
+## CFA
+[https://lavaan.ugent.be/tutorial/cfa.html]()
+
+Data
+
+```{r}
+lavaan_data <- filter(data, round == "R1", test_day == 1) %>%
+  group_by(id, task) %>%
+  summarise(correct = mean(correct)) %>%
+  pivot_wider(names_from = task, values_from = correct)
+```
+
+
+```{r}
+model1 <- 'pragmatic  =~ informativeness + novelty + preference + mutual_exclusivity 
+          ef =~ card_sorting'
+
+fit <- cfa(model1, data=lavaan_data)
+summary(fit)
 ```
 
