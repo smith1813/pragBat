@@ -377,6 +377,8 @@ bfit_rel_1<- bcfa(model_rel_1,
                    sample = 4000)
 
 summary(bfit_rel_1, ci = T)
+
+semPaths(bfit_rel_1, "std")
 ```
 
 ```{r}
