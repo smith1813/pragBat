@@ -354,13 +354,28 @@ pragmatic  =~ ad_hoc_implicature  + mutual_exclusivity + simple_inf + discourse_
 ef  =~ card_sorting
 '
 
-fit_2 <- cfa(model_2, data=lavaan_data_2, std.lv = TRUE)
+fit_2 <- sem(model_2, data=lavaan_data_2)
 
-summary(fit_2, ci = T)
+summary(fit_2,  standardized = T)
 
-semPaths(fit_2, "std")
+fitmeasures(fit_2, c("cfi", "rmsea"))
 
-fitmeasures(fit_2)
+semPaths(fit_2, what = "paths", whatLabels= "stand", rotation = 1)
+
+### compare models
+
+model_2_2 <- '
+pragmatic  =~ ad_hoc_implicature  + mutual_exclusivity + simple_inf + discourse_continuity + card_sorting
+'
+
+fit_2_2 <- sem(model_2_2, data=lavaan_data_2)
+
+summary(fit_2_2,  standardized = T)
+
+fitmeasures(fit_2_2, c("cfi", "rmsea"))
+
+anova(fit_2,fit_2_2)
+
 ```
 
 

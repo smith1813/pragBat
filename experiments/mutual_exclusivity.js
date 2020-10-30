@@ -21,7 +21,7 @@ var me = {
   end: function() {
     // Show the finish slide.
     showSlide("select");
-    setTimeout(function() { turk.submit(me) }, 500);
+    setTimeout(function() { downloadData(me.data) }, 500);
   },
 
 

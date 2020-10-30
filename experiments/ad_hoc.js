@@ -21,7 +21,7 @@ var adhoc = {
   end: function() {
     // Show the finish slide.
     showSlide("select");
-    setTimeout(function() { turk.submit(adhoc) }, 500);
+    setTimeout(function() { downloadData(adhoc.data) }, 500);
   },
 
 

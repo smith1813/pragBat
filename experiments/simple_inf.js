@@ -24,7 +24,7 @@ var simple_inf = {
       showSlide("select");
       $(".table_l").show();
       $(".table_r").show();
-      setTimeout(function() { turk.submit(simple_inf) }, 500);
+      setTimeout(function() { downloadData(simple_inf.data) }, 500);
     },
 
 
@@ -348,7 +348,7 @@ showInfAgent(simple_inf.agents[0],"straight")
           $("#inf_ob_l").animate({bottom: '140', queue:  true},300)
 
           $("#inf_ob_l").animate({bottom: '100', queue:  true},300)
-        }, 1500)
+        }, 00)
 
 
 
@@ -379,7 +379,7 @@ showInfAgent(simple_inf.agents[0],"straight")
 
           $("#inf_ob_r").animate({bottom: '100', queue:    true},300)
 
-        }, 1500)
+        }, 00)
 
 
           setTimeout(function() {
