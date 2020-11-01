@@ -17,8 +17,8 @@ function showMatchR(a) {
 // the actual experiment
 var rmts = {
     trial: ["train", "train2", 1, 2, 3, 4, 5, 6],
-    sample: ["A","B","C","D"],
-    matchPos: ["left", "right", "right", "left", "right"],
+    sample: ["train_1","train_2","A","B","C","D","E","F"],
+    matchPos: ["left", "right", "right", "left", "right","right", "left", "left"],
     data: [],
 
 
@@ -56,6 +56,7 @@ var rmts = {
 
         rmts.trial.shift();
         rmts.sample.shift();
+        rmts.matchPos.shift();
 
         setTimeout(function () {
             rmts.next()
@@ -78,7 +79,7 @@ var rmts = {
 
         $("#rmts_sample").css({
             top: "100px",
-            left: "400px",
+            left:"50%",
             opacity: 1
         })
 
@@ -92,7 +93,7 @@ var rmts = {
           showMatchL("images/rmts/dis_" + rmts.sample[0] + ".png")
         }
 
-        $("#rmts_text").text("Welches von den Bildern passt besser zu diesem hier [auf oberes Bild zeigen]");
+        $("#rmts_text").text("Welches von den Bildern passt besser zu diesem hier? Welches Bild is ähnlicher zu diesem hier?");
 
 
         $(".match_l").click(function () {
@@ -103,7 +104,7 @@ var rmts = {
 
             $("#rmts_sample").animate({
                 top: "300px",
-                left: "200px",
+                left:"35%",
                 opacity: 0
             }, {
                 duration: 1000
@@ -162,7 +163,7 @@ var rmts = {
 
             $("#rmts_sample").animate({
                 top: "300px",
-                left: "600px",
+                left: "65%",
                 opacity: 0
             }, {
                 duration: 1000

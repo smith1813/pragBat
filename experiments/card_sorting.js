@@ -87,7 +87,7 @@ var sort = {
 
         $("#sample").css({
             bottom: "100px",
-            left: "400px",
+            left: "50%",
             opacity: 1
         })
 
@@ -120,7 +120,7 @@ var sort = {
 
             $("#sample").animate({
                 bottom: "300px",
-                left: "100px",
+                left: "25%",
                 opacity: 0
             }, {
                 duration: 1000
@@ -182,7 +182,7 @@ var sort = {
 
             $("#sample").animate({
                 bottom: "300px",
-                left: "700px",
+                left: "75%",
                 opacity: 0
             }, {
                 duration: 1000
