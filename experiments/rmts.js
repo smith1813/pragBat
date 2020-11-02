@@ -124,7 +124,7 @@ setTimeout(function () {
 
             setTimeout(function () {
                 rmts.newtrial()
-            }, 1100);
+            }, 1000);
 
 
             // Code correct: does name of chosen object contain the name of the correct object
@@ -180,7 +180,7 @@ setTimeout(function () {
 
             setTimeout(function () {
                 rmts.newtrial()
-            }, 1100);
+            }, 1000);
 
 
 
