@@ -109,17 +109,14 @@ var posAgents = ["Bunny","Monkey","Dog","Frog","Cat"]
 function downloadData(safe) {
 					var toSave = JSON.stringify(safe)
 
-					var date = new Date()
-					var day = date.getUTCDate()
-					var month = date.getUTCMonth()+1
-					var year = date.getUTCFullYear()
-					var hour = date.getHours()
-					var minute = date.getMinutes()
+				  var date = new Date().toISOString()
+					var day = date.substr(0, 10)
+					var time = date.substr(11, 8)
 
 					var hiddenElement = document.createElement('a');
 					hiddenElement.href = 'data:text/json;charset=utf-8,' + encodeURI(toSave);
 					hiddenElement.target = '_blank';
-					hiddenElement.download = year + '-' + month + '-' + day + '-' + hour + '-' + minute + '-' +  me.subid+'_'+data.task+'.json';
+					hiddenElement.download = train.subid + '-' + data.task  + '-' + day + '-' + time + '.json';
 					hiddenElement.click();
 		}
 

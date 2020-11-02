@@ -48,11 +48,8 @@ var rmts = {
         showMatchL("images/empty.png");
         showMatchR("images/empty.png");
 
-
-
-
-        $("#rmts_text").text("");
-
+                $("#rmts_text").text("");
+                $("#rmts_text_bottom").text("");
 
         rmts.trial.shift();
         rmts.sample.shift();
@@ -60,7 +57,7 @@ var rmts = {
 
         setTimeout(function () {
             rmts.next()
-        }, 1100);
+        }, 500);
 
     },
 
@@ -85,6 +82,12 @@ var rmts = {
 
         showRmtsSample("images/rmts/sample_" + rmts.sample[0] + ".png")
 
+
+  showMatchL("images/empty.png");
+  showMatchR("images/empty.png");
+
+  setTimeout(function () {
+
         if (rmts.matchPos[0] == "left") {
           showMatchL("images/rmts/match_" + rmts.sample[0] + ".png");
           showMatchR("images/rmts/dis_" + rmts.sample[0] + ".png");
@@ -92,9 +95,15 @@ var rmts = {
           showMatchR("images/rmts/match_" + rmts.sample[0] + ".png");
           showMatchL("images/rmts/dis_" + rmts.sample[0] + ".png")
         }
+      }, 2000)
 
-        $("#rmts_text").text("Welches von den Bildern passt besser zu diesem hier? Welches Bild is ähnlicher zu diesem hier?");
 
+  $("#rmts_text").text("Schau mal, hier ist eine Karte?");
+  $("#rmts_text_bottom").text("");
+
+setTimeout(function () {
+    $("#rmts_text_bottom").text("Hier sind noch zwei Karten. Welche von den Karten passt besser zur Ersten? Welches Karte ist ähnlicher zur ersten Karte?");
+  }, 2000)
 
         $(".match_l").click(function () {
 
@@ -112,6 +121,7 @@ var rmts = {
 
             pause("moveButton", 1100)
 
+
             setTimeout(function () {
                 rmts.newtrial()
             }, 1100);
@@ -122,13 +132,11 @@ var rmts = {
 
               if (rmts.matchPos[0] == "left") {
                     var correct = 1
-                    var choice_location = "left"
                     var pick = "match_" + rmts.sample[0]
                     var leftObject = "match_" + rmts.sample[0];
                     var rightObject = "dis_" + rmts.sample[0];
                 } else {
                   var correct = 0
-                  var choice_location = "left"
                   var pick = "dis_" + rmts.sample[0]
                   var leftObject = "dis_" + rmts.sample[0];
                   var rightObject = "match_" + rmts.sample[0];
@@ -142,12 +150,11 @@ var rmts = {
                 subid: train.subid,
                 subage: train.subage,
                 task: "match_to_sample",
-                sample: rmts.sample[0],
+                item: rmts.sample[0],
                 trial: rmts.trial[0],
                 leftObject: leftObject,
                 rightObject: rightObject,
                 correct_location: rmts.matchPos[0],
-                choice_location: choice_location,
                 pick: pick,
                 correct: correct
             };
@@ -179,13 +186,11 @@ var rmts = {
 
           if (rmts.matchPos[0] == "right") {
                       var correct = 1
-                      var choice_location = "right"
                       var pick = "match_" + rmts.sample[0]
                       var rightObject = "match_" + rmts.sample[0];
-                      var lefttObject = "dis_" + rmts.sample[0];
+                      var leftObject = "dis_" + rmts.sample[0];
                   } else {
                     var correct = 0
-                    var choice_location = "right"
                     var pick = "dis_" + rmts.sample[0]
                     var rightObject = "dis_" + rmts.sample[0];
                     var leftObject = "match_" + rmts.sample[0];
@@ -199,12 +204,11 @@ var rmts = {
                   subid: train.subid,
                   subage: train.subage,
                   task: "match_to_sample",
-                  sample: rmts.sample[0],
+                  item: rmts.sample[0],
                   trial: rmts.trial[0],
                   leftObject: leftObject,
                   rightObject: rightObject,
                   correct_location: rmts.matchPos[0],
-                  choice_location: choice_location,
                   pick: pick,
                   correct: correct
               };

@@ -73,7 +73,7 @@ var me = {
         subage: train.subage,
         task: "mutual_exclusivity",
         trial: me.trial[0],
-        agent: me.agents[0],
+        item: me.agents[0],
         leftObject: LeftFruit,
         rightObject: RightFruit,
         correct_location: me.novelPos[0],

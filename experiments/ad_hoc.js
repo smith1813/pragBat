@@ -51,13 +51,13 @@ var adhoc = {
         };
 
        if (adhoc.infPos[0] == "left"){
-        var LeftFruit = adhoc.stimulus[0]+"_inf";
-        var RightFruit = adhoc.stimulus[0]+"_dis";
+        var leftFruit = adhoc.stimulus[0]+"_inf";
+        var rightFruit = adhoc.stimulus[0]+"_dis";
 
     } else  {
 
-        var LeftFruit = adhoc.stimulus[0]+"_dis";
-        var RightFruit = adhoc.stimulus[0]+"_inf";
+        var leftFruit = adhoc.stimulus[0]+"_dis";
+        var rightFruit = adhoc.stimulus[0]+"_inf";
     }
 
 
@@ -68,9 +68,9 @@ var adhoc = {
         subage: train.subage,
         task: "ad_hoc_implicature",
         trial: adhoc.trial[0],
-        agent: adhoc.agents[0],
-        leftObject: LeftFruit,
-        rightObject: RightFruit,
+        item: adhoc.stimulus[0],
+        leftObject: leftFruit,
+        rightObject: rightFruit,
         correct_location: adhoc.infPos[0],
         pick: pick,
         correct: correct

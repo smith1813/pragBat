@@ -575,7 +575,7 @@ sortButton {
 
 .rmts_sample {
     position: absolute;
-    top: 100px;
+    top: 110px;
     transform: translateX(-50%);
     left:50%;
     width: 200px;
@@ -584,18 +584,18 @@ sortButton {
 
 .match_l {
     position: absolute;
-    top: 400px;
+    top: 410px;
     transform: translateX(-50%);
-    left:35%;
+    left:30%;
     width: 200px;
     z-index: 0
 }
 
 .match_r {
     position: absolute;
-    top: 400px;
+    top: 410px;
     transform: translateX(-50%);
-    left:65%;
+    left:70%;
     width: 200px;
     z-index: 0
 }
@@ -657,6 +657,19 @@ sortButton {
 }
 
 .rmts_text {
+  font-size: 20px;
+  width: 75%;
+  text-align: center;
+  font-family: "Times New Roman";
+  margin: 0 auto;
+  margin-bottom: 1em;
+  position: absolute;
+  top: 20px;
+  transform: translateX(-50%);
+  left:50%;
+}
+
+.rmts_text_bottom {
   font-size: 20px;
   width: 75%;
   text-align: center;

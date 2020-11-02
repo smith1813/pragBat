@@ -574,14 +574,15 @@ Sehr gut, so geht das Farbenspiel. Jetzt bist Du dran. Denk dran, wenn es eine B
 
 
         <p class="block-text">
-        In diesem Spiel sollst Du die Bilder finden die zusammen passen weil sie ähnlich zueinander sind. Du siehst immer ein Bild oben und zwei darunter. Deine Aufgabe ist es das untere Bild zu finden, dass wie das obere ist
+        In diesem Spiel sollst Du die Karten finden die zusammen passen weil sie ähnlich zueinander sind. Du siehst immer eine Karte oben und zwei darunter. Deine Aufgabe ist es die untere Karte zu finden, dass wie die obere ist.
         </p>
 
-        <img  class="match_l" src="images/rmts/match_A.png" style="TOP:250px">
-        <img class="match_r" src="images/rmts/dis_A.png" style="TOP:250px">
+        <img  class="rmts_sample" src="images/rmts/match_A.png" style="TOP:150px; width: 100px">
+        <img  class="match_l" src="images/rmts/match_A.png" style="TOP:350px; width: 100px; left: 35%">
+        <img class="match_r" src="images/rmts/dis_A.png" style="TOP:350px; width: 100px; left: 65%">
 
 
-     <nextButton type="button" onClick="this.blur(); rmts.next()"></nextButton>
+     <nextButton type="button" onClick="rmts.next()"></nextButton>
 
     </div>
 
@@ -589,6 +590,7 @@ Sehr gut, so geht das Farbenspiel. Jetzt bist Du dran. Denk dran, wenn es eine B
     <div class="slide" id="rmts">
 
         <p id="rmts_text" class="rmts_text">{{}}</p>
+        <p id="rmts_text_bottom" class="rmts_text_bottom">{{}}</p>
 
         <img id="selector" class="selector" src="images/selector.png">
 
