@@ -98,7 +98,7 @@ var rmts = {
       }, 2000)
 
 
-  $("#rmts_text").text("Schau mal, hier ist eine Karte?");
+  $("#rmts_text").text("Schau mal, hier ist eine Karte!");
   $("#rmts_text_bottom").text("");
 
 setTimeout(function () {
