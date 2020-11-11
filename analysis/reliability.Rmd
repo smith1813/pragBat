@@ -12,7 +12,10 @@ library(brms)
 
 ```{r}
 
-data <- read_csv("../data/data.csv")
+data_r1 <- read_csv("../data/data_r1.csv")
+
+
+data_r2 <- read_csv("../data/data_r2.csv")
 
 ```
 
