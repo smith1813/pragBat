@@ -95,7 +95,7 @@ var rmts = {
           showMatchR("images/rmts/match_" + rmts.sample[0] + ".png");
           showMatchL("images/rmts/dis_" + rmts.sample[0] + ".png")
         }
-      }, 2000)
+      }, 1000)
 
 
   $("#rmts_text").text("Schau mal, hier ist eine Karte!");
@@ -103,7 +103,7 @@ var rmts = {
 
 setTimeout(function () {
     $("#rmts_text_bottom").text("Hier sind noch zwei Karten. Welche von den Karten passt besser zur Ersten? Welches Karte ist ähnlicher zur ersten Karte?");
-  }, 2000)
+  }, 1000)
 
         $(".match_l").click(function () {
 
