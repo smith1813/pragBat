@@ -68,8 +68,8 @@ data <- task_data %>%
                         trial),
          z_age = age - mean(age),
          z_trial = trial - mean(trial),
-         item = ifelse(task == "card_sorting", sample,leftObject) )%>%
-    select(id, test_day, subage,age, task,item, trial, correct, z_age, z_trial)
+         item = ifelse(task == "card_sorting", sample, ifelse(task == "discourse_continuity", target1, leftObject)))%>%
+    select(id, test_day, subage,age,age_month, task,item, trial, correct, z_age, z_trial)
 
 
  # write_csv(data, "../data/data_r2.csv")
@@ -238,9 +238,9 @@ ggplot()+
 
 ```{r}
 item_info <- data_frame(
-  task = c(rep("mutual_exclusivity",10),rep("simple_inf",10),rep("ad_hoc_implicature",10)),
-  trial = c(rep(1:10,3)), 
-  item = c(rep(c("carrot","garlic","eggplant","duck","horseshoe"),2),rep(c("bear","robot","rocket","truck","dino"),2), rep(c("box","chair","table","plate","house"),2))
+  task = c(rep("mutual_exclusivity",10),rep("simple_inf",10),rep("ad_hoc_implicature",10),rep("discourse_continuity",10),rep("card_sorting",12)),
+  trial = c(rep(1:10,4),1:12), 
+  item2 = c(rep(c("carrot","garlic","eggplant","duck","horseshoe"),2),rep(c("bear","robot","rocket","truck","dino"),2), rep(c("box","chair","table","plate","house"),2),rep(NA,22))
 )
 
 retest_ids <- data %>%
@@ -250,12 +250,10 @@ retest_ids <- data %>%
   pull(id)
 
 data %>%
-  filter(task == "mutual_exclusivity" |
-         task == "simple_inf" |
-         task == "ad_hoc_implicature",
-         id %in% retest_ids)%>%
-  select(-agent, -z_age, -z_trial)%>%
+  filter(id %in% retest_ids)%>%
+  select(-z_age, -z_trial)%>%
   left_join(item_info)%>%
+  mutate(item = ifelse(task == "mutual_exclusivity" | task == "simple_inf" | task == "ad_hoc_implicature", item2,item))%>%
   select(id, test_day, subage, age, age_month, task, trial, item, correct )%>%
   mutate(c_age_month = age_month - min(age_month),
          c_age = age - min(age))%>%
