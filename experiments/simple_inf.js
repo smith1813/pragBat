@@ -345,9 +345,9 @@ showInfAgent(simple_inf.agents[0],"straight")
         setTimeout(function() {
           showInfAgent(simple_inf.agents[0],"point_l")
 
-          $("#inf_ob_l").animate({bottom: '20%', queue:  true},300)
+          $("#inf_ob_l").animate({bottom: '30%', queue:  true},300)
 
-          $("#inf_ob_l").animate({bottom: '15%', queue:  true},300)
+          $("#inf_ob_l").animate({bottom: '25%', queue:  true},300)
         }, 000)
 
 
@@ -359,9 +359,9 @@ showInfAgent(simple_inf.agents[0],"straight")
           setTimeout(function() {
             showInfAgent(simple_inf.agents[0],"point_l")
 
-            $("#inf_ob_l").animate({bottom: '20%', queue:  false},300)
+            $("#inf_ob_l").animate({bottom: '30%', queue:  false},300)
 
-            $("#inf_ob_l").animate({bottom: '15%', queue:  true},300)
+            $("#inf_ob_l").animate({bottom: '25%', queue:  true},300)
 
           }, 3500)
 
@@ -376,9 +376,9 @@ showInfAgent(simple_inf.agents[0],"straight")
 
           showInfAgent(simple_inf.agents[0],"point_r")
 
-          $("#inf_ob_r").animate({bottom: '20%', queue:  true},300)
+          $("#inf_ob_r").animate({bottom: '30%', queue:  true},300)
 
-          $("#inf_ob_r").animate({bottom: '15%', queue:    true},300)
+          $("#inf_ob_r").animate({bottom: '25%', queue:    true},300)
 
         }, 000)
 
@@ -391,9 +391,9 @@ showInfAgent(simple_inf.agents[0],"straight")
           setTimeout(function() {
             showInfAgent(simple_inf.agents[0],"point_r")
 
-            $("#inf_ob_r").animate({bottom: '20%', queue:  false},300)
+            $("#inf_ob_r").animate({bottom: '30%', queue:  false},300)
 
-            $("#inf_ob_r").animate({bottom: '15%', queue:    true},300)
+            $("#inf_ob_r").animate({bottom: '25%', queue:    true},300)
 
           }, 3500)
 

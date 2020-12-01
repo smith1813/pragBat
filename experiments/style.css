@@ -310,7 +310,7 @@ sortButton {
 
 .moveButton {
     position: absolute;
-    bottom: 10px;
+    bottom: 110px;
     left: 50%;
     margin-left: -75px;
     width: 150px;
@@ -320,7 +320,7 @@ sortButton {
 
 .agent {
     position: absolute;
-    bottom: 265px;
+    bottom: 365px;
     left: 50%;
     margin-left: -175px;
     width: 350px;
@@ -352,7 +352,7 @@ sortButton {
 
 .hill {
     position: absolute;
-    bottom: 25px;
+    bottom: 125px;
     left: 50%;
     margin-left: -175px;
     width: 350px;
@@ -409,7 +409,7 @@ sortButton {
 
 .fruit_r {
     position: absolute;
-    bottom: 245px;
+    bottom: 345px;
     right: 20%;
     margin-right: -75px;
     width: 150px;
@@ -419,7 +419,7 @@ sortButton {
 
 .fruit_l {
     position: absolute;
-    bottom: 245px;
+    bottom: 345px;
     left: 20%;
     margin-left: -75px;
     width: 150px;
@@ -464,7 +464,7 @@ sortButton {
 
 .table_r {
     position: absolute;
-    bottom: 100px;
+    bottom: 200px;
     right: 20%;
     margin-right: -140px;
     width: 280px;
@@ -473,7 +473,7 @@ sortButton {
 
 .table_l {
     position: absolute;
-    bottom: 100px;
+    bottom: 200px;
     left: 20%;
     margin-left: -140px;
     width: 280px;
@@ -483,7 +483,7 @@ sortButton {
 
 .inf_ob_r {
     position: absolute;
-    bottom: 15%;
+    bottom: 25%;
     right: 20%;
     margin-right: -175px;
     width: 350px;
@@ -492,7 +492,7 @@ sortButton {
 
 .inf_ob_l {
     position: absolute;
-    bottom: 15%;
+    bottom: 25%;
     left: 20%;
     margin-left: -175px;
     width: 350px;
@@ -502,7 +502,7 @@ sortButton {
 
 .choice_inf_ob_r {
   position: absolute;
-  bottom: 15%;
+  bottom: 25%;
   right: 20%;
   margin-right: -175px;
   width: 350px;
@@ -511,7 +511,7 @@ sortButton {
 
 .choice_inf_ob_l {
   position: absolute;
-  bottom: 15%;
+  bottom: 25%;
   left: 20%;
   margin-left: -175px;
   width: 350px;
@@ -700,7 +700,7 @@ sortButton {
 
 .selector_l {
     position: absolute;
-    bottom: 15%;
+    bottom: 25%;
     left: 20%;
     margin-left: -177.5px;
     width: 355px;
@@ -720,7 +720,7 @@ sortButton {
 
 .selector_r {
     position: absolute;
-    bottom: 15%;
+    bottom: 25%;
     right: 20%;
     margin-right: -177.5px;
     width: 355px;
@@ -826,7 +826,7 @@ div#preload { display: none; }
 
 .look_agent_r_inf {
   position: absolute;
-  bottom: 45%;
+  bottom: 55%;
   left: 50%;
   margin-left: -175px;
   width: 350px;
@@ -835,7 +835,7 @@ div#preload { display: none; }
 
 .look_agent_l_inf {
   position: absolute;
-  bottom: 45%;
+  bottom: 55%;
   left: 50%;
   margin-left: -175px;
   width: 350px;
@@ -843,7 +843,7 @@ div#preload { display: none; }
 
 .agent_inf {
     position: absolute;
-    bottom: 45%;
+    bottom: 55%;
     left: 50%;
     margin-left: -175px;
     width: 350px;
@@ -851,7 +851,7 @@ div#preload { display: none; }
 
 .point_agent_r_inf {
   position: absolute;
-  bottom: 45%;
+  bottom: 55%;
   left: 50%;
   margin-left: -175px;
   width: 350px;
@@ -860,7 +860,7 @@ div#preload { display: none; }
 
 .point_agent_l_inf {
   position: absolute;
-  bottom: 45%;
+  bottom: 55%;
   left: 50%;
   margin-left: -175px;
   width: 350px;
