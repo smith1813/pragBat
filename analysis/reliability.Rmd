@@ -18,9 +18,15 @@ data <- bind_rows(
 data_r1 <- read_csv("../data/data_r1.csv")%>%mutate(id = paste(id,"r1",sep = "_")) ,
 data_r2 <- read_csv("../data/data_r2.csv")%>%mutate(id = paste(id,"r2",sep = "_"))
 )%>%
-  filter(task !="training")
+  filter(task !="training")%>%
+  mutate(item = ifelse(task == "mutual_exclusivity" & item == "t22", "carrot", item),
+         item = ifelse(task == "mutual_exclusivity" & item == "t37", "duck", item),
+         item = ifelse(task == "mutual_exclusivity" & item == "t24", "duck", item))
   
-
+data %>%
+  filter(task == "mutual_exclusivity")%>%
+  group_by(subage,item)%>%
+  summarise(mean= mean(correct))
 ```
 
 # Total sample size

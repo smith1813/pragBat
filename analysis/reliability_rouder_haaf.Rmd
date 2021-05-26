@@ -35,7 +35,7 @@ data <- raw_data%>%
          z_trial = scale(trial))
 
 ```
-# Descriütives
+# Descriptives
 
 ```{r}
 data %>%
