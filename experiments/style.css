@@ -1,147 +1,151 @@
 /* ## General styles */
+
+
 /* This stuff can be ported from experiment to experiment.*/
 
+
 /* We want the page to sit flush inside the browser window - that means no margins or padding. Also, use a nice-looking serif font. */
+
 body {
     width: 100%;
-	height: 100%;
+    height: 100%;
     padding: 0;
-	margin: 0;
-	font-family: Gill Sans ,sans-serif;
-	font-size: 16px;
-	line-height: 20px;
+    margin: 0;
+    font-family: Gill Sans, sans-serif;
+    font-size: 16px;
+    line-height: 20px;
 }
 
+
 /* We manage display using "slides". A slide is a <code>div</code> that takes up the entire page. Only one slide should be visible at a time. Navigation between slides is most sensibly accomplished using using buttons, rather than keyboard events. */
+
 .slide {
-	width: 100%;
-	height: 100%;
-	display: none;
-	position: absolute;
-	margin: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    position: absolute;
+    margin: 0;
 }
 
 .background {
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
     opacity: 0.3;
 }
 
 .background_dis {
-	width: 100%;
-	height: 80%;
+    width: 100%;
+    height: 80%;
     opacity: 0.5;
     z-index: 1;
 }
 
-
-.barl{
-    position:fixed;
-    left:0;
-    top:0;
-    background-color:#c6d325;
-    width:10%;
-    height:100%;
+.barl {
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: #c6d325;
+    width: 10%;
+    height: 100%;
 }
 
-
-.barr{
-    position:fixed;
-    right:0;
-    top:0;
-    background-color:#00b1ea;
-    width:10%;
-    height:100%;
+.barr {
+    position: fixed;
+    right: 0;
+    top: 0;
+    background-color: #00b1ea;
+    width: 10%;
+    height: 100%;
 }
 
-
-
-
-input, select, button {font-family:  Gill Sans ,sans-serif; font-size: 14px;}
+input,
+select,
+button {
+    font-family: Gill Sans, sans-serif;
+    font-size: 14px;
+}
 
 button {
-	background: url(images/button-gradient.png);
-	border: 1px solid #999;
-	border-top: 1px solid #e0e0e0;
-	border-left: 1px solid #e0e0e0;
-	margin: 10px;
-	padding-left: 5px;
-	padding-right: 5px;
-	height: 29px;
-	min-width: 70px;
-
+    background: url(images/button-gradient.png);
+    border: 1px solid #999;
+    border-top: 1px solid #e0e0e0;
+    border-left: 1px solid #e0e0e0;
+    margin: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 29px;
+    min-width: 70px;
 }
+
 button:active {
-	border-left: 1px solid #c9c9c9;
-	border-top: 1px solid #c9c9c9;
-	background: none;
-	background-color: #c9c9c9;
+    border-left: 1px solid #c9c9c9;
+    border-top: 1px solid #c9c9c9;
+    background: none;
+    background-color: #c9c9c9;
     top: 50px;
     left: 50px;
 }
 
 button[disabled] {
-	background: url(zen-button.png);
-	border: 1px solid #999;
-	border-top: 1px solid #e0e0e0;
-	border-left: 1px solid #e0e0e0;
-	cursor: not-allowed;
+    background: url(zen-button.png);
+    border: 1px solid #999;
+    border-top: 1px solid #e0e0e0;
+    border-left: 1px solid #e0e0e0;
+    cursor: not-allowed;
 }
 
 startButton {
-	background: url(images/button-gradient.png);
-	border: 1px solid #999;
-	border-top: 1px solid #e0e0e0;
-	border-left: 1px solid #e0e0e0;
-	margin: 10px;
-	padding-left: 5px;
-	padding-right: 5px;
-	height: 35px;
-	min-width: 70px;
+    background: url(images/button-gradient.png);
+    border: 1px solid #999;
+    border-top: 1px solid #e0e0e0;
+    border-left: 1px solid #e0e0e0;
+    margin: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 35px;
+    min-width: 70px;
     position: absolute;
     bottom: 80px;
     left: 410px;
-
 }
 
 startButton:active {
-	border-left: 1px solid #c9c9c9;
-	border-top: 1px solid #c9c9c9;
-	background: none;
-	background-color: #c9c9c9;
+    border-left: 1px solid #c9c9c9;
+    border-top: 1px solid #c9c9c9;
+    background: none;
+    background-color: #c9c9c9;
     position: absolute;
     bottom: 80px;
     left: 410px;
 }
 
 startButton[disabled] {
-	background: url(zen-button.png);
-	border: 1px solid #999;
-	border-top: 1px solid #e0e0e0;
-	border-left: 1px solid #e0e0e0;
-	cursor: not-allowed;
+    background: url(zen-button.png);
+    border: 1px solid #999;
+    border-top: 1px solid #e0e0e0;
+    border-left: 1px solid #e0e0e0;
+    cursor: not-allowed;
 }
 
 nextButton {
-	background: lightgrey;
-	margin: 10px;
-	padding-left: 5px;
-	padding-right: 5px;
-	height: 50px;
-	width: 150px;
-  line-height: 50px;
-  position: absolute;
-  bottom: 10%;
-  left: 50%;
-  margin-left: -75px;
-  z-index: 2;
-      font-size: 150%;
-
+    background: lightgrey;
+    margin: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 50px;
+    width: 150px;
+    line-height: 50px;
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    margin-left: -75px;
+    z-index: 2;
+    font-size: 150%;
 }
 
 nextButton:active {
-	background: none;
-	background-color: #c9c9c9;
+    background: none;
+    background-color: #c9c9c9;
     position: absolute;
     bottom: 10%;
     left: 50%;
@@ -149,20 +153,19 @@ nextButton:active {
 }
 
 nextButton[disabled] {
-	background: url(zen-button.png);
-	border: 1px solid #999;
-	border-top: 1px solid #e0e0e0;
-	border-left: 1px solid #e0e0e0;
-	cursor: not-allowed;
+    background: url(zen-button.png);
+    border: 1px solid #999;
+    border-top: 1px solid #e0e0e0;
+    border-left: 1px solid #e0e0e0;
+    cursor: not-allowed;
 }
-
 
 trainButton {
     position: absolute;
     transform: translateX(-50%);
-    left:50%;
-    top:100;
-    width:200;
+    left: 50%;
+    top: 100;
+    width: 200;
     font-family: sans-serif;
     background-color: #c9c9c9;
     border: none;
@@ -172,16 +175,14 @@ trainButton {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-
 }
-
 
 prefButton {
     position: absolute;
     transform: translateX(-50%);
-    left:35%;
-    top:200;
-    width:200;
+    left: 35%;
+    top: 200;
+    width: 200;
     font-family: sans-serif;
     background-color: #c9c9c9;
     border: none;
@@ -191,15 +192,14 @@ prefButton {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-
 }
 
 meButton {
     position: absolute;
     transform: translateX(-50%);
-    left:35%;
-    top:200;
-    width:200;
+    left: 35%;
+    top: 200;
+    width: 200;
     font-family: sans-serif;
     background-color: #c9c9c9;
     border: none;
@@ -209,15 +209,14 @@ meButton {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-
 }
 
 adhocButton {
     position: absolute;
     transform: translateX(-50%);
-    left:65%;
-    top:300;
-    width:200;
+    left: 65%;
+    top: 300;
+    width: 200;
     font-family: sans-serif;
     background-color: #c9c9c9;
     border: none;
@@ -227,16 +226,14 @@ adhocButton {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-
 }
-
 
 novButton {
     position: absolute;
     transform: translateX(-50%);
-    left:65%;
-    top:300;
-    width:200;
+    left: 65%;
+    top: 300;
+    width: 200;
     font-family: sans-serif;
     background-color: #c9c9c9;
     border: none;
@@ -246,17 +243,14 @@ novButton {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-
 }
-
-
 
 infButton {
     position: absolute;
     transform: translateX(-50%);
-    left:65%;
-    top:200;
-    width:200;
+    left: 65%;
+    top: 200;
+    width: 200;
     font-family: sans-serif;
     background-color: #c9c9c9;
     border: none;
@@ -266,16 +260,14 @@ infButton {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-
 }
-
 
 disconButton {
     position: absolute;
     transform: translateX(-50%);
-    left:35%;
-    top:300;
-    width:200;
+    left: 35%;
+    top: 300;
+    width: 200;
     font-family: sans-serif;
     background-color: #c9c9c9;
     border: none;
@@ -285,15 +277,14 @@ disconButton {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-
 }
 
 sortButton {
     position: absolute;
     transform: translateX(-50%);
-    left:50%;
-    top:400;
-    width:200;
+    left: 50%;
+    top: 400;
+    width: 200;
     font-family: sans-serif;
     background-color: #c9c9c9;
     border: none;
@@ -303,10 +294,7 @@ sortButton {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-
 }
-
-
 
 .moveButton {
     position: absolute;
@@ -316,7 +304,6 @@ sortButton {
     width: 150px;
     z-index: 4
 }
-
 
 .agent {
     position: absolute;
@@ -334,7 +321,6 @@ sortButton {
     width: 350px;
     z-index: 2;
 }
-
 
 .point_agent_l {
     position: absolute;
@@ -359,26 +345,23 @@ sortButton {
     z-index: 3
 }
 
-
-.circle
-    {
-    width:150px;
-    height:150px;
-    border-radius:100px;
-    font-size:18px;
-    line-height:30px;
-    text-align:center;
-    background:#eeeeee;
+.circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 100px;
+    font-size: 18px;
+    line-height: 30px;
+    text-align: center;
+    background: #eeeeee;
     color: #11726b;
     display: table;
     border: 3px solid #11726b;
-    }
+}
 
-    .innertext
-    {
-       display: table-cell;
-       vertical-align: middle;
-     }
+.innertext {
+    display: table-cell;
+    vertical-align: middle;
+}
 
 .adhoc_agent {
     position: absolute;
@@ -389,8 +372,6 @@ sortButton {
     z-index: 2;
 }
 
-
-
 .window {
     position: absolute;
     bottom: 45%;
@@ -399,8 +380,6 @@ sortButton {
     width: 400px;
     z-index: 3;
 }
-
-
 
 .animal_intro {
     position: relative;
@@ -416,7 +395,6 @@ sortButton {
     z-index: 2
 }
 
-
 .fruit_l {
     position: absolute;
     bottom: 345px;
@@ -425,7 +403,6 @@ sortButton {
     width: 150px;
     z-index: 2
 }
-
 
 .fruit_inf_r {
     position: absolute;
@@ -443,7 +420,6 @@ sortButton {
     z-index: 2
 }
 
-
 .fruit_inf_l2 {
     position: absolute;
     bottom: 490px;
@@ -459,8 +435,6 @@ sortButton {
     width: 160px;
     z-index: 2
 }
-
-
 
 .table_r {
     position: absolute;
@@ -480,7 +454,6 @@ sortButton {
     z-index: 0
 }
 
-
 .inf_ob_r {
     position: absolute;
     bottom: 25%;
@@ -499,30 +472,23 @@ sortButton {
     z-index: 0
 }
 
-
 .choice_inf_ob_r {
-  position: absolute;
-  bottom: 25%;
-  right: 20%;
-  margin-right: -175px;
-  width: 350px;
-  z-index: 0
+    position: absolute;
+    bottom: 25%;
+    right: 20%;
+    margin-right: -175px;
+    width: 350px;
+    z-index: 0
 }
 
 .choice_inf_ob_l {
-  position: absolute;
-  bottom: 25%;
-  left: 20%;
-  margin-left: -175px;
-  width: 350px;
-  z-index: 0
+    position: absolute;
+    bottom: 25%;
+    left: 20%;
+    margin-left: -175px;
+    width: 350px;
+    z-index: 0
 }
-
-
-
-
-
-
 
 .object_r {
     position: absolute;
@@ -542,13 +508,11 @@ sortButton {
     z-index: 0
 }
 
-
-
 .target_l {
     position: absolute;
     bottom: 300px;
     transform: translateX(-50%);
-    left:25%;
+    left: 25%;
     width: 200px;
     z-index: 0
 }
@@ -557,27 +521,25 @@ sortButton {
     position: absolute;
     bottom: 300px;
     transform: translateX(-50%);
-    left:75%;
+    left: 75%;
     width: 200px;
     z-index: 0
 }
-
 
 .sample {
     position: absolute;
     bottom: 100px;
     transform: translateX(-50%);
-    left:50%;
+    left: 50%;
     width: 200px;
     z-index: 0
 }
-
 
 .rmts_sample {
     position: absolute;
     top: 110px;
     transform: translateX(-50%);
-    left:50%;
+    left: 50%;
     width: 200px;
     z-index: 0
 }
@@ -586,7 +548,7 @@ sortButton {
     position: absolute;
     top: 410px;
     transform: translateX(-50%);
-    left:30%;
+    left: 30%;
     width: 200px;
     z-index: 0
 }
@@ -595,93 +557,95 @@ sortButton {
     position: absolute;
     top: 410px;
     transform: translateX(-50%);
-    left:70%;
+    left: 70%;
     width: 200px;
     z-index: 0
 }
 
+
 /* ## Experiment-specific styles */
+
+
 /* This stuff will vary by experiment. */
 
 #logo-text {
-  text-align: center;
+    text-align: center;
     font-size: 200%;
 }
 
 #instructions {
-  text-align: center;
+    text-align: center;
 }
 
-#odd-key, #even-key {
-  background-color: #e3e3e3;
-  padding: 2px;
-  border: 1px outset #cccccc;
-  font-family: Courier New;
-  font-weight: bold;
-  font-size: 15px;
+#odd-key,
+#even-key {
+    background-color: #e3e3e3;
+    padding: 2px;
+    border: 1px outset #cccccc;
+    font-family: Courier New;
+    font-weight: bold;
+    font-size: 15px;
 }
 
 .block-text {
-  width: 60%;
-  text-align: justify;
-  margin: 0 auto;
-  margin-bottom: 1em;
+    width: 60%;
+    text-align: justify;
+    margin: 0 auto;
+    margin-bottom: 1em;
 }
 
 .block-text2 {
-  width: 75%;
-  text-align: justify;
-  margin: 0 auto;
-  margin-bottom: 1em;
+    width: 75%;
+    text-align: justify;
+    margin: 0 auto;
+    margin-bottom: 1em;
 }
 
 .block-text3 {
-  width: 75%;
-  text-align: center;
-  margin: 0 auto;
-  margin-bottom: 1em;
+    width: 75%;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 1em;
 }
 
-
 .text {
-  font-size: 24px;
-  width: 500px;
-  text-align: center;
-  font-family: Gill Sans ,sans-serif;
-  margin: 0 auto;
-  margin-bottom: 1em;
-  position: absolute;
-  top: 100px;
-  transform: translateX(-50%);
-  left:50%;
+    font-size: 24px;
+    width: 500px;
+    text-align: center;
+    font-family: Gill Sans, sans-serif;
+    margin: 0 auto;
+    margin-bottom: 1em;
+    position: absolute;
+    top: 100px;
+    transform: translateX(-50%);
+    left: 50%;
 }
 
 .rmts_text {
-  font-size: 20px;
-  width: 75%;
-  text-align: center;
-  font-family: "Times New Roman";
-  margin: 0 auto;
-  margin-bottom: 1em;
-  position: absolute;
-  top: 20px;
-  transform: translateX(-50%);
-  left:50%;
+    font-size: 20px;
+    width: 75%;
+    text-align: center;
+    font-family: "Times New Roman";
+    margin: 0 auto;
+    margin-bottom: 1em;
+    position: absolute;
+    top: 20px;
+    transform: translateX(-50%);
+    left: 50%;
 }
 
 .rmts_text_bottom {
-  font-size: 20px;
-  width: 75%;
-  text-align: center;
-  font-family: "Times New Roman";
-  margin: 0 auto;
-  margin-bottom: 1em;
-  position: absolute;
-  top: 50px;
-  transform: translateX(-50%);
-  left:50%;
+    font-size: 20px;
+    width: 75%;
+    text-align: center;
+    font-family: "Times New Roman";
+    margin: 0 auto;
+    margin-bottom: 1em;
+    position: absolute;
+    top: 50px;
+    transform: translateX(-50%);
+    left: 50%;
 }
-
 
 .look_agent_r {
     position: absolute;
@@ -689,7 +653,6 @@ sortButton {
     left: 320px;
     width: 350px;
 }
-
 
 .look_agent_l {
     position: absolute;
@@ -711,12 +674,11 @@ sortButton {
 .selector {
     position: absolute;
     bottom: 100px;
-    left: 20px;
-    width: 900px;
+    left: 0px;
+    width: 100%;
     height: 600px;
-    z-index: 3
+    z-index: 5
 }
-
 
 .selector_r {
     position: absolute;
@@ -727,7 +689,6 @@ sortButton {
     height: 380px;
     z-index: 3
 }
-
 
 .tree_r {
     position: absolute;
@@ -746,7 +707,6 @@ sortButton {
     height: 550px;
     z-index: 1
 }
-
 
 #item_l {
     position: absolute;
@@ -775,7 +735,6 @@ sortButton {
     z-index: 2
 }
 
-
 .agent_transition {
     position: absolute;
     bottom: 50px;
@@ -784,7 +743,6 @@ sortButton {
     width: 700px;
     z-index: 2;
 }
-
 
 .discon_agent {
     position: absolute;
@@ -795,29 +753,30 @@ sortButton {
     z-index: 2;
 }
 
-
 #legal {
-  margin: 0 auto;
-  margin-top: 1.5em;
-  font-size: 0.8em;
+    margin: 0 auto;
+    margin-top: 1.5em;
+    font-size: 0.8em;
 }
 
 #number {
-  font-size: 42px;
-  font-family: Arial, sans-serif;
-  margin: 0 auto;
-  text-align: center;
-  width: 100px;
-  margin-top: 100px;
+    font-size: 42px;
+    font-family: Arial, sans-serif;
+    margin: 0 auto;
+    text-align: center;
+    width: 100px;
+    margin-top: 100px;
 }
 
-div#preload { display: none; }
-
+div#preload {
+    display: none;
+}
 
 #myProgress {
     width: 100%;
     background-color: grey;
 }
+
 #myBar {
     width: 1%;
     height: 30px;
@@ -825,20 +784,19 @@ div#preload { display: none; }
 }
 
 .look_agent_r_inf {
-  position: absolute;
-  bottom: 55%;
-  left: 50%;
-  margin-left: -175px;
-  width: 350px;
+    position: absolute;
+    bottom: 55%;
+    left: 50%;
+    margin-left: -175px;
+    width: 350px;
 }
 
-
 .look_agent_l_inf {
-  position: absolute;
-  bottom: 55%;
-  left: 50%;
-  margin-left: -175px;
-  width: 350px;
+    position: absolute;
+    bottom: 55%;
+    left: 50%;
+    margin-left: -175px;
+    width: 350px;
 }
 
 .agent_inf {
@@ -850,18 +808,17 @@ div#preload { display: none; }
 }
 
 .point_agent_r_inf {
-  position: absolute;
-  bottom: 55%;
-  left: 50%;
-  margin-left: -175px;
-  width: 350px;
+    position: absolute;
+    bottom: 55%;
+    left: 50%;
+    margin-left: -175px;
+    width: 350px;
 }
 
-
 .point_agent_l_inf {
-  position: absolute;
-  bottom: 55%;
-  left: 50%;
-  margin-left: -175px;
-  width: 350px;
+    position: absolute;
+    bottom: 55%;
+    left: 50%;
+    margin-left: -175px;
+    width: 350px;
 }

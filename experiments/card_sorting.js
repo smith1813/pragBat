@@ -14,17 +14,17 @@ var sort = {
 
 
     // end of the experiment
-    end: function () {
+    end: function() {
         // Show the finish slide.
         showSlide("select");
-        setTimeout(function () {
+        setTimeout(function() {
             downloadData(sort.data)
-        }, 500);
+        }, 0);
     },
 
 
     // unbind and shift variables between trials
-    newtrial: function () {
+    newtrial: function() {
 
         $(".target_l").css("border", "none")
         $(".target_r").css("border", "none")
@@ -59,18 +59,18 @@ var sort = {
         sort.trial.shift();
         sort.sample.shift();
 
-        setTimeout(function () {
+        setTimeout(function() {
             sort.next()
         }, 1100);
 
     },
 
-    next: function () {
+    next: function() {
 
         $(".selector").hide();
 
         if (sort.trial.length == 0) {
-            setTimeout(function () {
+            setTimeout(function() {
                 sort.end()
             }, 0);
             return;
@@ -112,7 +112,7 @@ var sort = {
 
         }
 
-        $(".target_l").click(function () {
+        $(".target_l").click(function() {
 
             event.target.style.border = '5px solid orange';
 
@@ -128,7 +128,7 @@ var sort = {
 
             pause("moveButton", 1000)
 
-            setTimeout(function () {
+            setTimeout(function() {
                 sort.newtrial()
             }, 1000);
 
@@ -174,7 +174,7 @@ var sort = {
         });
 
 
-        $(".target_r").click(function () {
+        $(".target_r").click(function() {
 
             $(".selector").show();
 
@@ -190,7 +190,7 @@ var sort = {
 
             pause("moveButton", 1000)
 
-            setTimeout(function () {
+            setTimeout(function() {
                 sort.newtrial()
             }, 1000);
 
@@ -235,7 +235,7 @@ var sort = {
             sort.data.push(data);
         });
 
-        $(".sample").click(function (event) {
+        $(".sample").click(function(event) {
             event.target.style.border = '5px solid orange'
         })
 
