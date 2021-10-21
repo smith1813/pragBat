@@ -126,7 +126,7 @@ ggplot()+
   geom_hline(data = p2, aes(yintercept = chance), lty = 2)+
   geom_smooth(data = p1, aes(x = age, y = mean), method = "lm", col = "black", size = 1)+
   geom_point(data = p1, aes(x = age, y = mean), alpha = .5, width = .05, height = .01)+
-  geom_pointrange(data = p2, aes(x = as.numeric(as.character(subage))+.5, y = mean, ymin = ci_lower, ymax = ci_upper, col = subage))+
+  geom_pointrange(data = p2, aes(x = as.numeric(as.character(subage))+.5, y = mean, ymin = ci_lower, ymax = ci_upper, col = factor(subage)))+
   facet_wrap(~task)+
   labs(x = "Age Group", y = "Proportion Correct")+
   scale_color_ptol(name = "Age")+
@@ -291,7 +291,7 @@ ffit2 <- cfa(model2, data = semd)
 
 ffit3 <- cfa(model3, data = semd)
 
-summary(ffit, fit.measures=TRUE, standardized = TRUE)
+summary(ffit, fit.measures=TRUE, standardized = TRUE, rsquare = T)
 
 lavTestLRT(ffit,ffit2 )
 ```
