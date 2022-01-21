@@ -54,7 +54,9 @@ task_data <- raw_data%>%
   filter(!grepl("train",trial),
          !grepl("fill",trial))%>%
   filter(phase == "shape" | is.na(phase))%>%
-  mutate(subid = ifelse(subid == "265011", "260934", subid))
+  mutate(subid = ifelse(subid == "265011", "260934", subid),
+         item = ifelse(task == "mutual_exclusivity",
+                       ifelse(correct_location == "left", rightObject, leftObject), item))
 
 
 log <- read_xlsx("../../../../Cloud/PragBat/vpl_pragBat3.xlsx", sheet = 1)%>%
@@ -73,12 +75,22 @@ data <- log %>%
           subage = ifelse(subage == 5, 4, subage),
          subage = factor(subage),
          trial = as.numeric(trial))%>%
-    select(id, subage,age,gender, task,item, trial, correct)
+    select(id, subage,age,age_month,gender, task,item, trial, correct)
 
 
 write_csv(data, "../data/data_r3.csv")
 
 data <- read_csv("../data/data_r3.csv")
+
+# data for RSA model 
+data %>%
+  filter(task != "card_sorting",
+         task != "match_to_sample")%>%
+  select(id, subage, age, age_month, task, trial, item, correct)%>%
+  mutate(c_age_month = age_month - min(age_month),
+         c_age = age - min(age))%>%
+  write_json("../../../Spin-off/spin-off/data/data_r3.json")
+  
 
 ```
 
