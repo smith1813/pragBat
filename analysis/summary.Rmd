@@ -26,8 +26,8 @@ library(lubridate)
 library(ggpubr)
 library(lavaan)
 library(blavaan)
-library(tidySEM)
-library(semPlot)
+#library(tidySEM)
+#library(semPlot)
 ```
 
 ```{r, include=FALSE}
@@ -403,31 +403,66 @@ In a Bayesian model comparison via WAIC the model above does better compared to 
 
 
 ```{r}
-fit <- bcfa(model, data = semd, bcontrol = list(cores = 3), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
+# fit <- bcfa(model, data = semd, bcontrol = list(cores = 4), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
+# saveRDS(fit, "../saves/bcfa_prag.rds")
+fit <- readRDS("../saves/bcfa_prag.rds")
 
-saveRDS(fit, "../saves/bcfa_prag")
+# fit2 <- bcfa(model2, data = semd, bcontrol = list(cores = 4), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
+# saveRDS(fit2, "../saves/bcfa_single.rds")
+fit2 <- readRDS("../saves/bcfa_single.rds")
 
-fit2 <- bcfa(model2, data = semd, bcontrol = list(cores = 3), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
-
-saveRDS(fit2, "../saves/bcfa_single")
-
-fit3 <- bcfa(model3, data = semd, bcontrol = list(cores = 3), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
-
-saveRDS(fit3, "../saves/bcfa_separate")
+# fit3 <- bcfa(model3, data = semd, bcontrol = list(cores = 4), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
+# saveRDS(fit3, "../saves/bcfa_separate.rds")
+fit3 <- readRDS("../saves/bcfa_separate.rds")
 ```
 
 ```{r}
-blavCompare(fit, fit2)
+# blavCompare(fit, fit2)
+# 
+# blavCompare(fit, fit3)
 
-blavCompare(fit, fit3)
-
-blavInspect(fit, "lvs")
 ```
 
-
 ```{r}
-#model weights
-w1 <- exp(-0.5*0)/(exp(-0.5*0)+exp(-0.5*6.7)+exp(-0.5*7.1)+exp(-0.5*8.9))
+# fit_waic <- fitmeasures(fit)%>%as_tibble(rownames = "index")%>%filter(index == "waic")%>%pull(value)
+# fit2_waic <- fitmeasures(fit2)%>%as_tibble(rownames = "index")%>%filter(index == "waic")%>%pull(value)
+# fit3_waic <- fitmeasures(fit3)%>%as_tibble(rownames = "index")%>%filter(index == "waic")%>%pull(value)
+# 
+# fit_se_waic <- fitmeasures(fit)%>%as_tibble(rownames = "index")%>%filter(index == "se_waic")%>%pull(value)
+# fit2_se_waic <- fitmeasures(fit2)%>%as_tibble(rownames = "index")%>%filter(index == "se_waic")%>%pull(value)
+# fit3_se_waic <- fitmeasures(fit3)%>%as_tibble(rownames = "index")%>%filter(index == "se_waic")%>%pull(value)
+# 
+# fit_looic <- fitmeasures(fit)%>%as_tibble(rownames = "index")%>%filter(index == "looic")%>%pull(value)
+# fit2_looic <- fitmeasures(fit2)%>%as_tibble(rownames = "index")%>%filter(index == "looic")%>%pull(value)
+# fit3_looic <- fitmeasures(fit3)%>%as_tibble(rownames = "index")%>%filter(index == "looic")%>%pull(value)
+# 
+# fit_se_looic <- fitmeasures(fit)%>%as_tibble(rownames = "index")%>%filter(index == "se_loo")%>%pull(value)
+# fit2_se_looic <- fitmeasures(fit2)%>%as_tibble(rownames = "index")%>%filter(index == "se_loo")%>%pull(value)
+# fit3_se_looic <- fitmeasures(fit3)%>%as_tibble(rownames = "index")%>%filter(index == "se_loo")%>%pull(value)
+# 
+# #model weights
+# ## waic
+# w1 <- exp(-0.5*(fit_waic-fit_waic))/(exp(-0.5*(fit_waic-fit_waic))+exp(-0.5*(fit2_waic-fit_waic))+exp(-0.5*7.1)+exp(-0.5*(fit3_waic-fit_waic)))
+# w2 <- exp(-0.5*(fit2_waic-fit_waic))/(exp(-0.5*(fit_waic-fit_waic))+exp(-0.5*(fit2_waic-fit_waic))+exp(-0.5*7.1)+exp(-0.5*(fit3_waic-fit_waic)))
+# w3 <- exp(-0.5*(fit3_waic-fit_waic))/(exp(-0.5*(fit_waic-fit_waic))+exp(-0.5*(fit2_waic-fit_waic))+exp(-0.5*7.1)+exp(-0.5*(fit3_waic-fit_waic)))
+# ## looic
+# l1 <- exp(-0.5*(fit_looic-fit_looic))/(exp(-0.5*(fit_looic-fit_looic))+exp(-0.5*(fit2_looic-fit_looic))+exp(-0.5*7.1)+exp(-0.5*(fit3_looic-fit_waic)))
+# l2 <- exp(-0.5*(fit2_looic-fit_looic))/(exp(-0.5*(fit_looic-fit_looic))+exp(-0.5*(fit2_looic-fit_looic))+exp(-0.5*7.1)+exp(-0.5*(fit3_looic-fit_waic)))
+# l3 <- exp(-0.5*(fit3_looic-fit_looic))/(exp(-0.5*(fit_looic-fit_looic))+exp(-0.5*(fit2_looic-fit_looic))+exp(-0.5*7.1)+exp(-0.5*(fit3_looic-fit_waic)))
+# 
+# model_comparison <- tibble(
+#   model = c("fit1", "fit2", "fit3"),
+#   waic = c(fit_waic, fit2_waic, fit3_waic), 
+#   waic_se = c(fit_se_waic, fit2_se_waic, fit3_se_waic), 
+#   waic_weight = c(w1, w2, w3),
+#   looic = c(fit_looic, fit2_looic, fit3_looic),
+#   looic_se = c(fit_se_looic, fit2_se_looic, fit3_se_looic),
+#   looic_weight = c(l1, l2, l3)
+# )%>%
+#   arrange(waic)%>%
+#   write_csv(., "../saves/bcfa_model_comparison.csv")
+
+model_comparison <- read_csv("../saves/bcfa_model_comparison.csv")
 ```
 
 
