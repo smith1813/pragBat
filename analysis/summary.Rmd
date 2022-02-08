@@ -286,6 +286,7 @@ ggplot()+
   theme_few()+
   theme(legend.position = c(.85,.2), legend.direction = "horizontal")
 ```
+
 Results replicate the previous studies. The newly added match-to-sample task did not work too well in that we have no solid group-level performance above chance for the two age groups and no age effect. Reliability for the task is also unknown as it was not part of the previous studies. 
 
 ## Correlations between tasks
@@ -402,19 +403,31 @@ In a Bayesian model comparison via WAIC the model above does better compared to 
 
 
 ```{r}
-# fit <- bcfa(model, data = semd, bcontrol = list(cores = 3), target = "stan", n.chains = 3, burnin = 3000, sample = 3000)
-# 
-# fit2 <- bcfa(model2, data = semd, bcontrol = list(cores = 3), target = "stan", n.chains = 3, burnin = 3000, sample = 3000)
-# 
-# fit3 <- bcfa(model3, data = semd, bcontrol = list(cores = 3), target = "stan", n.chains = 3, burnin = 3000, sample = 3000)
+fit <- bcfa(model, data = semd, bcontrol = list(cores = 3), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
+
+saveRDS(fit, "../saves/bcfa_prag")
+
+fit2 <- bcfa(model2, data = semd, bcontrol = list(cores = 3), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
+
+saveRDS(fit2, "../saves/bcfa_single")
+
+fit3 <- bcfa(model3, data = semd, bcontrol = list(cores = 3), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
+
+saveRDS(fit3, "../saves/bcfa_separate")
 ```
 
 ```{r}
-# blavCompare(fit, fit2)
-# 
-# blavCompare(fit, fit3)
-# 
-# blavInspect(fit, "lvs")
+blavCompare(fit, fit2)
+
+blavCompare(fit, fit3)
+
+blavInspect(fit, "lvs")
+```
+
+
+```{r}
+#model weights
+w1 <- exp(-0.5*0)/(exp(-0.5*0)+exp(-0.5*6.7)+exp(-0.5*7.1)+exp(-0.5*8.9))
 ```
 
 
