@@ -30,69 +30,73 @@ library(ggridges)
 ```{r}
 #importing data
 ## die flogenden Zeilen kannst du überspringen. Weiter gehts in Zeile 68
-# files <- dir("~/Work/PragBat/raw_data/")
-# 
-# raw_data <- data_frame()
-# for (f in files) {
-#   jf <- paste("~/Work/PragBat/raw_data/",f,sep="")
-#   jd <- jsonlite::fromJSON(paste(readLines(jf), collapse=""))
-#   date <- str_sub(jf,33,str_length(jf)-11)
-#   id <- as_data_frame(jd$data$data) %>% mutate(test_date = date,
-#                                                trial = as.character(trial))
-#   raw_data <- bind_rows(raw_data, id)
-# }
-# 
-# unique(raw_data$subid)
-# 
-# 
-# task_data <- raw_data %>%
-#   filter(trial != "training",
-#          trial != "filler1",
-#          trial != "filler2",
-#          trial != "train",
-#          trial != "train2")%>%
-#   filter(phase == "shape" | is.na(phase))%>%
-#   mutate(subid = recode(subid, `13.2` = "Vp13.2",
-#                         `13.2` = "Vp13.2",
-#                         `14.2` = "Vp14.2",
-#                         `16.2` = "Vp16.2",
-#                         `19.1` = "Vp19.1",
-#                         `12.1` = "Vp12.1",
-#                         `29.2` = "Vp29.2",
-#                         `26.1` = "Vp26.2",
-#                         `37.1` = "Vp37.1",
-#                         `38.1` = "Vp38.1"
-#                         ),
-#          item = ifelse(task == "card_sorting", sample,leftObject))%>%
-#   select(subid, subage, test_date, task,item, trial, correct)%>%
-#   separate(subid, into = c("id","test_day"), sep="\\.")%>%
-#   mutate(test_day = ifelse(id == "Vp12" & test_date =="2019-11-26", 2, test_day))
-# 
-# 
-# #task_data <- read_csv("../data/data.csv")
-# 
-# # damit du das daten file mit dem log file (deine Liste) mergen kannst (brauchen wir für das numerische alter) legst du deine liste in den gleichen ordner in dem auch ader repository ordner liegt. Dann sollte es klappen.
-# 
-# log <- read_ods("../../VP Liste_Manuel.ods", sheet = 2)%>%
-#   mutate(age = as.numeric(difftime(test_day_1, `birthday `, units = "days"))/365.25,
-#          id = paste("Vp",`ID `, sep = ""))%>%
-#   select(id, age, status)
-# 
-# 
-# data <- task_data %>%
-#   left_join(log)%>%
-#   filter(status == "keep")%>%
-#   mutate(check_age = ifelse(subage == substr(age,1,1),T,F),
-#          subage = factor(as.numeric(substr(age,1,1))),
-#          trial = as.numeric(trial))%>%
-#   select(-test_date, - status, -check_age)%>%
-#   mutate(trial = ifelse(test_day == "2", 
-#                         ifelse(task == "card_sorting", trial + 6, trial +5),
-#                         trial),
-#          z_age = age - mean(age),
-#          z_trial = trial - mean(trial))
-# 
-# write_csv(data, "../data/data.csv")
+files <- dir("~/Work/Local/PragBat/raw_data/")
+
+raw_data <- data_frame()
+for (f in files) {
+  jf <- paste("~/Work/Local/PragBat/raw_data/",f,sep="")
+  jd <- jsonlite::fromJSON(paste(readLines(jf), collapse=""))
+  date <- str_sub(jf,33,str_length(jf)-11)
+  id <- as_data_frame(jd$data$data) %>% mutate(test_date = date,
+                                               trial = as.character(trial))
+  raw_data <- bind_rows(raw_data, id)
+}
+
+unique(raw_data$subid)
+
+
+task_data <- raw_data %>%
+  filter(task != "training", 
+         trial != "training",
+         trial != "filler1",
+         trial != "filler2",
+         trial != "train",
+         trial != "train2")%>%
+  filter(phase == "shape" | is.na(phase))%>%
+  mutate(subid = recode(subid, `13.2` = "Vp13.2",
+                        `13.2` = "Vp13.2",
+                        `14.2` = "Vp14.2",
+                        `16.2` = "Vp16.2",
+                        `19.1` = "Vp19.1",
+                        `12.1` = "Vp12.1",
+                        `29.2` = "Vp29.2",
+                        `26.1` = "Vp26.2",
+                        `37.1` = "Vp37.1",
+                        `38.1` = "Vp38.1"
+                        ),
+         item = ifelse(task == "card_sorting", sample,leftObject),
+         item = ifelse(task == "mutual_exclusivity",
+                       ifelse(correct_location == "left", rightObject, leftObject), item))%>%
+  select(subid, subage, test_date, task,item, trial, correct)%>%
+  separate(subid, into = c("id","test_day"), sep="\\.")%>%
+  mutate(test_day = ifelse(id == "Vp12" & test_date =="2019-11-26", 2, test_day))
+
+
+#task_data <- read_csv("../data/data.csv")
+
+# damit du das daten file mit dem log file (deine Liste) mergen kannst (brauchen wir für das numerische alter) legst du deine liste in den gleichen ordner in dem auch ader repository ordner liegt. Dann sollte es klappen.
+
+log <- read_ods("../../VP Liste_Manuel.ods", sheet = 2)%>%
+  mutate(age = as.numeric(difftime(test_day_1, `birthday`, units = "days"))/365.25,
+         delay = as.numeric(difftime(test_day_2,test_day_1, units = "days")),
+         id = paste("Vp",`ID`, sep = ""))%>%
+  select(id, age, gender,status)
+
+
+data <- task_data %>%
+  left_join(log)%>%
+  filter(status == "keep")%>%
+  mutate(check_age = ifelse(subage == substr(age,1,1),T,F),
+         subage = factor(as.numeric(substr(age,1,1))),
+         trial = as.numeric(trial))%>%
+  select(-test_date, - status, -check_age)%>%
+  mutate(trial = ifelse(test_day == "2",
+                        ifelse(task == "card_sorting", trial + 6, trial +5),
+                        trial),
+         z_age = age - mean(age),
+         z_trial = trial - mean(trial))
+
+write_csv(data, "../data/data_r1.csv")
 
 data <- read_csv("../data/data_r1.csv")
 

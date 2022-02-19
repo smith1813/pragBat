@@ -26,8 +26,8 @@ library(lubridate)
 library(ggpubr)
 library(lavaan)
 library(blavaan)
-#library(tidySEM)
-#library(semPlot)
+library(tidySEM)
+library(semPlot)
 ```
 
 ```{r, include=FALSE}
@@ -463,18 +463,29 @@ fit3 <- readRDS("../saves/bcfa_separate.rds")
 #   write_csv(., "../saves/bcfa_model_comparison.csv")
 
 model_comparison <- read_csv("../saves/bcfa_model_comparison.csv")
+
+
+```
+
+
+```{r}
+summary(fit, fit.measures=TRUE, standardized = TRUE, rsquare = T)
+
+library(parameters)
+library(effectsize)
+model_parameters(fit, standardize = T)
 ```
 
 
 ```{r}
 # summary(fit, ci = T)
 # 
-# summary(fit, fit.measures=TRUE, standardized = TRUE, rsquare = T)
+summary(fit, fit.measures=TRUE, standardized = TRUE, rsquare = T)
 # 
-# semPaths(fit, whatLabels="std", intercepts=FALSE, style="lisrel",
-#                        nCharNodes=0, 
-#                        nCharEdges=0,
-#                        curveAdjacent = TRUE,title=TRUE, layout = lay,node.width = 2)
+semPaths(fit, whatLabels="std", intercepts=FALSE, style="lisrel",
+                       nCharNodes=0,
+                       nCharEdges=0,
+                       curveAdjacent = TRUE,title=TRUE, layout = lay,node.width = 2)
 ```
 
 ## RSA model

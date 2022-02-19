@@ -52,10 +52,11 @@ task_data <- raw_data%>%
 
 log <- read_xlsx("../../../../Cloud/PragBat/vpl_pragBat2.xlsx", sheet = 1)%>%
   mutate(age = as.numeric(difftime(as.Date(as.character(test_day_1),format="%Y%m%d"), as.Date(as.character(birthday),format="%Y%m%d"), units = "days"))/365.25,
+         delay = as.numeric(difftime(as.Date(as.character(test_day_2),format="%Y%m%d"), as.Date(as.character(test_day_1),format="%Y%m%d"), units = "days")),
          age_num_month = lubridate::time_length(difftime(as.Date(as.character(test_day_1),format="%Y%m%d"), as.Date(as.character(birthday),format="%Y%m%d")), "month"),
           age_month = round(age_num_month)/12,
          id = paste("VP",ID, sep = ""))%>%
-  select(id, age, age_month, status)
+  select(id, age, gender, status)
 
 data <- task_data %>%
   left_join(log)%>%
@@ -68,11 +69,13 @@ data <- task_data %>%
                         trial),
          z_age = age - mean(age),
          z_trial = trial - mean(trial),
-         item = ifelse(task == "card_sorting", sample, ifelse(task == "discourse_continuity", target1, leftObject)))%>%
-    select(id, test_day, subage,age,age_month, task,item, trial, correct, z_age, z_trial)
+         item = ifelse(task == "card_sorting", sample, ifelse(task == "discourse_continuity", target1, leftObject)),
+         item = ifelse(task == "mutual_exclusivity",
+                       ifelse(correct_location == "left", rightObject, leftObject), item))%>%
+    select(id, test_day, subage,age,gender, task,item, trial, correct, z_age, z_trial)
 
 
- # write_csv(data, "../data/data_r2.csv")
+ write_csv(data, "../data/data_r2.csv")
 ```
 
 ```{r}

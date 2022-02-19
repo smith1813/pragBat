@@ -64,7 +64,8 @@ log <- read_xlsx("../../../../Cloud/PragBat/vpl_pragBat3.xlsx", sheet = 1)%>%
          age_num_month = lubridate::time_length(difftime(as.Date(as.character(test_day),format="%Y%m%d"), as.Date(as.character(birthday),format="%Y%m%d")), "month"),
           age_month = round(age_num_month)/12,
          id = ID,
-         subid = as.character(`Data ID`))%>%
+         subid = as.character(`Data ID`),
+         gender = ifelse(gender == "w", "f", gender))%>%
   select(id, subid, age, gender,age_month, status)
 
 data <- log %>%
@@ -75,7 +76,9 @@ data <- log %>%
           subage = ifelse(subage == 5, 4, subage),
          subage = factor(subage),
          trial = as.numeric(trial))%>%
-    select(id, subage,age,age_month,gender, task,item, trial, correct)
+    select(id, subage,age,gender, task,item, trial, correct)%>%
+  mutate(z_age = age - mean(age),
+         z_trial = trial -mean(trial))
 
 
 write_csv(data, "../data/data_r3.csv")
