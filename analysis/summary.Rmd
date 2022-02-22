@@ -498,13 +498,16 @@ rsa_est <- read.csv("../../../Spin-off/spin-off/data/rsa_est.csv")%>%
 ```
 
 ```{r}
-p31%>%
+prsa <- p31%>%
   filter(task == "card_sorting" | task == "match_to_sample")%>%
   group_by(task)%>%
   mutate(mean = scale(mean))%>%
   ungroup()%>%
-  left_join(rsa_est)%>%
-  ggplot(aes(x = mean, y = mode))+
+  left_join(rsa_est)
+
+corrsa <- cor.test(prsa%>%filter(task == "card_sorting")%>%pull(mode), prsa%>%filter(task == "card_sorting")%>%pull(mean))
+
+ggplot(prsa, aes(x = mean, y = mode))+
   geom_abline(intercept = 0, slope = 1, lty = 2, alpha = .75)+
   geom_point()+
   geom_smooth(method = "lm", col= "firebrick")+

@@ -12,12 +12,32 @@ library(corrr)
 library(corrplot)
 library(ggcorrplot)
 library(reshape2)
+library(coda)
+#library(ggdist)
+#library(psy)
+#library(tidyboot)
+#library(ggpubr)
+#library(blavaan)
 library(brms)
-library(psy)
-library(tidyboot)
-library(ggpubr)
-library(blavaan)
+
+
+estimate_mode <- function(s) {
+  d <- density(s)
+  return(d$x[which.max(d$y)])
+}
+
+
+hdi_upper<- function(s){
+  m <- HPDinterval(mcmc(s))
+  return(m["var1","upper"])
+}
+
+hdi_lower<- function(s){
+  m <- HPDinterval(mcmc(s))
+  return(m["var1","lower"])
+}
 ```
+# Data
 
 ```{r}
 data <- bind_rows(
@@ -26,12 +46,8 @@ data <- bind_rows(
   read_csv("../data/data_r3.csv") %>%filter(task != "training")%>%mutate(study = "study3")
   ) %>%
   mutate(study = factor(study),
-         id = paste(study, id, sep = "_"))
-
-
-data%>%
-  group_by(task)%>%
-  summarise(trials = length(unique(trial)))
+         id = paste(study, id, sep = "_"),
+         test_day = factor(test_day))
 ```
 
 # Age effects
@@ -452,7 +468,9 @@ prange<- ggplot(range, aes(y = task, x = Estimate, col = study))+
 
 ggsave(plot = prange,"../paper/figures/figure3.png", width = 4, height = 2.5, scale = 1.5)
 ```
+
 # Reliability
+
 ```{r}
 model_cor <- data_frame()
 
@@ -761,11 +779,11 @@ cfad <- data%>%
 ```
 
 ```{r}
-model <- 'prag  =~ " mutual_exclusivity + ad_hoc_implicature + simple_inf
+model <- 'prag  =~ ad_hoc_implicature + mutual_exclusivity + simple_inf
           card  =~ card_sorting
           match =~ match_to_sample'
 
-model2 <- 'fac  =~ mutual_exclusivity + ad_hoc_implicature+ simple_inf + card_sorting + match_to_sample'
+model2 <- 'fac  =~ ad_hoc_implicature + mutual_exclusivity+ simple_inf + card_sorting + match_to_sample'
 
 model3 <- 'ad  =~ ad_hoc_implicature
            simp  =~ simple_inf
@@ -775,26 +793,37 @@ model3 <- 'ad  =~ ad_hoc_implicature
 ```
 
 ```{r}
-fit <- bcfa(model, data = cfad, bcontrol = list(cores = 4), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
-saveRDS(fit, "../saves/bcfa_prag.rds")
+# fit <- bcfa(model, data = cfad, bcontrol = list(cores = 4), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
+# saveRDS(fit, "../saves/bcfa_prag.rds")
 fit <- readRDS("../saves/bcfa_prag.rds")
 
-fit2 <- bcfa(model2, data = cfad, bcontrol = list(cores = 4), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
-saveRDS(fit2, "../saves/bcfa_single.rds")
+# fit2 <- bcfa(model2, data = cfad, bcontrol = list(cores = 4), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
+# saveRDS(fit2, "../saves/bcfa_single.rds")
 fit2 <- readRDS("../saves/bcfa_single.rds")
 
-fit3 <- bcfa(model3, data = cfad, bcontrol = list(cores = 4), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
-saveRDS(fit3, "../saves/bcfa_separate.rds")
+# fit3 <- bcfa(model3, data = cfad, bcontrol = list(cores = 4), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
+# saveRDS(fit3, "../saves/bcfa_separate.rds")
 fit3 <- readRDS("../saves/bcfa_separate.rds")
+
+
 ```
 
 ```{r}
-fitmeasures(fit)%>%as_tibble(rownames = "index")
+bind_rows(
+fitmeasures(fit)%>%as_tibble(rownames = "index")%>%
+  mutate(model = "fit1"),
+fitmeasures(fit2)%>%as_tibble(rownames = "index")%>%
+  mutate(model = "fit2"),
+fitmeasures(fit3)%>%as_tibble(rownames = "index")%>%
+  mutate(model = "fit3")
+)%>%
+  write_csv("../saves/cfa_fit_measures.csv")
 
-x <- summary(fit, fit.measures=TRUE, standardized = TRUE, rsquare = T)
+summary(fit2, fit.measures=TRUE, standardized = TRUE, rsquare = T)
 
 blavInspect(fit, what = "postmean")%>%as_tibble(rownames = "index")%>%
-  left_join(blavInspect(fit, what = "hpd")%>%as_tibble(rownames = "index"))
+  left_join(blavInspect(fit, what = "hpd")%>%as_tibble(rownames = "index"))%>%
+  write_csv("../saves/cfa_estimates.csv")
 
 ```
 
@@ -841,3 +870,115 @@ blavInspect(fit, what = "postmean")%>%as_tibble(rownames = "index")%>%
 model_comparison <- read_csv("../saves/bcfa_model_comparison.csv")
 
 ```
+
+# RSA model 
+
+```{r}
+rsa_model <- readRDS("../../../Spin-off/spin-off/model/output/model_pragBat3.rds")
+```
+
+```{r}
+scale <- rsa_model %>%
+  filter(parameter == "speaker_optimality",
+         token == "scale_parameter")
+
+pscale <- ggplot(scale, aes(x = value))+
+  geom_density( alpha = 0.3, aes(fill = id), col = "black", adjust = 3)+
+  geom_vline(xintercept = 1, lty = 2, col = "black", alpha = .75)+
+  xlab("Scale parameter")+
+  ylab("Density")+
+  #facet_grid(~id, scale = "free_x")+
+  theme_few()+
+  scale_fill_viridis_d(name = "Task", labels = c("Informativeness inference", "Mutual exclusivity"))+
+  theme(legend.position = c(.6,.7))
+```
+
+```{r}
+so_est <- rsa_model %>%
+  filter(parameter == "speaker_optimality",
+         type == "subj_parameter",
+         token == "speaker_optimality")%>%
+  group_by(id)%>%
+  summarise(mode = estimate_mode(value),
+            uci = hdi_upper(value),
+            lci = hdi_lower(value))
+
+rsa <- data%>%
+  filter(study == "study3", task == "card_sorting" | task == "match_to_sample")%>%
+  group_by(id, task)%>%
+  summarise(mean = mean(correct))%>%
+  mutate(id = str_remove(id, "study3_"))%>%
+  ungroup()%>%
+  left_join(so_est)%>%
+    mutate(task = recode(task,
+                    `card_sorting` = "Card Sorting",
+                    `match_to_sample` = "Relational Match-to-sample"))
+
+cor <- rsa%>%
+  group_by(task)%>%
+  summarize(cor = round(cor.test(mean,mode)$estimate,2),
+            lci =  round(cor.test(mean,mode)$conf.int[1],2),
+            uci =  round(cor.test(mean,mode)$conf.int[2],2))%>%
+  mutate(label = paste0("r = ", cor, " (",lci, " - ", uci,")"))
+
+write_csv(cor, "../saves/rsa_cor_estimates.csv")
+
+prsacor <- ggplot(rsa, aes(x = mean, y = mode))+
+  #geom_abline(intercept = 2, slope = 1, lty = 2, alpha = .75)+
+  geom_point(pch = 1, alpha = .75)+
+  geom_smooth(method = "lm", col= "firebrick")+
+  geom_text(data = cor, aes(label = label),y = 4.9, x = 0.2)+
+  labs(x = "Mean proportion correct", y = "RSA model estimate (\u03b1)")+
+  facet_grid(~task)+
+  theme_few()
+
+```
+
+```{r}
+rel_rsa_model <- readRDS("../../../Spin-off/spin-off/data/rsa_rel_est.rds")
+```
+
+```{r}
+so_id_summary <- rel_rsa_model%>%
+  group_by(day,id)%>%
+  summarise(mode = estimate_mode(value),
+            uci = hdi_upper(value),
+            lci = hdi_lower(value))%>%
+  pivot_wider(names_from = c(day), values_from = c(mode,uci,lci))
+
+cor <- tibble(cor =  paste0(
+  "r = ",
+  round(cor.test(so_id_summary$mode_1, so_id_summary$mode_2)$estimate, 2),
+  " (",
+  round(cor.test(so_id_summary$mode_1, so_id_summary$mode_2)$conf.int[1], 2),
+  " - ",
+  round(cor.test(so_id_summary$mode_1, so_id_summary$mode_2)$conf.int[2], 2),
+  ")"
+  )
+  )
+
+
+prelrsa <- ggplot(so_id_summary, aes(x = mode_1, y = mode_2))+
+  geom_abline(intercept = 0, slope = 1, lty = 2, alpha = 0.7, size = 0.5)+
+  geom_errorbar(aes(ymin = lci_2, ymax = uci_2),width = 0, alpha = .5, col = "grey")+
+  geom_errorbarh(aes(xmin = lci_1, xmax = uci_1), height = 0, alpha = .5, col = "grey")+
+    geom_point(pch = 1, size = 2)+
+    labs(x = "Day 1", y = "Day 2")+
+  scale_y_continuous(limits=c(0,8),oob=squish)+
+  #facet_grid(~chain)+
+  geom_text(data = cor, aes(label =  cor), x = 0, y =7.5, hjust = 0)+
+  #stat_cor(method = "pearson", aes(x = mode_1, y = mode_2), inherit.aes = F, size = 3)+
+  theme_few()
+```
+
+```{r}
+prsa <- ggarrange(
+  prsacor,
+  ggarrange(prelrsa, pscale, nrow = 2  , labels = c("", "C")),
+  widths = c(3,1),
+  labels = c("A", "B")
+)
+
+ggsave(plot = prsa,"../paper/figures/figure6.png", width = 10, height = 4, scale = 1.25)
+```
+

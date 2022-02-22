@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1645003402 "cfa_fig.tex" "cfa_fig.pdf" "cfa_fig" 1645003752
-  "/dev/null" 1645003751 0 d41d8cd98f00b204e9800998ecf8427e ""
+["pdflatex"] 1645456548 "cfa_fig.tex" "cfa_fig.pdf" "cfa_fig" 1645456549
+  "/dev/null" 1645456545 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1136768653 1328 c834bbb027764024c09d3d2bf908b5f0 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmr8.tfm" 1136768653 1292 21c1c5bfeaebccffdb478fd231a0997d ""
@@ -101,9 +101,9 @@
   "/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1616695603 5169178 a2ce6e2d73f603b690db6777d06dbccb ""
   "/usr/local/texlive/2021/texmf-var/web2c/pdftex/pdflatex.fmt" 1641106767 2724743 590efc94c5a1231759dc7005f091f962 ""
   "/usr/local/texlive/2021/texmf.cnf" 1616695596 577 4c1911a7228e554c6032256d3cf5567d ""
-  "cfa_fig.aux" 1645003403 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
-  "cfa_fig.tex" 1645003752 2637 d9bd89141cb633887af583e3b0c3cb20 ""
+  "cfa_fig.aux" 1645456549 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "cfa_fig.tex" 1645456548 2665 93038c91bb2f4abaeab191eb4e30181b ""
   (generated)
-  "cfa_fig.pdf"
   "cfa_fig.log"
   "cfa_fig.aux"
+  "cfa_fig.pdf"

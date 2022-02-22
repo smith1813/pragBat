@@ -219,7 +219,7 @@ knitr::include_graphics("./figures/figure2.png")
 knitr::include_graphics("./figures/figure3.png")
 ```
 
-(ref:figlab4) xxx.
+(ref:figlab4) Re-test and task correlations for Study 1 (A), 2 (B) and 3 (C). The diagonal in A and B shows the re-test reliability based on aggregated raw test scores (top row) and based on a GLMM that accounted for participant age (see main text for details).
 
 ```{r fig4, include = T, fig.align = "center", fig.cap = "(ref:figlab4)", out.width="100%"}
 knitr::include_graphics("./figures/figure4.png")
@@ -286,9 +286,9 @@ For Study 3, we collected data from `r dem%>%filter(study == "study3")%>%pull(n)
 
 ## Materials and Methods
 
-From Study 2, we used the the mutual exclusivity, ad-hoc implicature, informativeness inference and card_sorting tasks. We added the relational match-to-sample task, which we now describe in more detail. 
+From Study 2, we used the the mutual exclusivity, ad-hoc implicature, informativeness inference and card sorting tasks. We added the relational match-to-sample task, which we now describe in more detail. 
 
-### Realtional match-to--sample
+### Relational match-to-sample
 
 The task was modeled after and used the original stimuli from @christie2014language. The child saw three cards, one on top (the sample) and two at the bottom (the potential matches; see Figure \@ref(fig:fig1)). The experimenter guided the child through the study and read out the instructions. The child was instructed to match the sample card to one of the lower ones based on similarity, that is, they were instructed to pick the card that was "like" the sample. All cards had two geometrical shapes of the same color on them. The sample card showed to identical shapes and so did one of the potential matches. The other card showed two different shapes. We assumed that children would match the sample to the match that showed the same relation between shapes (sameness). Children received six test trial, preceded by two training trials in which one of the potential matches was identical to the sample. The position of the same-match was pseudo randomized.   
 
@@ -296,36 +296,65 @@ The task was modeled after and used the original stimuli from @christie2014langu
 
 Study 3 had only one test session. Therefore, we did not investigate re-test reliability. We estimated age effects and raw correlations between tasks in the same way as in Studies 1 and 2. We used two additional methods to investigate the structure of individual differences between tasks. 
 
-First, we used Confirmatory Factor Analysis (CFA). As outlined above, our focal model assumed that mutual exclusivity, ad-hoc implicature and informativeness inference load on a common pragmatics factor. The card sorting and relational match-to-sample tasks were included as separate factors. We used Posterior Predictive P-Values (PPP) to evaluate model fit [@lee2012basic]. A good model fit is indicated by a PPP close to 0.5 and should not be smaller than 0.1 [@cain2019fit]. We also fit two alternative models: one including only a single factor on which all tasks loaded and a second with a separate factor for each task. We compared models using WAIC (widely applicable information criterion) scores and weights [@mcelreath2018statistical]. WAIC is an indicator of out-of-sample predictive accuracy with lower values indicating better fit. WAIC weights transform WAIC values to give the probability that a particular model (out of the models considered) provides the best out-of-sample predictions. Within the focal model, we inspected the posterior estimates (with 95%CrI) for the factor loadings and the variance in the task explained by the factor for the three pragmatics tasks. In addition, we evaluated the correlations between the pragmatics factor and the other two tasks.
+First, we used Confirmatory Factor Analysis (CFA). Models were fit in a Bayesian framework using the `R` package `blavaan` [@merkle2018blavaan] using default priors. As outlined above, our focal model assumed that mutual exclusivity, ad-hoc implicature and informativeness inference load on a common pragmatics factor. The card sorting and relational match-to-sample tasks were included as separate factors.  We used Posterior Predictive P-Values (PPP) to evaluate model fit [@lee2012basic]. A good model fit is indicated by a PPP close to 0.5 and should not be smaller than 0.1 [@cain2019fit]. We also fit two alternative models: one including only a single factor on which all tasks loaded and a second with a separate factor for each task. We compared models using WAIC (widely applicable information criterion) scores and weights [@mcelreath2018statistical]. WAIC is an indicator of out-of-sample predictive accuracy with lower values indicating better fit. WAIC weights transform WAIC values to give the probability that a particular model (out of the models considered) provides the best out-of-sample predictions. Within the focal model, we inspected the posterior estimates (with 95%CrI) for the factor loadings and the variance in the task explained by the factor for the three pragmatics tasks. In addition, we evaluated the correlations between the pragmatics factor and the other two tasks.
 
 Second, we used computational cognitive models from the Rational Speech Act (RSA) framework to relate the three pragmatics tasks to one another [@frank2012predicting; @goodman2016pragmatic]. In contrast to the CFA model above, the RSA models are models of the tasks, and not of the data. That is, they include a schematic representation of the experimental tasks and provide a computational account of how participants make inferences in this context. RSA models see pragmatic inferences as a form of Bayesian social reasoning where the listener tries to infer the speaker' meaning (here: the intended referent) by assuming that the speaker is helpful and informative. Being helpful and informative means that the speaker chooses a message based on the probability that it would help the listener would recover the speaker's intended meaning. Thus, RSA models have a recursive structure in which the the listener reasons about a speaker who is reasoning about the listener. To avoid an infinite regress, the speaker is assumed to reason about a literal listener, who interprets words according to their literal semantics. 
 
-The studies from which we took the mutual exclusivity and informativeness inference tasks also formalized these tasks in an RSA-style model [@bohn_tessler_merrick_frank_2019; @bohn2021young]. We refer to this earlier work for more details and a mathematical description of the models. For the present study, we formalized the ad-hoc implicature task within the same RSA framework. The corresponding model code can be found in the associated online repository. All three models shared one common parameter: $\alpha$. Within the RSA framework, $\alpha$ has the conceptual role of indicating how informative the listener thinks the speaker is. This commonality offers a way of relating performance in the three tasks to one another by constraining the three models to use the same value for $\alpha$ for the other two tasks. We then used Bayesian inference to estimate the posterior distribution for $\alpha$ that best explained performance in the three tasks. To adapt this framework to the study of individual differences, we allowed a separate parameter for each participant (  $\alpha_i$). We estimated $\alpha_i$ in a hierarchical model as a deviation from a superordinate parameter: $\alpha_i \sim \mathcal{N}(\alpha_j, \sigma^\alpha)$. Given the developmental nature of our data, we defined $\alpha_j$ via a linear regression as a function of the child's age -- $\alpha_j = \beta^\alpha_0 + age \cdot \beta^\alpha_1$. Thus, the participant specific value for $\alpha$ was not only informed by the performance in the three tasks but also by the child's age.
+The studies from which we took the mutual exclusivity and informativeness inference tasks also formalized these tasks in an RSA-style model [@bohn_tessler_merrick_frank_2019; @bohn2021young]. We refer to this earlier work for more details and a mathematical description of the models. For the present study, we formalized the ad-hoc implicature task within the same RSA framework. All three models shared one common parameter: $\alpha$. Within the RSA framework, $\alpha$ has the conceptual role of indicating how informative the listener thinks the speaker is. 
 
-To account for differences in difficulty between the tasks due to other factors, we also added a scale parameter to the model that scaled $\alpha$ for each task up or down in comparison to a reference task (mutual exclusivity).
+This commonality offers a way of relating performance in the three tasks to one another by constraining the three models to use the same value for $\alpha$. We then used Bayesian inference to estimate the posterior distribution for $\alpha$ that best explained performance in the three tasks. To adapt this framework to the study of individual differences, we allowed a separate parameter for each participant ($\alpha_i$). We estimated $\alpha_i$ in a hierarchical model as a deviation from a hyper parameter: $\alpha_i \sim \mathcal{N}(\alpha_j, \sigma^\alpha)$. Given the developmental nature of our data, we defined $\alpha_j$ via a linear regression as a function of the child's age ($age_i$): $\alpha_j = \beta^\alpha_0 + age_i \cdot \beta^\alpha_1$. Thus, the participant specific value for $\alpha$ was not only constrained by the performance in the three tasks but also by the child's age.
 
-$\alpha_i$ was estimated via a linear regression -- $\alpha_i = \beta^\alpha_0 + i \cdot \beta^\alpha_1$ -- in which $\beta^\alpha_0$ and $\beta^\alpha_1$ defined a general developmental trajectory
+To account for differences in difficulty between the tasks due to other factors, we added a scale parameter to the model that adjusted $\alpha$ for each task in comparison to a reference task (ad-hoc implicature).
 
-To validate this approach -- and to its advantages -- we first applied this modelling approach to the data from each test session of Study 2. This allowed us to compute the re-test reliability of $\alpha$ - 
+To validate this approach, we first applied this model to the data from Study 2 -- separate for each test session. This allowed us to compute the re-test reliability of $\alpha$ and see if it captures individual differences equally well compared to the raw test scores. After finding excellent re-test reliability, we applied it to the data from Study 3 and correlated the results with the the card sorting and relational match-to sample tasks. For these correlational analysis, we converted the posterior distribution for each participant into a single value by taking the mode (and 95% highest density interval -- HDI). The cognitive models were implemented in `WebPPL` [@dippl] and the corresponding code, including information on prior distributions, can be found in the associated online repository. 
 
 ## Results
 
+The age effects in Study 3 largely replicate those of Study 2 for the four overlapping tasks (see Figure \@ref(fig:fig2) and \@ref(fig:fig3). There were no substantial developmental gains in the newly added relational match-to-sample task and performance was close to chance for both age groups. Thus -- in the absence of information on re-test reliability -- it is unclear if the variation in performance reflects systematic individual differences in analogical reasoning or not.
+
+Overall, the correlations between the tasks were lower compared to Study 2. This was to some extend expected given that there were only half the number of trials per task in Study 3 and, with that, less room for capturing individual differences. Nevertheless, the overall pattern rsembles that found in Study 2 (Figure \@ref(fig:fig4)). We saw the strongest bi-variate relation between the mutual exclusivity and the ad-hoc implicature task (*r* = `r cors%>%filter(study == "study3", task1 == "mutual_exclusivity", task2 == "ad_hoc_implicature")%>%pull(rho)`, 95% CI[`r cors%>%filter(study == "study3", task1 == "mutual_exclusivity", task2 == "ad_hoc_implicature")%>%pull(lci)` - `r cors%>%filter(study == "study3", task1 == "mutual_exclusivity", task2 == "ad_hoc_implicature")%>%pull(uci)`]) followed by ad-hoc implicature and card sorting (*r* = `r cors%>%filter(study == "study3", task1 == "card_sorting", task2 == "ad_hoc_implicature")%>%pull(rho)`, 95% CI[`r cors%>%filter(study == "study3", task1 == "card_sorting", task2 == "ad_hoc_implicature")%>%pull(lci)` - `r cors%>%filter(study == "study3", task1 == "card_sorting", task2 == "ad_hoc_implicature")%>%pull(uci)`]). The relational match-to-sample task showed no substantial correlations with any of the other tasks. 
+
 ```{r}
 model_comparison <- read_csv("../saves/bcfa_model_comparison.csv")
+
+model_fit <- read_csv("../saves/cfa_fit_measures.csv")
+
+model_est <- read_csv("../saves/cfa_estimates.csv")
 ```
 
-
-## Discussion
-
-(ref:figlab5) xxx.
+(ref:figlab5) Graphical overview of CFA model for Study 3. Arrows from latent variable (circles) to observed variable (rectangles) show factor loadings. Bottom arrows to observed variables give the residual variance not explained by the factor. Bent arrows between latent variables show correlations. Bottom rows show model estimates with 95% CrI. Top rows show standardized estimates (bold if 95 % CrI does not include 0). 
 
 ```{r fig5, include = T, fig.align = "center", fig.cap = "(ref:figlab5)", out.width="100%"}
 knitr::include_graphics("./figures/figure5.png")
 ```
 
+Our focal model in the confirmatory factor analysis including a latent factor for pragmatic reasoning fit the data well (PPP = `r round(model_fit%>%filter(index == "ppp", model == "fit1")%>%pull(value),3)`) and with a WAIC of `r round(model_comparison%>%filter(model == "fit1")%>%pull(waic),2)` (se = `r round(model_comparison%>%filter(model == "fit1")%>%pull(waic_se),2)`, weight = `r round(model_comparison%>%filter(model == "fit1")%>%pull(waic_weight),2)`) better compared to the two alternative models (individual factors model: PPP = `r round(model_fit%>%filter(index == "ppp", model == "fit3")%>%pull(value),3)`, WAIC = `r round(model_comparison%>%filter(model == "fit3")%>%pull(waic),2)`, se = `r round(model_comparison%>%filter(model == "fit3")%>%pull(waic_se),2)`, weight = `r round(model_comparison%>%filter(model == "fit3")%>%pull(waic_weight),2)`; one factor model: PPP = `r round(model_fit%>%filter(index == "ppp", model == "fit2")%>%pull(value),3)`, WAIC = `r round(model_comparison%>%filter(model == "fit2")%>%pull(waic),2)`, se = `r round(model_comparison%>%filter(model == "fit2")%>%pull(waic_se),2)`, weight = `r round(model_comparison%>%filter(model == "fit2")%>%pull(waic_weight),2)`). Figure \@ref(fig:fig5) shows that factor loadings for the individual tasks as well as their residual variance. The latent pragmatic reasoning factor best explained the mutual exclusivity task, followed by the ad-hoc implicature and the informativeness inference task. The correlation between pragmatic reasoning and executive functions (indicated by the card sorting task) was estimated to be reliably different from zero (*r* = 0.33; model estimate = `r round(model_est%>%filter(index == "prag~~card")%>%pull(value),2)`, 95% CrI [`r round(model_est%>%filter(index == "prag~~card")%>%pull(lower),2)` - `r round(model_est%>%filter(index == "prag~~card")%>%pull(upper),2)`]). There was no systematic relation between pragmatic reasoning and analogical reasoning (as indicated by the relational match-to-sample task): *r* = 0.06; model estimate = `r round(model_est%>%filter(index == "prag~~match")%>%pull(value),2)`, 95% CrI [`r round(model_est%>%filter(index == "prag~~match")%>%pull(lower),2)` - `r round(model_est%>%filter(index == "prag~~match")%>%pull(upper),2)`]. However, the latter result should be taken with a groin of salt given the unknown psychometric properties of the relational match-to-sample task.
+
+```{r}
+
+rsa_cor <- read_csv("../saves/rsa_cor_estimates.csv")
+
+```
+
+The results of the analysis based on the cognitive model yield similar conclusions compared to the confirmatory factor analysis (Figure \@ref(fig:fig6)). Participant specific speaker informativeness parameters ($\alpha$) were correlated with performance in the card sorting (*r* = `r rsa_cor%>%filter(task == "Card Sorting")%>%pull(cor)`, 95% CI[`r rsa_cor%>%filter(task == "Card Sorting")%>%pull(lci)` - `r rsa_cor%>%filter(task == "Card Sorting")%>%pull(uci)`]) but not the relational match-to-sample task (*r* = `r rsa_cor%>%filter(task == "Relational Match-to-sample")%>%pull(cor)`, 95% CI[`r rsa_cor%>%filter(task == "Relational Match-to-sample")%>%pull(lci)` - `r rsa_cor%>%filter(task == "Relational Match-to-sample")%>%pull(uci)`]). The same limitations apply to the latter result as for the confirmatory factor analysis. 
+
+(ref:figlab6) Results of cognitive model analyses. A: Correlation between the speaker informativeness parameter $\alpha$ and the paerformance in the card sorting and relational match to sample tasks. Regression line (with 95% CI) is based on a linear model. B: Re-test reliability for $\alpha$ based on the data from Study 2. C: Scale parameter for $\alpha$ in relation to the ad-hoc implicature task. Values below 1 indicate a more difficult task, values above 1 an easier task. Correlation coefficients show Pearson correlation with 95% CI.
+
+```{r fig6, include = T, fig.align = "center", fig.cap = "(ref:figlab6)", out.width="100%"}
+knitr::include_graphics("./figures/figure6.png")
+```
+
+## Discussion
+
+
+
 # General Discussion
 
-The advantage of using a cognitive model to study individual differences is that the parameters have a more psychologically plausible interpretation compared to data analytic methods
+Present six, reliable (even when corrected for age) and ready to use tasks that cover a range of phenomena subsumed under pragmatic inference. WE divided them up into utternace based and interaction based and more systematic realtions between utternace based. Nevertehless, the others need to be explored more
+
+Across studies we saw relations between utterance based inference tasks. From different theoretical perspectives, they might be more or less obvious, especially for ME. From our perspective they make a lot of sense - we explicate this view in our model. 
+
+Why is there this relation with card sorting? The advantage of using a cognitive model to study individual differences is that the parameters have a more psychologically plausible interpretation compared to data analytic methods. If e take the model for real, we can speculate why card sorting matters. Switching rules requires seeing stimuli in different light - focus on different aspect of them, consider alternative ways of seeing them, not go with what you did previously. The inference in the model is driven by not going just with what is true but  considering alternative utterances - some commonalities here that might be responsible - need to be modeled explicitly and contrasted to alternative views. (check other theoretical accounts on that)
 
 
 
