@@ -109,6 +109,20 @@ function submitButtonStyle(_this) {
     _this.style.backgroundColor = "green";
 }
 
+// download data as .json file
+function downloadData(safe) {
+    var toSave = JSON.stringify(safe)
+
+    var date = new Date().toISOString()
+    var day = date.substr(0, 10)
+    var time = date.substr(11, 8)
+
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:text/json;charset=utf-8,' + encodeURI(toSave);
+    hiddenElement.target = '_blank';
+    hiddenElement.download = 'pragBat-' + train.subid + '-' + data.task + '-' + day + '-' + time + '.json';
+    hiddenElement.click();
+}
 
 // ## Helper functions
 
@@ -381,7 +395,7 @@ var train = {
     end: function() {
         // Show the finish slide.
         showSlide("select");
-        setTimeout(function() { turk.submit(train) }, 500);
+        setTimeout(function() { downloadData(train.data) }, 0);
     },
 
     // end of training  

@@ -1,4 +1,3 @@
-
 var backgroundImages = new Array();
 for (i = 1; i <= 12; i++) {
     backgroundImages[i] = new Image();
@@ -277,7 +276,13 @@ function shuffleByIndex(array) {
 shuffleByIndex(trialTargets);
 shuffleByIndex(trialFamiliarItems);
 
-var posDist = shuffle([[6, 0, 0], [6, 0, 0], [6, 0, 0], [6, 0, 0],[6, 0, 0]]);
+var posDist = shuffle([
+    [6, 0, 0],
+    [6, 0, 0],
+    [6, 0, 0],
+    [6, 0, 0],
+    [6, 0, 0]
+]);
 
 //distribution for each trial
 var trainingDist = new Array();
@@ -332,13 +337,13 @@ var discon = {
 
     sound: new Audio(),
 
-    introAll: function () {
+    introAll: function() {
         showSlide("introAll");
         document.getElementById("text_introAll").innerHTML = "In diesem Spiel nehmen Dich die Tiere mit zu sich nach Hause. Jedes der Tiere wohnt in einem Haus und jedes hat viele verschiedene Dinge zu hause. Jedes Tier erzählt Dir von den Dingen die es zu Hasue hat.";
         document.getElementById("text_introAll_2").innerHTML = "Deine Aufgabe ist es, das Ding zu berühren, über das das Tier spricht. Pass also gut auf und finde heraus welches Du berühren musst.";
     },
 
-    intro: function () {
+    intro: function() {
 
         $(".agent_transition").unbind("click");
 
@@ -353,17 +358,17 @@ var discon = {
 
         sound = document.getElementById("sound");
 
-        sound.onended = function () {
+        sound.onended = function() {
             sourceSound("sound/" + "intro_" + trainingAgents[trials[0]] + ".mp3");
             playSound();
             sound = document.getElementById("sound");
-            sound.onended = function () {
+            sound.onended = function() {
                 $(".agent_transition").click(discon.train);
             };
         };
     },
 
-    train: function () {
+    train: function() {
         backgroundDis("images/backgrounds/back_int" + discon.backgrounds[0] + ".jpg");
 
         showSlide("input");
@@ -392,7 +397,7 @@ var discon = {
         hideRightItem();
 
         // pause for 1s before images appear
-        setTimeout(function () {
+        setTimeout(function() {
 
             showLeftItem();
             showMiddleItem();
@@ -403,7 +408,7 @@ var discon = {
         }, 900);
     },
 
-    train2: function () {
+    train2: function() {
 
         document.getElementById("next-input").style.visibility = "hidden";
         var correctCategory = trialFamiliarItems[trials[0]].get(trainingDist[trials[0]][0]);
@@ -414,8 +419,8 @@ var discon = {
 
         sound = document.getElementById("sound");
 
-        sound.onended = function () {
-            $(".item").click(function () {
+        sound.onended = function() {
+            $(".item").click(function() {
                 var clickedItem = event.target;
 
                 var pickId = event.target.id;
@@ -481,7 +486,7 @@ var discon = {
                 discon.slides.shift();
                 discon.backgrounds.shift();
 
-                setTimeout(function () {
+                setTimeout(function() {
                     clickedItem.style.border = '0px';
                     discon.train();
                 }, 900);
@@ -489,7 +494,7 @@ var discon = {
         };
     },
 
-    choice: function () {
+    choice: function() {
         backgroundDis("images/backgrounds/back_int" + discon.backgrounds[0] + ".jpg");
 
         showSlide("input");
@@ -510,11 +515,11 @@ var discon = {
 
         } else if (discon.trials[0] == "2") {
 
-         discon.position = [discon.targetsF3[0][0], discon.targetsF[0][0], discon.targetsF2[0][0]];
+            discon.position = [discon.targetsF3[0][0], discon.targetsF[0][0], discon.targetsF2[0][0]];
 
         } else if (discon.trials[0] == "2") {
 
-           discon.position = [discon.targetsF3[0][0], discon.targetsF2[0][0], discon.targetsF[0][0]];
+            discon.position = [discon.targetsF3[0][0], discon.targetsF2[0][0], discon.targetsF[0][0]];
 
 
         } else {
@@ -534,7 +539,7 @@ var discon = {
 
 
         // pause for 1s before items appear.
-        setTimeout(function () {
+        setTimeout(function() {
 
             showLeftItem();
             showMiddleItem();
@@ -545,7 +550,7 @@ var discon = {
         }, 900);
     },
 
-    choice2: function () {
+    choice2: function() {
         document.getElementById("next-novel").style.visibility = "hidden";
 
         sourceSound("sound/" + "it_" + trainingAgents[trials[0]] + ".mp3");
@@ -553,8 +558,8 @@ var discon = {
 
         sound = document.getElementById("sound");
 
-        sound.onended = function () {
-            $(".item").click(function () {
+        sound.onended = function() {
+            $(".item").click(function() {
                 var clickedItem = event.target;
 
                 var pickId = event.target.id;
@@ -629,7 +634,7 @@ var discon = {
 
                 discon.lastInputCat = "";
 
-                setTimeout(function () {
+                setTimeout(function() {
                     clickedItem.style.border = '0px';
                     discon.transition();
                 }, 900);
@@ -637,7 +642,7 @@ var discon = {
         };
     },
 
-    transition: function () {
+    transition: function() {
         backgroundDis2("images/backgrounds/back_int" + discon.backgrounds[0] + ".jpg");
 
         showSlide("transition");
@@ -649,9 +654,7 @@ var discon = {
         discon.trials.shift();
 
         if (discon.trials.length == 0) {
-            setTimeout(function () {
-                turk.submit(discon)
-            }, 500);
+            setTimeout(function() { downloadData(discon.data) }, 0);
             showSlide("select");
             return;
         }
@@ -665,7 +668,7 @@ var discon = {
         discon.slides = slides.slice();
 
         sound = document.getElementById("sound");
-        sound.onended = function () {
+        sound.onended = function() {
             $(".agent_transition").click(discon.intro);
         };
     },
