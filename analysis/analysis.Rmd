@@ -1,5 +1,5 @@
 ---
-title: "PragBat Models"
+title: "PragBat Analysis"
 output: html_document
 ---
 
@@ -52,9 +52,11 @@ data <- bind_rows(
 
 # Age effects
 
+In the next section, we run the same model for each task and each study. Model outputs are saved in the repository and can be loaded at the end of the following code section in order to reproduce the exact results from the paper.
+
 ```{r}
 # Models
-## card sorting
+# ## card sorting
 # bm_cs_s1 <- brm(correct ~ z_age + z_trial + (z_trial|id),
 #           family = bernoulli(),
 #           #control = list(adapt_delta = 0.99),
@@ -65,7 +67,7 @@ data <- bind_rows(
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_cs_s1, "../saves/card_sorting_model_s1.rds")
+# #saveRDS(bm_cs_s1, "../saves/card_sorting_model_s1.rds")
 # 
 # bm_cs_s2 <- brm(correct ~ z_age + z_trial + (z_trial|id),
 #           family = bernoulli(),
@@ -77,7 +79,7 @@ data <- bind_rows(
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_cs_s2, "../saves/card_sorting_model_s2.rds")
+# #saveRDS(bm_cs_s2, "../saves/card_sorting_model_s2.rds")
 # 
 # bm_cs_s3 <- brm(correct ~ z_age + z_trial + (z_trial|id),
 #           family = bernoulli(),
@@ -89,7 +91,7 @@ data <- bind_rows(
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_cs_s3, "../saves/card_sorting_model_s3.rds")
+# #saveRDS(bm_cs_s3, "../saves/card_sorting_model_s3.rds")
 # 
 # # mutual exclusivity
 # bm_me_s1 <- brm(correct ~ z_age + z_trial + (z_trial|id),
@@ -102,7 +104,7 @@ data <- bind_rows(
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_me_s1, "../saves/mutual_exclusivity_model_s1.rds")
+# #saveRDS(bm_me_s1, "../saves/mutual_exclusivity_model_s1.rds")
 # 
 # bm_me_s2 <- brm(correct ~ z_age + z_trial + (z_trial|id),
 #           family = bernoulli(),
@@ -114,7 +116,7 @@ data <- bind_rows(
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_me_s2, "../saves/mutual_exclusivity_model_s2.rds")
+# #saveRDS(bm_me_s2, "../saves/mutual_exclusivity_model_s2.rds")
 # 
 # bm_me_s3 <- brm(correct ~ z_age + z_trial + (z_trial|id),
 #           family = bernoulli(),
@@ -140,7 +142,7 @@ data <- bind_rows(
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_ad_s2, "../saves/ad_hoc_implicature_model_s2.rds")
+# #saveRDS(bm_ad_s2, "../saves/ad_hoc_implicature_model_s2.rds")
 # 
 # bm_ad_s3 <- brm(correct ~ z_age + z_trial + (z_trial|id),
 #           family = bernoulli(),
@@ -152,7 +154,7 @@ data <- bind_rows(
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_ad_s3, "../saves/ad_hoc_implicature_model_s3.rds")
+# #saveRDS(bm_ad_s3, "../saves/ad_hoc_implicature_model_s3.rds")
 # 
 # # discourse_continuity
 # bm_dis_s2 <- brm(correct ~ z_age + z_trial + (z_trial|id),
@@ -165,7 +167,7 @@ data <- bind_rows(
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_dis_s2, "../saves/discourse_continuity_model_s2.rds")
+# #saveRDS(bm_dis_s2, "../saves/discourse_continuity_model_s2.rds")
 # 
 # # informativeness
 # bm_inf_s1 <- brm(correct ~ z_age + z_trial + (z_trial|id),
@@ -178,7 +180,7 @@ data <- bind_rows(
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_inf_s1, "../saves/informativeness_model_s1.rds")
+# #saveRDS(bm_inf_s1, "../saves/informativeness_model_s1.rds")
 # 
 # #match_to_sample
 # bm_ms_s3 <- brm(correct ~ z_age + z_trial + (z_trial|id),
@@ -191,7 +193,7 @@ data <- bind_rows(
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_ms_s3, "../saves/match_to_sample_model_s3.rds")
+# #saveRDS(bm_ms_s3, "../saves/match_to_sample_model_s3.rds")
 # 
 # #novelty
 # bm_nov_s1 <- brm(correct ~ z_age + z_trial + (z_trial|id),
@@ -204,7 +206,7 @@ data <- bind_rows(
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_nov_s1, "../saves/novelty_model_s1.rds")
+# #saveRDS(bm_nov_s1, "../saves/novelty_model_s1.rds")
 # 
 # #preference
 # bm_pref_s1 <- brm(correct ~ z_age + z_trial + (z_trial|id),
@@ -217,7 +219,7 @@ data <- bind_rows(
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_pref_s1, "../saves/preference_model_s1.rds")
+# #saveRDS(bm_pref_s1, "../saves/preference_model_s1.rds")
 # 
 # #simple_inf
 # bm_simpinf_s2 <- brm(correct ~ z_age + z_trial + (z_trial|id),
@@ -230,7 +232,7 @@ data <- bind_rows(
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_simpinf_s2, "../saves/simple_inf_model_s2.rds")
+# #saveRDS(bm_simpinf_s2, "../saves/simple_inf_model_s2.rds")
 # 
 # bm_simpinf_s3 <- brm(correct ~ z_age + z_trial + (z_trial|id),
 #           family = bernoulli(),
@@ -242,9 +244,9 @@ data <- bind_rows(
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_simpinf_s3, "../saves/simple_inf_model_s3.rds")
+# #saveRDS(bm_simpinf_s3, "../saves/simple_inf_model_s3.rds")
 
-
+# Load saved model outputs
 bm_cs_s1 <- readRDS( "../saves/card_sorting_model_s1.rds")
 bm_cs_s2 <- readRDS( "../saves/card_sorting_model_s2.rds")
 bm_cs_s3 <- readRDS( "../saves/card_sorting_model_s3.rds")
@@ -271,19 +273,21 @@ bm_simpinf_s3 <- readRDS( "../saves/simple_inf_model_s3.rds")
 
 ```
 
+The following code section produces the model predictions included in Figure 2. 
+
 ```{r}
 #Predictions
 nd1 <- data%>%
   filter(study == "study1", trial == "1", task == "mutual_exclusivity", test_day == 1)%>%
-  select(-z_trial,-correct, -task, -test_day, -age_month, -gender, -item, -subage)%>%
+  select(-z_trial,-correct, -task, -test_day, -gender, -item, -subage)%>%
   mutate(z_trial = 0)
 nd2 <- data%>%
   filter(study == "study2", trial == "1", task == "mutual_exclusivity", test_day == 1)%>%
-  select(-z_trial,-correct, -task, -test_day, -age_month, -gender, -item, -subage)%>%
+  select(-z_trial,-correct, -task, -test_day, -gender, -item, -subage)%>%
   mutate(z_trial = 0)
 nd3 <- data%>%
   filter(study == "study3", trial == "1", task == "mutual_exclusivity")%>%
-  select(-z_trial,-correct, -task, -test_day, -age_month, -gender, -item, -subage)%>%
+  select(-z_trial,-correct, -task, -test_day, -gender, -item, -subage)%>%
   mutate(z_trial = 0)
 
 pred <- bind_rows(
@@ -314,6 +318,8 @@ fitted(bm_simpinf_s3, newdata = nd3, re_formula = NA) %>% as_tibble() %>% bind_c
 )%>%
   mutate(task = factor(task, levels = c("mutual_exclusivity", "informativeness", "simple_inf", "preference", "novelty","card_sorting", "discourse_continuity", "ad_hoc_implicature", "match_to_sample")))
 ```
+
+The next code section produces Figure 2 in the manuscript
 
 ```{r}
 p1 <- data %>%
@@ -356,6 +362,8 @@ pf2 <- ggplot()+
 
 ggsave(plot = pf2,"../paper/figures/figure2.png", width = 10, height = 4, scale = 1.25)
 ```
+
+The following two sections extract the age estimates from the models for the different tasks and studies and visualizes them. The second plot is Figure 3 from the paper.
 
 ```{r}
 
@@ -471,6 +479,8 @@ ggsave(plot = prange,"../paper/figures/figure3.png", width = 4, height = 2.5, sc
 
 # Reliability
 
+The following section implements the Rouder and Haaf (2019) method of estimating re-test reliability based on a GLMM. 
+
 ```{r}
 model_cor <- data_frame()
 
@@ -537,6 +547,7 @@ saveRDS(mcor, "../saves/model_based_reliability.rds")
 mcor <- readRDS("../saves/model_based_reliability.rds")
 ```
 
+The next section computes re-test reliability and correlations between tasks based on the aggregated raw scores. The plot generated at the end is Figure 4 from the paper. 
 
 ```{r}
 wide_data <- data %>%
@@ -710,6 +721,8 @@ ggsave(plot = pf4,"./figures/figure4.png", width = 10, height = 3, scale = 1.5, 
 
 #Relations between tasks
 
+The following section computes the correlation between tasks, including 95% confidence intervals.
+
 ```{r}
 study = unique(data$study)
 task1 = unique(data$task)
@@ -759,6 +772,8 @@ write_csv(cors, "../saves/by_task_correlations.csv")
 
 # Confirmatory factor analysis
 
+The next section prepares the data file for the CFA.
+
 ```{r}
 cfad <- data%>%
   group_by(id,age, subage,task)%>%
@@ -778,6 +793,8 @@ cfad <- data%>%
          simple_inf = scale(simple_inf))
 ```
 
+Here we specify the different CFA models, with `model` being the focal model.
+
 ```{r}
 model <- 'prag  =~ ad_hoc_implicature + mutual_exclusivity + simple_inf
           card  =~ card_sorting
@@ -791,6 +808,8 @@ model3 <- 'ad  =~ ad_hoc_implicature
            card  =~ card_sorting
            match =~ match_to_sample'
 ```
+
+Here we run the three CFA models.
 
 ```{r}
 # fit <- bcfa(model, data = cfad, bcontrol = list(cores = 4), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
@@ -808,6 +827,8 @@ fit3 <- readRDS("../saves/bcfa_separate.rds")
 
 ```
 
+The following section extracts the fit measures (e.g., PPP) for the three models. 
+
 ```{r}
 bind_rows(
 fitmeasures(fit)%>%as_tibble(rownames = "index")%>%
@@ -818,15 +839,9 @@ fitmeasures(fit3)%>%as_tibble(rownames = "index")%>%
   mutate(model = "fit3")
 )%>%
   write_csv("../saves/cfa_fit_measures.csv")
-
-summary(fit2, fit.measures=TRUE, standardized = TRUE, rsquare = T)
-
-blavInspect(fit, what = "postmean")%>%as_tibble(rownames = "index")%>%
-  left_join(blavInspect(fit, what = "hpd")%>%as_tibble(rownames = "index"))%>%
-  write_csv("../saves/cfa_estimates.csv")
-
 ```
 
+Here we extract the WAIC value for each model and compute the WAIC weight. We do the same for LOO. 
 
 ```{r}
 # fit_waic <- fitmeasures(fit)%>%as_tibble(rownames = "index")%>%filter(index == "waic")%>%pull(value)
@@ -873,9 +888,13 @@ model_comparison <- read_csv("../saves/bcfa_model_comparison.csv")
 
 # RSA model 
 
+First we read in the saved model output
+
 ```{r}
-rsa_model <- readRDS("../../../Spin-off/spin-off/model/output/model_pragBat3.rds")
+rsa_model <- readRDS("../saves/model_pragBat3.rds")
 ```
+
+The next section visualizes the scale parameter
 
 ```{r}
 scale <- rsa_model %>%
@@ -892,6 +911,8 @@ pscale <- ggplot(scale, aes(x = value))+
   scale_fill_viridis_d(name = "Task", labels = c("Informativeness inference", "Mutual exclusivity"))+
   theme(legend.position = c(.6,.7))
 ```
+
+Here we extract and summarize the person specific $\alpha$ estimates and correalte them to performance in the card sorting and relational match-to-sample tasks.
 
 ```{r}
 so_est <- rsa_model %>%
@@ -934,9 +955,13 @@ prsacor <- ggplot(rsa, aes(x = mean, y = mode))+
 
 ```
 
+The next section reads in the output from the RSA-based reliability model for Study 2
+
 ```{r}
-rel_rsa_model <- readRDS("../../../Spin-off/spin-off/data/rsa_rel_est.rds")
+rel_rsa_model <- readRDS("../saves/rsa_rel_est.rds")
 ```
+
+Here we summarise the parameter esteimates for each test session and correlate them to get a measure of re-test reliability. 
 
 ```{r}
 so_id_summary <- rel_rsa_model%>%
@@ -970,6 +995,8 @@ prelrsa <- ggplot(so_id_summary, aes(x = mode_1, y = mode_2))+
   #stat_cor(method = "pearson", aes(x = mode_1, y = mode_2), inherit.aes = F, size = 3)+
   theme_few()
 ```
+
+Here we combine the plots for the correlation between $\alpha$ estimates and the card sorting and relational match-to-sample tasks with the plot for the scale parameter and the RSA based reliability plot to generate Figure 6 in the manuscript. 
 
 ```{r}
 prsa <- ggarrange(

@@ -3,12 +3,7 @@
 \PassOptionsToPackage{hyphens}{url}
 %
 \documentclass[
-  english,
   man,floatsintext]{apa6}
-\title{An individual differences perspective on the development of pragmatic reasoning in the preschool years}
-\author{Manuel Bohn\textsuperscript{1}, Michael Henry Tessler\textsuperscript{2,3}, Clara Kordt\textsuperscript{4}, Tom Hausmann\textsuperscript{5}, \& Michael C. Frank\textsuperscript{6}}
-\date{}
-
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
 \usepackage{iftex}
@@ -41,10 +36,10 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-  pdftitle={An individual differences perspective on the development of pragmatic reasoning in the preschool years},
+  pdftitle={An individual differences perspective on the development of pragmatic abilities in the preschool years},
   pdfauthor={Manuel Bohn1, Michael Henry Tessler2,3, Clara Kordt4, Tom Hausmann5, \& Michael C. Frank6},
   pdflang={en-EN},
-  pdfkeywords={keywords},
+  pdfkeywords={Pragmatics, language development, individual differences, cognitive modeling},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
@@ -97,6 +92,15 @@
 \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+\babelprovide[main,import]{english}
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
 % Manuscript styling
 \usepackage{upgreek}
 \captionsetup{font=singlespacing,justification=justified}
@@ -112,9 +116,9 @@
 
 % Create new environments so endfloat can handle them
 % \newenvironment{ltable}
-%   {\begin{landscape}\centering\begin{threeparttable}}
-%   {\end{threeparttable}\end{landscape}}
-\newenvironment{lltable}{\begin{landscape}\centering\begin{ThreePartTable}}{\end{ThreePartTable}\end{landscape}}
+%   {\begin{landscape}\begin{center}\begin{threeparttable}}
+%   {\end{threeparttable}\end{center}\end{landscape}}
+\newenvironment{lltable}{\begin{landscape}\begin{center}\begin{ThreePartTable}}{\end{ThreePartTable}\end{center}\end{landscape}}
 
 % Enables adjusting longtable caption width to table width
 % Solution found at http://golatex.de/longtable-mit-caption-so-breit-wie-die-tabelle-t15767.html
@@ -127,6 +131,20 @@
 % \setlength{\parindent}{0.5in}
 % \setlength{\parskip}{0pt plus 0pt minus 0pt}
 
+% Overwrite redefinition of paragraph and subparagraph by the default LaTeX template
+% See https://github.com/crsh/papaja/issues/292
+\makeatletter
+\renewcommand{\paragraph}{\@startsection{paragraph}{4}{\parindent}%
+  {0\baselineskip \@plus 0.2ex \@minus 0.2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries\itshape\typesectitle}}
+
+\renewcommand{\subparagraph}[1]{\@startsection{subparagraph}{5}{1em}%
+  {0\baselineskip \@plus 0.2ex \@minus 0.2ex}%
+  {-\z@\relax}%
+  {\normalfont\normalsize\itshape\hspace{\parindent}{#1}\textit{\addperi}}{\relax}}
+\makeatother
+
 % \usepackage{etoolbox}
 \makeatletter
 \patchcmd{\HyOrg@maketitle}
@@ -138,26 +156,30 @@
   {\section*{\protect\normalfont{\@title}}}
   {}{\typeout{Failed to patch title.}}
 \makeatother
-\shorttitle{Individual differences in pragmatic reasoning}
-\keywords{keywords\newline\indent Word count: X}
+
+\usepackage{xpatch}
+\makeatletter
+\xapptocmd\appendix
+  {\xapptocmd\section
+    {\addcontentsline{toc}{section}{\appendixname\ifoneappendix\else~\theappendix\fi\\: #1}}
+    {}{\InnerPatchFailed}%
+  }
+{}{\PatchFailed}
+\keywords{Pragmatics, language development, individual differences, cognitive modeling\newline\indent Word count: X}
 \usepackage{lineno}
 
 \linenumbers
 \usepackage{csquotes}
-\ifXeTeX
-  % Load polyglossia as late as possible: uses bidi with RTL langages (e.g. Hebrew, Arabic)
-  \usepackage{polyglossia}
-  \setmainlanguage[]{english}
-\else
-  \usepackage[main=english]{babel}
-% get rid of language-specific shorthands (see #6817):
-\let\LanguageShortHands\languageshorthands
-\def\languageshorthands#1{}
-\fi
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
 
+\title{An individual differences perspective on the development of pragmatic abilities in the preschool years}
+\author{Manuel Bohn\textsuperscript{1}, Michael Henry Tessler\textsuperscript{2,3}, Clara Kordt\textsuperscript{4}, Tom Hausmann\textsuperscript{5}, \& Michael C. Frank\textsuperscript{6}}
+\date{}
+
+
+\shorttitle{Individual differences in pragmatic abilities}
 
 \authornote{
 
@@ -165,7 +187,7 @@ We are very thankful to Stella Christie for sharing the material for the relatio
 
 M. Bohn received funding from the European Union's Horizon 2020 research and innovation programme under the Marie Sklodowska-Curie grant agreement no. 749229. M. H. Tessler was funded by the National Science Foundation SBE Postdoctoral Research Fellowship Grant No.~1911790. M. C. Frank was supported by a Jacobs Foundation Advanced Research Fellowship and the Zhou Fund for Language and Cognition. The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
 
-The authors made the following contributions. Manuel Bohn: Conceptualization, Analysis, Writing - Original Draft Preparation, Writing - Review \& Editing; Michael Henry Tessler: Analysis, Writing - Review \& Editing; Clara Kordt: Data collection; Tom Hausmann: Data collection; Michael C. Frank: Conceptualization, Writing - Review \& Editing.
+The authors made the following contributions. Manuel Bohn: Conceptualization, Analysis, Writing - Original Draft Preparation, Writing - Review \& Editing; Michael Henry Tessler: Analysis, Writing - Review \& Editing; Clara Kordt: Data collection, Writing - Review \& Editing; Tom Hausmann: Data collection, Writing - Review \& Editing; Michael C. Frank: Conceptualization, Writing - Review \& Editing.
 
 Correspondence concerning this article should be addressed to Manuel Bohn, Max Planck Institute for Evolutionary Anthropology, Deutscher Platz 6, 04103 Leipzig, Germany. E-mail: \href{mailto:manuel_bohn@eva.mpg.de}{\nolinkurl{manuel\_bohn@eva.mpg.de}}
 
@@ -173,20 +195,8 @@ Correspondence concerning this article should be addressed to Manuel Bohn, Max P
 
 \affiliation{\vspace{0.5cm}\textsuperscript{1} Department of Comparative Cultural Psychology, Max Planck Institute for Evolutionary Anthropology, Leipzig, Germany\\\textsuperscript{2} DeepMind, London, UK\\\textsuperscript{3} Department of Brain and Cognitive Sciences, Massachusetts Institute of Technology\\\textsuperscript{4} Martin Luther University Halle-Wittenberg\\\textsuperscript{5} Brandenburg Medical School Theodor Fontane\\\textsuperscript{6} Department of Psychology, Stanford University}
 
-\abstract{
-One or two sentences providing a \textbf{basic introduction} to the field, comprehensible to a scientist in any discipline.
-
-Two to three sentences of \textbf{more detailed background}, comprehensible to scientists in related disciplines.
-
-One sentence clearly stating the \textbf{general problem} being addressed by this particular study.
-
-One sentence summarizing the main result (with the words ``\textbf{here we show}'' or their equivalent).
-
-Two or three sentences explaining what the \textbf{main result} reveals in direct comparison to what was thought to be the case previously, or how the main result adds to previous knowledge.
-
-One or two sentences to put the results into a more \textbf{general context}.
-
-Two or three sentences to provide a \textbf{broader perspective}, readily comprehensible to a scientist in any discipline.
+\abstract{%
+Pragmatic abilities are fundamental to successful language use and learning. Individual differences studies contribute to understanding the psychological processes involved in pragmatic reasoning as well as the link to other cognitive abilities. Small sample sizes, insufficient measurement tools, and a lack of theoretical precision have hindered progress. Three studies addressed these challenges in a sample of three- to five-year-old German-speaking children (\emph{N} = 228, 121 female). Studies 1 and 2 assessed the psychometric properties of six pragmatics tasks. Study 3 investigated relations among pragmatics tasks and between pragmatics and other cognitive abilities. The shared cognitive processes were formalized in a computational cognitive model of pragmatic reasoning. Results showed substantive relations among pragmatic tasks and between pragmatic abilities and executive functions.
 }
 
 
@@ -197,28 +207,28 @@ Two or three sentences to provide a \textbf{broader perspective}, readily compre
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-Communication predates language. Before children produce their first words, they communicate with the world around them using vocalizations and gestures (Bates, Benigni, Bretherton, Camaioni, \& Volterra, 1979; Bruner, 1974). The process of language learning recruits many of the social-cognitive processes that underlay pre-verbal communication (Bohn \& Frank, 2019; E. V. Clark, 2009; Tomasello, 2009). Even for proficient language users is communication not reducible to the words being exchanged. The common thread running through these different aspects of human communication is its inferential nature: what a speaker means -- verbal or otherwise -- is underdetermined by the parts that make up the utterance. It takes contextual social inferences to recover the intended meaning (H. H. Clark, 1996; Grice, 1991; Levinson, 2000; Sperber \& Wilson, 2001). These contextual social inferences are often referred to as \emph{pragmatic} inferences (e.g., Bohn \& Frank, 2019).
+Communication predates language. Before children produce their first words, they communicate with the world around them using vocalizations and gestures (Bates, Benigni, Bretherton, Camaioni, \& Volterra, 1979; Bruner, 1974). The process of language learning recruits many of the social-cognitive processes that underlay pre-verbal communication (Bohn \& Frank, 2019; E. V. Clark, 2009; Tomasello, 2009). Even for proficient language users is communication not reducible to the words being exchanged. The common thread running through these different aspects of human communication is its inferential nature: what a speaker means -- verbal or otherwise -- is underdetermined by the parts that make up the utterance. It takes contextual social inferences to recover the intended meaning (Bohn \& Köymen, 2018; H. H. Clark, 1996; Grice, 1991; Levinson, 2000; Sperber \& Wilson, 2001). These inferences are often referred to as \emph{pragmatic} inferences (e.g., Bohn \& Frank, 2019).
 
 The development of pragmatics has been widely studied in recent years (for a recent review see Bohn \& Frank, 2019). This research covers a range of different phenomena ranging from so-called \emph{pure pragmatics} (Matthews, 2014) in non-verbal communication in infancy to sophisticated linguistic inferences developing much later (Huang \& Snedeker, 2009; Papafragou \& Skordos, 2016). A growing portion of this work is devoted to studying individual differences (Matthews, Biney, \& Abbot-Smith, 2018; E. Wilson \& Katsos, 2021). The motivation behind this is twofold: on the one hand, individual differences offer insights into the underlying psychological processes (Kidd, Donnelly, \& Christiansen, 2018; Matthews et al., 2018; A. C. Wilson \& Bishop, 2022). On the other hand, deficits in pragmatic abilities have been linked to behavioral problems and forms of language impairment (Helland, Lundervold, Heimann, \& Posserud, 2014).
 
-In their recent review of individual differences in children's pragmatic ability, Matthews et al. (2018) identified three issues that significantly limit what we can learn from individual differences research. First, most studies have insufficient sample sizes so that small and medium sized correlations among pragmatics tasks and between pragmatics tasks and measures for other cognitive abilities cannot be reliably detected. Second, the tasks used to assess pragmatic abilities often have poor or unknown psychometric properties. For example, many tasks only have a single trial and are therefore unable to capture variation between children. Reliability is not assessed, making it unclear if the task captures stable characteristics (see also Russell \& Grizzle, 2008). Third, the cognitive processes underlying pragmatic inferences in a particular task are underspecified. As a consequence, there is no clear rationale for why a task should correlate with another cognitive measure.
+In their recent review, Matthews et al. (2018) identified three issues that significantly limit what we can learn from individual differences research on pragmatic abilities. First, most studies have insufficient sample sizes so that small and medium sized correlations among pragmatics tasks and between pragmatics tasks and measures for other cognitive abilities cannot be reliably detected. Second, the tasks used to assess pragmatic abilities often have poor or unknown psychometric properties. For example, many tasks only have a single trial and are therefore unable to capture variation between children. Reliability is not assessed, making it unclear if the task captures stable characteristics (see also Russell \& Grizzle, 2008). Third, the cognitive processes underlying pragmatic inferences in a particular task are underspecified. As a consequence, there is no clear rationale for why a task should correlate with another cognitive measure.
 
 The studies presented here directly address the issues identified by Matthews and colleagues (Matthews et al., 2018). We identified six pragmatic reasoning tasks in children between three and five years of age and investigated their psychometric properties, in particular their re-test reliability. Reliable tasks are a necessary precondition for meaningful individual differences research (Fried \& Flake, 2018; Hedge, Powell, \& Sumner, 2018). Next, we investigated the relations among different pragmatic reasoning tasks as well as between pragmatic reasoning and executive functions in a sample large enough to detect small to medium sized correlations. Finally, we introduced computational cognitive models of pragmatic reasoning to the study of individual differences. This allowed us to formalize the cognitive processes we think underlay pragmatic reasoning and thereby provide a substantive theoretical account for why certain pragmatic reasoning tasks are related to one another and why executive functions relate to them.
 
-The six tasks we selected were developmental adaptations of referential communication games inspired by research in experimental pragmatics (Noveck \& Reboul, 2008; Noveck \& Sperber, 2004). They all share a common trial-by-trial structure in which the test event always involved an agent producing an ambiguous utterance that children had to resolve using pragmatic reasoning. This allowed us to run multiple trials per task, and with that, to capture individual differences. We grouped the tasks into two broad categories (Figure \ref{fig:fig1}). On the one hand, utterance-based tasks asked children to derive inferences from the words and gestures the speaker produced in context. On the other hand, common ground/discourse-based tasks asked children to derive inferences from the social interaction that preceded the utterance.
+The six tasks we selected were developmental adaptations of referential communication games inspired by research in experimental pragmatics (Noveck \& Reboul, 2008; Noveck \& Sperber, 2004). They all share a common trial-by-trial structure in which the test event always involved an agent producing an ambiguous utterance that the child had to resolve using pragmatic reasoning. This allowed us to run multiple trials per task, and with that, to capture individual differences. We grouped the tasks into two broad categories (Figure \ref{fig:fig1}). On the one hand, utterance-based tasks asked children to derive inferences from the words and gestures the speaker produced in context. On the other hand, common ground/discourse-based tasks asked children to derive inferences from the social interaction that preceded the utterance.
 
 For the utterance-based category, we selected a mutual exclusivity, informativeness inference, and ad-hoc implicature task. Mutual exclusivity -- or principle of contrast -- describes the phenomenon that children tend to map a novel word to an unknown object (Bion, Borovsky, \& Fernald, 2013; E. V. Clark, 1988; Halberda, 2003; Lewis, Cristiano, Lake, Kwan, \& Frank, 2020; Markman \& Wachtel, 1988; Merriman, Bowman, \& MacWhinney, 1989). Informativeness inferences describe situations in which children identify the referent of a novel word by assuming that the speaker is trying to be informative. Being informative translates to using words that have smaller extensions in context (Frank \& Goodman, 2014). Ad-hoc implicature describes inferences that ask the child to contrast an utterance with alternatives that the speaker could have used but did not (Katsos \& Bishop, 2011; Stiller, Goodman, \& Frank, 2015; Yoon \& Frank, 2019).
 
-For the discourse-based category, we selected a speaker preference, discourse novelty and discourse continuity task. In the speaker preference task, the child had to track the preference of a speaker in order to identify the referent of a novel word (Saylor, Sabbagh, Fortuna, \& Troseth, 2009). Discourse novelty refers to a situation in which the child tracks the temporal appearance of objects in context and expects the speaker to refer to objects that are new in context (Akhtar, Carpenter, \& Tomasello, 1996; Diesendruck, Markson, Akhtar, \& Reudor, 2004). In the discourse continuity task, the child had to infer and track the topic of an ongoing conversation to resolve ambiguity (Akhtar, 2002; Bohn, Le, Peloquin, Köymen, \& Frank, 2021).
+For the discourse-based category, we selected a speaker preference, discourse novelty and discourse continuity task. In the speaker preference task, the child had to track the preference of a speaker in order to identify the referent of a novel word (Saylor, Sabbagh, Fortuna, \& Troseth, 2009). Discourse novelty refers to a situation in which the child tracks the temporal appearance of objects and expects the speaker to refer to objects that are new in context (Akhtar, Carpenter, \& Tomasello, 1996; Diesendruck, Markson, Akhtar, \& Reudor, 2004). In the discourse continuity task, the child had to infer and track the topic of an ongoing conversation to resolve ambiguity (Akhtar, 2002; Bohn, Le, Peloquin, Köymen, \& Frank, 2021).
 
-In addition to the pragmatics tasks, we also included a tasks for executive functions (Zelazo, 2006) and of analogical reasoning (Christie \& Gentner, 2014). Executive functions refer to a family of top-down mental processes that enable us to inhibit automatic or intuitive responses and allow us to concentrate and focus attention on particulars (Diamond, 2013). A substantial body of research has investigated the link between executive functions and pragmatics -- with mixed results (Matthews et al., 2018; Nilsen \& Graham, 2009). Analogical reasoning refers to the ability to reason about abstract relations between stimuli (Carstensen \& Frank, 2021) -- an ability that has not been linked to pragmatics, at least not to the same extent as executive functions.
+In addition to the pragmatics tasks, we also included tasks for executive functions (Zelazo, 2006) and of analogical reasoning (Christie \& Gentner, 2014). Executive functions refer to a family of top-down mental processes that enable us to inhibit automatic or intuitive responses and allow us to concentrate and focus attention on particulars (Diamond, 2013). A substantial body of research has investigated the link between executive functions and pragmatics -- with mixed results (Matthews et al., 2018; Nilsen \& Graham, 2009). Analogical reasoning refers to the ability to reason about abstract relations between stimuli (Carstensen \& Frank, 2021) -- an ability that has not been linked to pragmatics -- at least not to the same extent as executive functions.
 
 After finding in Study 1 and 2 that most of the pragmatics tasks showed good to excellent re-test reliability, we studied a larger sample of children in Study 3 to investigate relations between the three utterance-based tasks. We focused on these tasks for theoretical reasons: we assume that -- computationally -- they share a common contrastive inference process according to which the listener compares the utterance the speaker made to alternative possible utterances. The listener expects the speaker to be helpful and informative, that is, to choose the utterance that best communicates the intended message. We formalize these assumptions in a computational cognitive model which we then use to study individual differences in this alleged process. Study 3 also included tasks for executive functions and analogical reasoning. Across analytical approaches, we found systematic relations among the pragmatics tasks as well as between pragmatics and executive functions, but not analogical reasoning.
 
 \hypertarget{study-1}{%
 \section{Study 1}\label{study-1}}
 
-Methods and sample size were pre-registered at \url{https://osf.io/6a723}. All analysis scripts and data files can be found in the following repository: \url{https://github.com/manuelbohn/pragBat}. The same repository also contains the code to run the experiments.
+Study 1 focused on the psychometric properties of four pragmatics tasks, in particular, their re-test reliability. two of the tasks were from the utterance-based group and two from the common ground/discourse-based group. As a fifth task, we included a measure of executive functions. Methods and sample size were pre-registered at \url{https://osf.io/6a723}. All analysis scripts and data files can be found in the following repository: \url{https://github.com/manuelbohn/pragBat}. The same repository also contains the code to run the experiments.
 
 \hypertarget{participants}{%
 \subsection{Participants}\label{participants}}
@@ -236,7 +246,7 @@ For Study 1, we collected data from 48 children (\(m_{age}\) = 3.99, range\(_{ag
 
 }
 
-\caption{Overview of the tasks used in Study 1 to 3. Pictures show screenshots from each task. The vertical order corresponds to the order of presentation in each study. The colors group the tasks along the (Assumed) cognitive processes involved. Blue: utterance-based inferences. Red common ground/discourse-based inferences. Green: Executive functions. Yellow: Analogical reasoning.}\label{fig:fig1}
+\caption{Overview of the tasks used in Study 1 to 3. Pictures show screenshots from each task. The vertical order corresponds to the order of presentation in each study. The colors group the tasks along the (assumed) cognitive processes involved. Blue: utterance-based inferences. Red common ground/discourse-based inferences. Green: Executive functions. Yellow: Analogical reasoning.}\label{fig:fig1}
 \end{figure}
 
 The study was presented as an interactive picture book on a tablet computer (Frank, Sugarman, Horowitz, Lewis, \& Yurovsky, 2016). The tasks were programmed in \texttt{HTML/JavaScript} and run in a web browser. Pre-recorded sound files were used to address the child (one native German speaker per animal). Children responded by touching objects on the screen. Children were tested in a quiet room in their daycare or in a separate room in a child laboratory. An experimenter guided the child through the study, selecting the different tasks and advancing within each task. In the beginning of the study, children completed a touch training to familiarize themselves with selecting objects. After a short introduction to the different animal characters, children completed the following six tasks. Figure \ref{fig:fig1} shows screenshots for each task and the order in which they were presented.
@@ -244,27 +254,27 @@ The study was presented as an interactive picture book on a tablet computer (Fra
 \hypertarget{training}{%
 \subsubsection{Training}\label{training}}
 
-An animal was standing on a pile between two tables. On each table, a familiar object was located. The animal asked the child to give them one of the objects (e.g., ``Can you give me the car''). the objects were chosen so that children of the youngest age group would easily understand them (car and ball). This procedure familiarized the child with the general logic of the animals making requests and the child touching objects. There were two training trials.
+An animal was standing on a pile between two tables. On each table, a familiar object was located. The animal asked the child to give them one of the objects (e.g., ``Can you give me the car''). The objects were chosen so that children of the youngest age group would easily understand them (car and ball). This procedure familiarized the child with the general logic of the animals making requests and the child touching objects. There were two training trials.
 
 \hypertarget{mutual-exclusivity}{%
 \subsubsection{Mutual exclusivity}\label{mutual-exclusivity}}
 
-This task was directly taken from Bohn, Tessler, Merrick, and Frank (2021). The task layout and the procedure was the same as in the training. In each trial, one object was a novel object (drawn for the purpose of this study) while the other one was likely to be familiar to children. Both object types changed from trial to trial. Following Bohn et al. (2021), the familiar objects varied in terms of the likelihood that they would be familiar to children in the age range (carrot, duck, eggplant, garlic, horseshoe). For example, we assumed that most 3-year-olds would recognize a carrot, whereas fewer children would recognize a horseshoe. The animal always used a novel non-word (e.g., gepsa) in their request. We reasoned that children would identify the novel object as the referent of the novel word because they assumed the animal would have used the familiar word if they wanted to request the familiar object. Children's response was thus coded as correct if they selected the novel object. There were five trials, with the side on which the novel object appeared pseudo-randomized.
+This task was adapted from Bohn, Tessler, Merrick, and Frank (2021). The task layout and the procedure was the same as in the training. In each trial, one object was a novel object (drawn for the purpose of this study) while the other one was likely to be familiar to children. Both object types changed from trial to trial. Following Bohn, Tessler, et al. (2021), the familiar objects varied in terms of the likelihood that they would be familiar to children in the age range (carrot, duck, eggplant, garlic, horseshoe). For example, we assumed that most 3-year-olds would recognize a carrot, whereas fewer children would recognize a horseshoe. The animal always used a novel non-word (e.g., gepsa) in their request. We reasoned that children would identify the novel object as the referent of the novel word because they assumed the animal would have used the familiar word if they wanted to request the familiar object. Children's response was thus coded as correct if they selected the novel object. There were five trials, with the side on which the novel object appeared pseudo-randomized.
 
 \hypertarget{informativeness-inference}{%
 \subsubsection{Informativeness inference}\label{informativeness-inference}}
 
-The task was directly taken from Bohn, Tessler, Merrick, and Frank (2022). Th animal was standing between two trees with objects hanging in them. In one tree, there were two objects (type A and B) and in the other tree there was only one (type B). The animal turned to the tree with the two objects and labelled one of the objects. It was unclear from the animal's utterance, which of the two objects they were referring to. We assumed that children would map the novel word onto the object of type A because they expected the animal to turn to the tree with only the object of type B if their intention was to provide a label for an object of type B. Next, the trees were replaced by new ones, one of which carried an object of type A and the other of type B. The animal then said that one of the trees had the same object as they labelled previously (using the same label) and asked the child to touch the tree. We coded as correct if the child selected the tree with the object of type A. The first two trials were training trials, in which there was only one object in each tree. There were five test trials. The location of the tree with the two objects in the beginning of each trial was pseudo-randomized and so was the location of the objects when the new trees appeared.
+The task was adapted from Bohn, Tessler, Merrick, and Frank (2022). Th animal was standing between two trees with objects hanging in them. In one tree, there were two objects (type A and B) and in the other tree there was only one (type B). The animal turned to the tree with the two objects and labelled one of the objects. It was unclear from the animal's utterance, which of the two objects they were referring to. We assumed that children would map the novel word onto the object of type A because they expected the animal to turn to the tree with only the object of type B if their intention was to provide a label for an object of type B. Next, the trees were replaced by new ones, one of which carried an object of type A and the other of type B. The animal then said that one of the trees had the same object as they labelled previously (using the same label) and asked the child to touch the tree. We coded as correct if the child selected the tree with the object of type A. The first two trials were training trials, in which there was only one object in each tree. There were five test trials. The location of the tree with the two objects in the beginning of each trial was pseudo-randomized and so was the location of the objects when the new trees appeared.
 
 \hypertarget{speaker-preference}{%
 \subsubsection{Speaker preference}\label{speaker-preference}}
 
-This task was also taken from Bohn et al. (2022). The animal was standing between the two tables, each of which had a novel object (drawn for the purpose of the study) on it. The animal turned to one table, pointed at the object and said that they very much liked this object (using a pronoun instead of a label). Next, the animal turned to the other table and said that they really did not like the object (again, using a pronoun and no label). Then the animal turned towards the participant and used a novel label to request an object in an excited tone. We assumed that children would track the animal's preference and identify the previously liked object as the referent. Thus, we coded as correct if the child selected the object the animal expressed preference for. There were five test trials. The location of the preferred object as well as whether the animal first expressed liking or disliking was pseudo-randomized across trials
+This task was also adapted from Bohn et al. (2022). The animal was standing between the two tables, each of which had a novel object (drawn for the purpose of the study) on it. The animal turned to one table, pointed at the object and said that they very much liked this object (using a pronoun instead of a label). Next, the animal turned to the other table and said that they really did not like the object (again, using a pronoun and no label). Then the animal turned towards the participant and used a novel label to request an object in an excited tone. We assumed that children would track the animal's preference and identify the previously liked object as the referent. Thus, we coded as correct if the child selected the object the animal expressed preference for. There were five test trials. The location of the preferred object as well as whether the animal first expressed liking or disliking was pseudo-randomized across trials
 
 \hypertarget{discourse-novelty}{%
 \subsubsection{Discourse novelty}\label{discourse-novelty}}
 
-This task was taken from Bohn et al. (2021). Once again, the animal was standing between the two tables. One table was empty whereas there was a novel object on the other table. The animal turned towards the empty table and commented on its emptiness. Next, the animal turned to the other table and commented (in a neutral tone) on the presence of the object (not using a label). The animal then briefly disappeared. In the absence of the animal a second novel object appeared on the previously empty table. Then the animal returned and, facing the participant, asked for an object in an excited tone. We assumed that children would track which object was new to the ongoing interaction and identify the object that was new in context as the referent. We coded as correct when children selected the object that appeared later. There were five test trials. The location of the empty table and whether the animal first commented on the presence or absence of an object was pseudo-randomized across trials
+This task was adapted from Bohn, Tessler, et al. (2021). Once again, the animal was standing between the two tables. One table was empty whereas there was a novel object on the other table. The animal turned towards the empty table and commented on its emptiness. Next, the animal turned to the other table and commented (in a neutral tone) on the presence of the object (not using a label). The animal then briefly disappeared. In the absence of the animal a second novel object appeared on the previously empty table. Then the animal returned and, facing the participant, asked for an object in an excited tone. We assumed that children would track which object was new to the ongoing interaction and identify the object that was new in context as the referent. We coded as correct when children selected the object that appeared later. There were five test trials. The location of the empty table and whether the animal first commented on the presence or absence of an object was pseudo-randomized across trials
 
 \hypertarget{card-sorting}{%
 \subsubsection{Card sorting}\label{card-sorting}}
@@ -276,15 +286,13 @@ Each child received exactly the same version of each task and completed the task
 \hypertarget{analysis}{%
 \subsection{Analysis}\label{analysis}}
 
-We analysed the data in three steps. First we investigated developmental effects in each task, then we assessed re-test reliability and finally, we looked at relations between the tasks.
+We analysed the data in three steps. First we investigated developmental effects in each task, then we assessed re-test reliability and finally, we looked at relations between the tasks. All analysis were run in \texttt{R} (R Core Team, 2018) version 4.1.2. Regression models were fit as Bayesian generalized linear mixed models (GLMM) using the function \texttt{brm} from the package \texttt{brms} (Bürkner, 2017). We used default priors for all analysis.
 
-All analysis were run in \texttt{R} (R Core Team, 2018) version 4.1.2. Regression models were fit as Bayesian generalized linear mixed models (GLMM) using the function \texttt{brm} from the package \texttt{brms} (Bürkner, 2017). We used default priors for all analysis.
-
-To estimate developmental effects in each task, we fit a GLMM predicting correct responses (0/1) by age (centered at the mean) and trial number (also centered). The model included random intercepts for each participant and random slopes for trial within participants (model notation in \texttt{R}: \texttt{correct\ \textasciitilde{}\ age\ +\ trial\ +\ (trial\textbar{}id)} ). For each task, we inspected and visualized the posterior distribution (mean and 95\% Credible Interval (CrI)) for the age estimate.
+To estimate developmental effects in each task, we fit a GLMM predicting correct responses (0/1) by age (centered at the mean) and trial number (also centered). The model included random intercepts for each participant and random slopes for trial within participants (model notation in \texttt{R}: \texttt{correct\ \textasciitilde{}\ age\ +\ trial\ +\ (trial\textbar{}id)} )\footnote{We pre-registered the inclusion of random intercepts for item. We deviate from this here for the following reason: the order of items was fixed and the same for all participants so that trial and item were confounded.}. For each task, we inspected and visualized the posterior distribution (mean and 95\% Credible Interval (CrI)) for the age estimate.
 
 We assessed re-test reliability in two ways. First, for each task we computed the proportion of correct trials for each individual in the two test sessions and then used Pearson correlations to quantify re-test reliability. Second, we used a GLMM based approach suggested by Rouder and Haaf (2019). Here, a GLMM was fitted to the trial-by-trial data for each task with a fixed effect of age, a random intercept for each participant and a random slope for test day (\texttt{correct\ \textasciitilde{}\ age\ +\ (0+test\_day\textbar{}id)})\footnote{The notation \texttt{0+test\_day} yields a separate intercept estimate for each test day and subject instead of an intercept estimate for day 1 and a slope for the difference between day 1 and day 2. As a consequence, the model estimates the correlation between the two test days instead of a correlation between an intercept and the slope for test day.}. The model yields a participant specific estimate for each test day and also estimates the correlation between the two. This correlation can be interpreted as the re-test reliability. This approach has several advantages. First, it uses the trial-by-trial data and avoids information loss that comes with data aggregation. Second, it uses hierarchical shrinkage to obtain better participant specific estimates. Finally, it allows us to get an age-independent estimate for reliability. One worry when assessing re-test reliability in developmental studies is that re-test correlations can be high because of domain general cognitive gains and not because of task-specific individual differences. By including age as a fixed effect in the model, the estimates for each participant are independent of age and so is the correlation between estimates for the two test days -- the re-test reliability.
 
-Finally, we used that aggregated data from both test days for each participant and task to compute Pearson correlations between the different tasks. Given the small sample size in Study 1, this part of the analysis is mostly exploratory.
+Finally, we used that aggregated data from both test days for each participant and task to compute Pearson correlations between the different tasks. Given the small sample size in Study 1, this part of the analysis was mostly exploratory.
 
 \hypertarget{results}{%
 \subsection{Results}\label{results}}
@@ -302,7 +310,7 @@ Finally, we used that aggregated data from both test days for each participant a
 
 We found developmental effects in most of the tasks. Figure \ref{fig:fig2} shows the data and visualizes the developmental trajectories based on the model. Figure \ref{fig:fig3} shows the model estimates for age. In the mutual exclusivity task, performance was reliably above chance level and increased with age. For informative inference, the pattern was quite different: Performance was at chance level with only minor developmental gains. In the speaker preference task, performance was again clearly above chance with developmental gains resulting in a ceiling effect for older children. In the discourse novelty task, performance was also above chance with no clear developmental effects. The card sorting task showed the strongest developmental effects with younger children performing largely below chance and older children performing above chance.
 
-Re-test reliability was high for most tasks (see Figure \ref{fig:fig2}). Raw correlations between the two test sessions was above .7 for mutual exclusivity, speaker preference and discourse novelty. With .62 it was slightly lower for card sorting. The model based -- age independent -- reliability estimates yielded similar results suggesting that the tasks did capture task specific individual differences. A notable exception was the informativeness inference task, which was not reliable according to any of the methods of computing re-test correlations. We suspect the overall low variation in performance to be responsible for this.
+Re-test reliability was high for most tasks (see Figure \ref{fig:fig4}). Raw correlation between the two test sessions was above .7 for mutual exclusivity, speaker preference and discourse novelty. With .62 it was slightly lower for card sorting. The model based -- age independent -- reliability estimates yielded similar results suggesting that the tasks did capture task specific individual differences. A notable exception was the informativeness inference task, which was not reliable according to any of the methods of computing re-test reliability (Figure \ref{fig:fig4}). We suspected the overall low variation in performance to be responsible for this.
 
 Most correlations between the tasks were low and ranged between \emph{r} = -0.2 and 0.2 (see Figure \ref{fig:fig2}). A notable exception was the correlation between mutual exclusivity and card sorting with \emph{r} = 0.31 (95\% CI{[}0.03 - 0.55{]}).
 
@@ -331,7 +339,7 @@ Most correlations between the tasks were low and ranged between \emph{r} = -0.2 
 \hypertarget{discussion}{%
 \subsection{Discussion}\label{discussion}}
 
-Study 1 showed that the different tasks were age appropriate and reliable. A notable exception was the informativeness inference task which generated to systematic variation in the age range we studied here. Correlations between the tasks were generally low, with the notable exception of the relation between mutual exclusivity and card sorting. Given the small sample size, we want to avoid overly strong claims, however, it was interesting to see that the relation between the two tasks tapping into common ground based inferences (speaker preference and discourse novelty) were -- if anything -- negatively correlated.
+Study 1 showed that the different tasks were age appropriate and reliable. A notable exception was the informativeness inference task which generated no systematic variation in the age range we studied here. Correlations between the tasks were generally low, with the notable exception of the relation between mutual exclusivity and card sorting. Given the small sample size, we want to avoid overly strong claims, however, it was interesting to see that the relation between the two tasks tapping into discourse-based inferences (speaker preference and discourse novelty) were -- if anything -- negatively correlated.
 
 \hypertarget{study-2}{%
 \section{Study 2}\label{study-2}}
@@ -348,7 +356,7 @@ Participants for Study 2 were recruited from the same general population. We col
 \hypertarget{material-and-methods-1}{%
 \subsection{Material and Methods}\label{material-and-methods-1}}
 
-The general setup and mode of presentation was the same as in Study 1. We added two new tasks and modified the informativeness inferences task, which we will describe in detail below. The mutual exclusivity and card sorting tasks were the same as in Study 1.
+The general setup and mode of presentation was the same as in Study 1. We added two new tasks and modified the informativeness inferences task, which we will describe in detail below. The training, mutual exclusivity and card sorting tasks were the same as in Study 1.
 
 \hypertarget{informativeness-inference-1}{%
 \subsubsection{Informativeness inference}\label{informativeness-inference-1}}
@@ -358,7 +366,7 @@ The general structure of the task was the same as in Study 1, however, we replac
 \hypertarget{discourse-continuity}{%
 \subsubsection{Discourse continuity}\label{discourse-continuity}}
 
-This task was directly taken from Bohn et al. (2021). Children were told that they were going to visit the animals at their place. The animal greeted the child and told them that they would show them their things. During exposure trials, the child saw three objects from three different categories (e.g., train (vehicle), drum (instrument), orange (fruit); see Figure \ref{fig:fig1}). The animal named of the objects and asked the child to touch it. On the next exposure trial, the child saw three new objects but from the same categories (e.g., bus (vehicle), flute (instrument), apple (fruit)). The animal asked the child to touch the object from the same category as previously (only naming the object, not the category). There were 5 such exposure trials. On the following test trial, the animal used a pronoun to refer to one of the objects (i.e., can you touch \emph{it}). We assumed that children would use the exposure trials to infer that the animal was talking about a certain category and would use this knowledge to identify the referent of the pronoun.Children received five test trials, each with a different category as the target. The position of the objects in exposure trials as well as test trials was pseudo-randomized.
+This task was adapted from Bohn, Le, et al. (2021). Children were told that they were going to visit the animals in their home. An animal greeted the child and told them that they would show them their things. During exposure trials, the child saw three objects from three different categories (e.g., train (vehicle), drum (instrument), orange (fruit); see Figure \ref{fig:fig1}). The animal named one of the objects and asked the child to touch it. On the next exposure trial, the child saw three new objects but from the same categories (e.g., bus (vehicle), flute (instrument), apple (fruit)). The animal asked the child to touch the object from the same category as previously (only naming the object, not the category). There were 5 such exposure trials. On the following test trial, the animal used a pronoun to refer to one of the objects (i.e., can you touch \emph{it}). We assumed that children would use the exposure trials to infer that the animal was talking about a certain category and would use this knowledge to identify the referent of the pronoun. Children received five test trials, each with a different category as the target. The position of the objects in exposure trials as well as test trials was pseudo-randomized.
 
 \hypertarget{ad-hoc-implicature}{%
 \subsubsection{Ad-hoc implicature}\label{ad-hoc-implicature}}
@@ -406,7 +414,7 @@ From Study 2, we used the the mutual exclusivity, ad-hoc implicature, informativ
 \hypertarget{relational-match-to-sample}{%
 \subsubsection{Relational match-to-sample}\label{relational-match-to-sample}}
 
-The task was modeled after and used the original stimuli from Christie and Gentner (2014). The child saw three cards, one on top (the sample) and two at the bottom (the potential matches; see Figure \ref{fig:fig1}). The experimenter guided the child through the study and read out the instructions. The child was instructed to match the sample card to one of the lower ones based on similarity, that is, they were instructed to pick the card that was ``like'' the sample. All cards had two geometrical shapes of the same color on them. The sample card showed to identical shapes and so did one of the potential matches. The other card showed two different shapes. We assumed that children would match the sample to the match that showed the same relation between shapes (sameness). Children received six test trial, preceded by two training trials in which one of the potential matches was identical to the sample. The position of the same-match was pseudo randomized.
+The task was modeled after and used the original stimuli from Christie and Gentner (2014). The child saw three cards, one on top (the sample) and two at the bottom (the potential matches; see Figure \ref{fig:fig1}). The experimenter guided the child through the study and read out the instructions. The child was instructed to match the sample card to one of the lower ones based on similarity, that is, they were instructed to pick the card that was ``like'' the sample. All cards had two geometrical shapes of the same color on them. The sample card showed two identical shapes and so did one of the potential matches. The other card showed two different shapes. We assumed that children would match the sample to the match that showed the same relation between shapes (sameness). Children received six test trial, preceded by two training trials in which one of the potential matches was identical to the sample. The position of the same-match was pseudo randomized.
 
 \hypertarget{analysis-2}{%
 \subsection{Analysis}\label{analysis-2}}
@@ -415,9 +423,9 @@ Study 3 had only one test session. Therefore, we did not investigate re-test rel
 
 First, we used Confirmatory Factor Analysis (CFA). Models were fit in a Bayesian framework using the \texttt{R} package \texttt{blavaan} (Merkle \& Rosseel, 2018) using default priors. As outlined above, our focal model assumed that mutual exclusivity, ad-hoc implicature and informativeness inference load on a common pragmatics factor. The card sorting and relational match-to-sample tasks were included as separate factors. We used Posterior Predictive P-Values (PPP) to evaluate model fit (Lee \& Song, 2012). A good model fit is indicated by a PPP close to 0.5 and should not be smaller than 0.1 (Cain \& Zhang, 2019). We also fit two alternative models: one including only a single factor on which all tasks loaded and a second with a separate factor for each task. We compared models using WAIC (widely applicable information criterion) scores and weights (McElreath, 2018). WAIC is an indicator of out-of-sample predictive accuracy with lower values indicating better fit. WAIC weights transform WAIC values to give the probability that a particular model (out of the models considered) provides the best out-of-sample predictions. Within the focal model, we inspected the posterior estimates (with 95\%CrI) for the factor loadings and the variance in the task explained by the factor for the three pragmatics tasks. In addition, we evaluated the correlations between the pragmatics factor and the other two tasks.
 
-Second, we used computational cognitive models from the Rational Speech Act (RSA) framework to relate the three pragmatics tasks to one another (Frank \& Goodman, 2012; Goodman \& Frank, 2016). In contrast to the CFA model above, the RSA models are models of the tasks, and not of the data. That is, they include a schematic representation of the experimental tasks and provide a computational account of how participants make inferences in this context. RSA models see pragmatic inferences as a form of Bayesian social reasoning where the listener tries to infer the speaker' meaning (here: the intended referent) by assuming that the speaker is helpful and informative. Being helpful and informative means that the speaker chooses a message based on the probability that it would help the listener would recover the speaker's intended meaning. Thus, RSA models have a recursive structure in which the the listener reasons about a speaker who is reasoning about the listener. To avoid an infinite regress, the speaker is assumed to reason about a literal listener, who interprets words according to their literal semantics.
+Second, we used computational cognitive models from the Rational Speech Act (RSA) framework to relate the three pragmatics tasks to one another (Frank \& Goodman, 2012; Goodman \& Frank, 2016). In contrast to the CFA model above, the RSA models are models of the tasks, and not of the data. That is, they include a schematic representation of the experimental tasks and provide a computational account of how participants make inferences in this context. RSA models see pragmatic inferences as a form of Bayesian social reasoning where the listener tries to infer the speaker's meaning (here: the intended referent) by assuming that the speaker is helpful and informative. Being helpful and informative means that the speaker chooses a message based on the probability that it would help the listener to recover the speaker's intended meaning. Thus, RSA models have a recursive structure in which the the listener reasons about a speaker who is reasoning about the listener. To avoid an infinite regress, the speaker is assumed to reason about a literal listener, who interprets utterances according to their literal semantics.
 
-The studies from which we took the mutual exclusivity and informativeness inference tasks also formalized these tasks in an RSA-style model (Bohn et al., 2021, 2022). We refer to this earlier work for more details and a mathematical description of the models. For the present study, we formalized the ad-hoc implicature task within the same RSA framework. The three models share the same contrastive inference process according to which the listener compares the speaker's utterance to alternative, possible ones. The speaker then expects the listener to be informative (with degree \(\alpha\)), that is, choose the utterance that best communicates the intended message. In the mutual exclusivity task, the alternative utterance would be to use a familiar word. In the case of the informative inference task, the alternative was point to the object with only one property. For the ad-hoc implicature task it was to single out the property that was shared by both objects. In all cases, these alternative utterances would be better suited to communicate about the respective other referent.
+The studies from which we took the mutual exclusivity and informativeness inference tasks also formalized these tasks in an RSA-style model (Bohn, Tessler, et al., 2021; Bohn et al., 2022). We refer to this earlier work for more details and a mathematical description of the models. For the present study, we formalized the ad-hoc implicature task within the same RSA framework. The three models share the same contrastive inference process according to which the listener compares the speaker's utterance to alternative, possible ones. The speaker then expects the listener to be informative (with degree \(\alpha\)), that is, choose the utterance that best communicates the intended message. In the mutual exclusivity task, the alternative utterance would be to use a familiar word. In the case of the informative inference task, the alternative was point to the object with only one property. For the ad-hoc implicature task it was to single out the property that was shared by both objects. In all cases, these alternative utterances would be better suited to communicate about the respective other referent.
 
 As noted above, all models shared one common parameter: the speaker informativeness parameter \(\alpha\). This commonality offers a way of relating performance in the three tasks to one another by constraining the three models to use the same value for \(\alpha\). We then used Bayesian inference to estimate the posterior distribution for \(\alpha\) that best explained performance in the three tasks. To adapt this framework to the study of individual differences, we allowed a separate parameter for each participant (\(\alpha_i\)). We estimated \(\alpha_i\) in a hierarchical model as a deviation from a hyper parameter: \(\alpha_i \sim \mathcal{N}(\alpha_j, \sigma^\alpha)\). Given the developmental nature of our data, we defined \(\alpha_j\) via a linear regression as a function of the child's age (\(age_i\)): \(\alpha_j = \beta^\alpha_0 + age_i \cdot \beta^\alpha_1\). Thus, the participant specific value for \(\alpha\) was not only constrained by the performance in the three tasks but also by the child's age.
 
@@ -428,9 +436,9 @@ To validate this approach, we first applied this model to the data from Study 2 
 \hypertarget{results-2}{%
 \subsection{Results}\label{results-2}}
 
-The age effects in Study 3 largely replicate those of Study 2 for the four overlapping tasks (see Figure \ref{fig:fig2} and \ref{fig:fig3}. There were no substantial developmental gains in the newly added relational match-to-sample task and performance was close to chance for both age groups. Thus -- in the absence of information on re-test reliability -- it is unclear if the variation in performance reflects systematic individual differences in analogical reasoning or not.
+The age effects in Study 3 largely replicate those of Study 2 for the four overlapping tasks (see Figure \ref{fig:fig2} and \ref{fig:fig3}). There were no substantial developmental gains in the newly added relational match-to-sample task and performance was close to chance for both age groups. Thus -- in the absence of information on re-test reliability -- it is unclear if the variation in performance reflects systematic individual differences in analogical reasoning or not.
 
-Overall, the correlations between the tasks were lower compared to Study 2. This was to some extend expected given that there were only half the number of trials per task in Study 3 and, with that, less room for capturing individual differences. Nevertheless, the overall pattern rsembles that found in Study 2 (Figure \ref{fig:fig4}). We saw the strongest bi-variate relation between the mutual exclusivity and the ad-hoc implicature task (\emph{r} = 0.33, 95\% CI{[}0.16 - 0.48{]}) followed by ad-hoc implicature and card sorting (\emph{r} = 0.28, 95\% CI{[}0.11 - 0.44{]}). The relational match-to-sample task showed no substantial correlations with any of the other tasks.
+Overall, the correlations between the tasks were lower compared to Study 2. This was to some extent expected given that there were only half the number of trials per task in Study 3 and, with that, less room for capturing individual differences. Nevertheless, the overall pattern rsembles that found in Study 2 (Figure \ref{fig:fig4}). We saw the strongest bi-variate relation between the mutual exclusivity and the ad-hoc implicature task (\emph{r} = 0.33, 95\% CI{[}0.16 - 0.48{]}) followed by ad-hoc implicature and card sorting (\emph{r} = 0.28, 95\% CI{[}0.11 - 0.44{]}). The relational match-to-sample task showed no substantial correlations with any of the other tasks.
 
 
 
@@ -461,28 +469,34 @@ Finally, we present the results of the cognitive modeling analysis. Using the da
 \hypertarget{discussion-2}{%
 \subsection{Discussion}\label{discussion-2}}
 
-Using a diversity of different analytical tools, we found that performance in the three utterance-based pragmatic inference tasks was related in a way that points to shared cognitive processes. In the confirmatory factor analysis, we found that a model including a latent pragmatic reasoning factor fit the data well and better compared to alternative models. The latent factor explained substantial portions of the variance in each of the three tasks. The cognitive modelling approach provides an explicit theory of what the shared cognitive processes may look like: according to the model, the pragmatic inference in each task was driven by contrasting the utterance the speaker produced and alternative utterances. Individual differences were thought to arise from differential expectations about how informative the speaker is.
+Using a diversity of analytical tools, we found that performance in the three utterance-based pragmatic inference tasks was related in a way that points to shared cognitive processes. In the confirmatory factor analysis, we found that a model including a latent pragmatic reasoning factor fit the data well and better compared to alternative models. The latent factor explained substantial portions of the variance in each of the three tasks. The cognitive modelling approach provides an explicit theory of what the shared cognitive processes may look like: according to the model, the pragmatic inference in each task was driven by contrasting the utterance the speaker produced and alternative utterances. Individual differences were thought to arise from differential expectations about how informative the speaker is.
 
 Both analytic strategies point to systematic relations between pragmatic reasoning and executive functions as indicated by the card sorting test. We found no such relations with analogical reasoning as indicated by the relational match-to-sample task. However, given the unknown psychometric properties of the latter task, this result should be interpreted with caution.
 
 \hypertarget{general-discussion}{%
 \section{General Discussion}\label{general-discussion}}
 
-In this paper, we explored the development of pragmatic inferences in the preschool years. We identified six tasks covering a broad range of pragmatic phenomena. We found them to have good psychometric properties, in particular good to excellent re-test reliability. We then selected three utterance-based inference tasks for well-powered study of relations among different types of pragmatic abilities and between pragmatics and other cognitive processes. The results showed systematic relations between the tasks. We used a computational cognitive model of pragmatic reasoning to formalize the cognitive processes we believed the tasks to share. Finally, we found pragmatic abilities to be related to a task of executive functions.
+In this paper, we explored the development of pragmatic inferences in the preschool years. We identified six tasks covering a broad range of pragmatic phenomena. We found them to have good psychometric properties, in particular good to excellent re-test reliability. We then selected three utterance-based inference tasks for a well-powered study of relations among different types of pragmatic abilities and between pragmatics and other cognitive abilities. The results showed systematic relations between the tasks. We used a computational cognitive model of pragmatic reasoning to formalize the cognitive processes we believed the tasks to share. Finally, we found pragmatic abilities to be related to a task of executive functions.
 
-One of the main contributions of this paper is that if presents six pragmatic inference tasks that are highly robust and reliable. Whenever we used a task in two studies (mutual exclusivity, informativeness inference, ad-hoc implicature), we found the developmental results to closely replicate. in Study 1 and 2, all tasks showed good re-test reliability -- even when corrected for age. A notable exception was the informativeness inference task in Study 1. However, after making some procedural changes, it turned out to be robust and reliable as well. Taken together, the tasks are highly suitable for individual differences research. The material is freely available via the online repository associated with the study.
+One of the main contributions of this paper is that it presents six pragmatic inference tasks that are highly robust and reliable. Whenever we used a task in two studies (mutual exclusivity, informativeness inference, ad-hoc implicature), we found the developmental results to closely replicate. in Study 1 and 2, all tasks showed good re-test reliability -- even when corrected for age. A notable exception was the informativeness inference task in Study 1. However, after making some procedural changes, it turned out to be robust and reliable as well. Taken together, the tasks are highly suitable for individual differences research. The material is freely available via the associated online repository.
 
-We grouped the tasks into utterance-based and common ground/discourse based. This grouping broadly captured the kind of information that we assumed to be relevant to compute the inference. For Study 3, we focused on the three utterance-based tasks. The main reason was theoretical. We were able to build on earlier work and formalize the inferences involved in these tasks in a common computational framework. We specified the structural overlap between the tasks and identified a parameter in the model that we used to capture individual differences. The shared structural features involve a recursive social inference process according to which the listener expects the speaker to select the most informative of a set of possible utterances. The individual difference parameter captured how informative the listener expected the speaker to be\footnote{this interpretation follows from the conceptual role the parameter plays in the RSA framework. Technically, it acts as an amplifier of the basic inference}. Previous accounts, in particular of mutual exclusivity (reviewed in Lewis et al., 2020), would not have predicted such an overlap. The results of Study 3 (and also Study 2) supported our assumptions as we found systematic relations between the three tasks.
+We grouped the tasks into utterance-based and common ground/discourse based. This grouping broadly captured the kind of information that we assumed to be relevant to compute the inference. For Study 3, we focused on the three utterance-based tasks. The main reason was theoretical. We were able to build on earlier work (Bohn, Tessler, et al., 2021; Bohn et al., 2022) and formalize the inferences involved in these tasks in a common computational framework. We specified the structural overlap between the tasks and identified a parameter in the model that we used to capture individual differences. The shared structural features involve a recursive social inference process according to which the listener expects the speaker to select the most informative of a set of possible utterances. The individual difference parameter captured how informative the listener expected the speaker to be\footnote{This interpretation follows from the conceptual role the parameter plays in the RSA framework. Technically, it acts as an amplifier of the basic inference}. Previous accounts, in particular of mutual exclusivity (reviewed in Lewis et al., 2020), would not have predicted such an overlap. The results of Study 3 (and also Study 2) supported our assumptions as we found systematic relations between the three tasks.
 
-Our formal model also allows us to speculate about why we saw a systematic relation across the three studies between pragmatic inference and the card sorting task as a measure of executive functions. Before we do so, we want to emphasize that the model is first and foremost a computational description of the tasks an not a model of a psychological process (cf. Goodman \& Frank, 2016). For the following, we assume more psychological realism than perhaps warranted. The card sorting task asks the child to switch between rules half way. This requires inhibiting a previously dominant response and attending to different features of the cards. The pragmatic inference in the model involves contrasting the observed utterance with alternative utterances. This could be described as requiring inhibiting interpretations that follow from other plausible interpretations and considering that there would have been better ways of saying it?? However should find a common representation and model this explicitly.
+Our formal model also allowed us to speculate about why we saw a systematic relation across the three studies between pragmatic inference and the card sorting task as a measure of executive functions. Before we do so, we want to emphasize that the model is first and foremost a computational description of the tasks an not a model of a psychological process (cf. Goodman \& Frank, 2016). For the following, we assume more psychological realism than perhaps warranted. The card sorting task asks the child to switch between rules half way. This requires inhibiting a pre-potent response and attending to different features of the cards. The pragmatic inference in the model involves contrasting the observed utterance with alternative utterances. This could be described as requiring inhibiting available, plausible interpretations and contrasting different interpretations instead before making a response. The next step should be to jointly model card sorting and the pragmatics tasks to substantiate such a verbal analysis. The model we presented here lays the foundation for such a project.
 
-Switching rules requires seeing stimuli in different light - focus on different aspect of them, consider alternative ways of seeing them, not go with what you did previously. The inference in the model is driven by not going just with what is true but considering alternative utterances - some commonalities here that might be responsible - need to be modeled explicitly and contrasted to alternative views. (check other theoretical accounts on that).
+\hypertarget{limitations}{%
+\subsection{Limitations}\label{limitations}}
 
-We did not look at the other tasks in the same level of detail
+The studies we presented here have important limitations. Our focus on the utterance-based pragmatic inference tasks meant that we did no study and analyse the common ground/discourse-based tasks with the same level of detail. That is, we did not formalize them in a cognitive model and did not study relations between them in a larger sample. Future research should address these shortcomings. Nevertheless, the work presented here is an important first step because it showed that the tasks themselves have good psychometric properties and are therefore suitable for individual differences research.
 
-Cartoon picture book presentation - not real speakers. But results match those of earlier in personn studies and generally tablet based tasks seem to be fine.
+We presented the tasks as interactive picture books on a tablet computer with animal characters as agents. This improved the quality of our measurement because it allowed us to experimentally isolate the different inferences and run multiple trials in each task. However, it also means that -- like most experimental work -- our tasks lack ecological validity. In real-world conversations, multiple information sources are available to listeners to draw inferences from (Bohn, Tessler, et al., 2021; Bohn et al., 2022). Furthermore, the setup prevented the use of strategies that are an integral part of real-world conversations, like asking questions or seeking clarification (Arkel, Woensdregt, Dingemanse, \& Blokpoel, 2020; H. H. Clark \& Brennan, 1991). However, we want to highlight that the tasks replicated many classical findings from interactive tasks (Akhtar et al., 1996; Frank \& Goodman, 2014; e.g., Markman \& Wachtel, 1988; Saylor et al., 2009).
 
-Studies only weird kids from one cultural background, Nevertheless the tasks had been developed in eglish and were now used in German - suggets some portability. More needs to be done obviously.
+Finally, we only studied one sample of children from a Western, affluent setting. Thus, it is unclear if and how the results would transfer to other settings (Nielsen, Haun, Kärtner, \& Legare, 2017). The tasks used here were largely developed and tested with English-speaking children in the US. The fact that they transferred well to the German setting of the current studies is at least a small hint that they might also be suitable to study pragmatic inference in other cultural and linguistic settings. Future research will hopefully test whether that is the case.
+
+\hypertarget{conclusion}{%
+\subsection{Conclusion}\label{conclusion}}
+
+The studies reported here addressed some fundamental challenges in the study of individual differences in pragmatic abilities (cf. Matthews et al., 2018). We developed and validated new methodological and theoretical tools that helped to study the relations between different types of pragmatic inferences as well as between pragmatics and other cognitive abilities in a more reliable and valid way. This approach emphasizes the interdependent nature of theoretical and methodological progress and provides a roadmap for future work.
 
 \newpage
 
@@ -501,6 +515,9 @@ Akhtar, N. (2002). Relevance and early word learning. \emph{Journal of Child Lan
 \leavevmode\vadjust pre{\hypertarget{ref-akhtar1996role}{}}%
 Akhtar, N., Carpenter, M., \& Tomasello, M. (1996). The role of discourse novelty in early word learning. \emph{Child Development}, \emph{67}(2), 635--645.
 
+\leavevmode\vadjust pre{\hypertarget{ref-arkel2020simple}{}}%
+Arkel, J. van, Woensdregt, M., Dingemanse, M., \& Blokpoel, M. (2020). \emph{A simple repair mechanism can alleviate computational demands of pragmatic reasoning: Simulations and complexity analysis}.
+
 \leavevmode\vadjust pre{\hypertarget{ref-bates1979emergence}{}}%
 Bates, E., Benigni, L., Bretherton, I., Camaioni, L., \& Volterra, V. (1979). \emph{The emergence of symbols: Cognition and communication in infancy}. New York: Academic Press.
 
@@ -509,6 +526,9 @@ Bion, R. A., Borovsky, A., \& Fernald, A. (2013). Fast mapping, slow learning: D
 
 \leavevmode\vadjust pre{\hypertarget{ref-bohn2019pervasive}{}}%
 Bohn, M., \& Frank, M. C. (2019). The pervasive role of pragmatics in early language. \emph{Annual Review of Developmental Psychology}, \emph{1}(1), 223--249.
+
+\leavevmode\vadjust pre{\hypertarget{ref-bohn2018common}{}}%
+Bohn, M., \& Köymen, B. (2018). Common ground and development. \emph{Child Development Perspectives}, \emph{12}(2), 104--108.
 
 \leavevmode\vadjust pre{\hypertarget{ref-bohn_le_peloquin_koymen_frank_2020}{}}%
 Bohn, M., Le, K. N., Peloquin, B., Köymen, B., \& Frank, M. C. (2021). Children's interpretation of ambiguous pronouns based on prior discourse. \emph{Developmental Science}, \emph{24}(3), e13049.
@@ -543,6 +563,9 @@ Clark, E. V. (2009). \emph{First language acquisition}. Cambridge: Cambridge Uni
 \leavevmode\vadjust pre{\hypertarget{ref-clark1996using}{}}%
 Clark, H. H. (1996). \emph{Using language}. Cambridge: Cambridge University Press.
 
+\leavevmode\vadjust pre{\hypertarget{ref-clark1991grounding}{}}%
+Clark, H. H., \& Brennan, S. E. (1991). Grounding in communication. In L. B. Resnick, J. M. Levine, \& S. D. Teasley (Eds.), \emph{Perspectives on socially shared cognition.} (pp. 127--149). American Psychological Association.
+
 \leavevmode\vadjust pre{\hypertarget{ref-diamond2013executive}{}}%
 Diamond, A. (2013). Executive functions. \emph{Annual Review of Psychology}, \emph{64}, 135--168.
 
@@ -565,7 +588,7 @@ Fried, E. I., \& Flake, J. K. (2018). Measurement matters. \emph{APS Observer}, 
 Goodman, N. D., \& Frank, M. C. (2016). Pragmatic language interpretation as probabilistic inference. \emph{Trends in Cognitive Sciences}, \emph{20}(11), 818--829.
 
 \leavevmode\vadjust pre{\hypertarget{ref-dippl}{}}%
-Goodman, N. D., \& Stuhlmüller, A. (2014). {The design and implementation of probabilistic programming languages}. \url{http://dippl.org}.
+Goodman, N. D., \& Stuhlmüller, A. (2014). \emph{{The design and implementation of probabilistic programming languages}}. \url{http://dippl.org}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-grice1991studies}{}}%
 Grice, H. P. (1991). \emph{Studies in the way of words}. Cambridge, MA: Harvard University Press.
@@ -614,6 +637,9 @@ Merkle, E. C., \& Rosseel, Y. (2018). Blavaan: Bayesian structural equation mode
 
 \leavevmode\vadjust pre{\hypertarget{ref-merriman1989mutual}{}}%
 Merriman, W. E., Bowman, L. L., \& MacWhinney, B. (1989). The mutual exclusivity bias in children's word learning. \emph{Monographs of the Society for Research in Child Development}, i--129.
+
+\leavevmode\vadjust pre{\hypertarget{ref-nielsen2017persistent}{}}%
+Nielsen, M., Haun, D., Kärtner, J., \& Legare, C. H. (2017). The persistent sampling bias in developmental psychology: A call to action. \emph{Journal of Experimental Child Psychology}, \emph{162}, 31--38.
 
 \leavevmode\vadjust pre{\hypertarget{ref-nilsen2009relations}{}}%
 Nilsen, E. S., \& Graham, S. A. (2009). The relations between children's communicative perspective-taking and executive functioning. \emph{Cognitive Psychology}, \emph{58}(2), 220--249.
