@@ -4,7 +4,6 @@ output: html_document
 ---
 
 ```{r}
-library("papaja")
 library(tidyverse)
 library(knitr)
 library(ggthemes)
