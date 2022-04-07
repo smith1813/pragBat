@@ -6,3 +6,16 @@
 
 analysis/saves/*
 analysis/rsconnect/*
+analysis/data_processing.Rmd
+analysis/data_processing.html
+analysis/data_round2.Rmd
+analysis/data_round3.Rmd
+analysis/data_simulations.Rmd
+analysis/reliability.Rmd
+analysis/reliability_rouder_haaf.Rmd
+analysis/summary.Rmd
+analysis/summary.html
+
+paper/manuscript.tex
+*.fff
+

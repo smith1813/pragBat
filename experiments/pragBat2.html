@@ -14,7 +14,7 @@
     <div class="slide" id="instructions">
 
         <p class="text">
-                        <p id='logo-text'>Bitte trage die folgenden Informationen ein</p>
+            <p id='logo-text'>Bitte trage die folgenden Informationen ein</p>
         </p>
 
         <p class="block-text">
@@ -122,25 +122,25 @@
 
                         </td>
                         <td>
-                            <img src="images/hill.png" style="position:absolute;TOP: 400px;LEFT: 400px;WIDTH: 190px;z-index: 1;">
-                            <img src="images/Dog_straight.png" style="position:absolute;TOP: 260px;LEFT: 390px;WIDTH: 200px;">
+                            <img src="images/hill.png" style="position:absolute;TOP: 400px;left: 50%;margin-left: -95px; WIDTH: 190px;z-index: 1;">
+                            <img src="images/Dog_straight.png" style="position:absolute;TOP: 260px;left: 50%; margin-left: -100px; WIDTH: 200px;">
                         </td>
                         <td>
 
                         </td>
 
-                    <tr align="center" height="50px">
-                        <td>
-                            <img src="images/bear_me.png" style="position:absolute;TOP: 350px;LEFT: 240px;WIDTH: 110px;z-index:1;">
-                            <img src="images/table_l.png" style="position:absolute;TOP: 450px;LEFT: 200px;WIDTH: 180px;">
-                        </td>
+                        <tr align="center" height="50px">
+                            <td>
+                                <img src="images/bear_me.png" style="position:absolute;TOP: 350px;left: 20%;WIDTH: 110px;z-index:1;">
+                                <img src="images/table_l.png" style="position:absolute;TOP: 450px;left: 20%;WIDTH: 180px;">
+                            </td>
 
-                        <td>
-                            <img src="images/ball.png" style="position:absolute;TOP: 350px;LEFT: 630;WIDTH: 110px;z-index:1;">
-                            <img src="images/table_r.png" style="position:absolute;TOP: 450px;LEFT: 600px;WIDTH: 180px;">
+                            <td>
+                                <img src="images/ball.png" style="position:absolute;TOP: 350px;right: 20%;WIDTH: 110px;z-index:1;">
+                                <img src="images/table_r.png" style="position:absolute;TOP: 450px;right: 20%;WIDTH: 180px;">
 
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
                 </tbody>
             </table>
 
@@ -160,7 +160,7 @@
 
                     <meButton type="button" onClick="this.blur(); me.next();submitButtonStyle(this)">Mutual Exclusivity</meButton>
 
-                     <disconButton type="button" onClick="this.blur(); discon.introAll();submitButtonStyle(this)">Discourse Continuity</disconButton>
+                    <disconButton type="button" onClick="this.blur(); discon.introAll();submitButtonStyle(this)">Discourse Continuity</disconButton>
 
                     <adhocButton type="button" onClick="this.blur(); showSlide('adhoc_training');submitButtonStyle(this)">Ad Hoc Implicature</adhocButton>
 
@@ -173,321 +173,321 @@
     </div>
 
     <!-- The training slide. -->
-     <div class="slide" id="introAll">
-         <div align="center" width="500px">
-             <p id='logo-text'>Anleitung</p>
-             <table style="width:100%">
-                 <tbody>
-                     <p class="block-text" id="text_introAll">
-                     </p>
-                     <p class="block-text" id="text_introAll_2">
-                     </p>
+    <div class="slide" id="introAll">
+        <div align="center" width="500px">
+            <p id='logo-text'>Anleitung</p>
+            <table style="width:100%">
+                <tbody>
+                    <p class="block-text" id="text_introAll">
+                    </p>
+                    <p class="block-text" id="text_introAll_2">
+                    </p>
 
 
-                     <tr align="center" height="300px">
-                         <td>
+                    <tr align="center" height="300px">
+                        <td>
 
-                         </td>
-                         <td>
-                             <img src="images/Bunny_straight.png" style="position:absolute;TOP: 230px;LEFT: 390px;WIDTH: 200px;">
-                         </td>
-                         <td>
+                        </td>
+                        <td>
+                            <img src="images/Bunny_straight.png" style="position:absolute;TOP: 230px;LEFT: 50%;WIDTH: 200px;margin-left: -100px;">
+                        </td>
+                        <td>
 
-                         </td>
+                        </td>
 
-                     <tr align="center" height="50px">
-                         <td>
-                             <img src="images/bread.png" style="position:absolute; BOTTOM: 180px;LEFT: 240px;WIDTH: 110px;z-index:1;">
-                         </td>
+                        <tr align="center" height="50px">
+                            <td>
+                                <img src="images/bread.png" style="position:absolute; BOTTOM: 180px;LEFT: 30%;WIDTH: 110px;margin-left: -55px;z-index:1;">
+                            </td>
 
-                         <td>
-                             <img src="images/pencil.png" style="position:absolute;BOTTOM: 180px;LEFT: 440px;WIDTH: 110px;z-index:1;">
-                         </td>
+                            <td>
+                                <img src="images/pencil.png" style="position:absolute;BOTTOM: 180px;LEFT: 50%;WIDTH: 110px;margin-left: -55px; z-index:1;">
+                            </td>
 
-                         <td>
-                             <img src="images/tv.png" style=" position:absolute;BOTTOM: 180px;LEFT: 630;WIDTH: 110px;z-index:1;">
-                         </td>
-                     </tr>
-                 </tbody>
-             </table>
+                            <td>
+                                <img src="images/tv.png" style=" position:absolute;BOTTOM: 180px;LEFT: 70%;WIDTH: 110px;margin-left: -55px;z-index:1;">
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
 
-             <nextButton id="button" type="button" onClick="this.blur(); discon.intro();">Starte Spiel</nextButton>
+            <nextButton id="button" type="button" onClick="this.blur(); discon.intro();">Starte Spiel</nextButton>
 
-         </div>
-     </div>
+        </div>
+    </div>
 
-     <!-- The main slide (input + choice slide). -->
-       <div class="slide" id="input">
-           <div class="speech" id="text_correctItem"></div>
-           <img class="background_dis" id="background_dis" src="">
-           <audio id="sound" src = ""></audio>
+    <!-- The main slide (input + choice slide). -->
+    <div class="slide" id="input">
+        <div class="speech" id="text_correctItem"></div>
+        <img class="background_dis" id="background_dis" src="">
+        <audio id="sound" src=""></audio>
 
-           <!--all agents-->
+        <!--all agents-->
 
 
-               <img id="Bunny_ask" class="discon_agent"  src="images/Bunny_straight.png">
-               <img id="Cat_ask" class="discon_agent"  src="images/Cat_straight.png">
-               <img id="Dog_ask" class="discon_agent"  src="images/Dog_straight.png">
-               <img id="Frog_ask" class="discon_agent"  src="images/Frog_straight.png">
-               <img id="Monkey_ask" class="discon_agent"  src="images/Monkey_straight.png">
+        <img id="Bunny_ask" class="discon_agent" src="images/Bunny_straight.png">
+        <img id="Cat_ask" class="discon_agent" src="images/Cat_straight.png">
+        <img id="Dog_ask" class="discon_agent" src="images/Dog_straight.png">
+        <img id="Frog_ask" class="discon_agent" src="images/Frog_straight.png">
+        <img id="Monkey_ask" class="discon_agent" src="images/Monkey_straight.png">
 
 
-           <img id="item_l" class="item" src="">
+        <img id="item_l" class="item" src="">
 
-           <img id="item_m" class="item" src="">
+        <img id="item_m" class="item" src="">
 
-           <img id="item_r" class="item" src="">
+        <img id="item_r" class="item" src="">
 
-           <nextButton class ="button" type="button" id="next-input" align="center" onclick="this.blur(); discon.train2();"></nextButton>
+        <nextButton class="button" type="button" id="next-input" align="center" onclick="this.blur(); discon.train2();"></nextButton>
 
-           <nextButton class ="button" type="button" id="next-novel" align="center" onclick="this.blur(); discon.choice2();"></nextButton>
-       </div>
+        <nextButton class="button" type="button" id="next-novel" align="center" onclick="this.blur(); discon.choice2();"></nextButton>
+    </div>
 
-       <!--  transition slide-->
+    <!--  transition slide-->
 
-       <div class="slide" id="transition">
+    <div class="slide" id="transition">
 
-           <div class="speech" id="text_intro"></div>
-           <div class="speech" id="text_transition"></div>
+        <div class="speech" id="text_intro"></div>
+        <div class="speech" id="text_transition"></div>
 
-           <audio id="sound" src = ""></audio>
+        <audio id="sound" src=""></audio>
 
-           <!--all agents-->
-           <img id="Bunny_transition" class="agent_transition"  src="images/Bunny_eat.png">
-           <img id="Cat_transition" class="agent_transition"  src="images/Cat_eat.png">
-           <img id="Dog_transition" class="agent_transition"  src="images/Dog_eat.png">
-           <img id="Frog_transition" class="agent_transition"  src="images/Frog_eat.png">
-           <img id="Monkey_transition" class="agent_transition"  src="images/Monkey_eat.png">
+        <!--all agents-->
+        <img id="Bunny_transition" class="agent_transition" src="images/Bunny_eat.png">
+        <img id="Cat_transition" class="agent_transition" src="images/Cat_eat.png">
+        <img id="Dog_transition" class="agent_transition" src="images/Dog_eat.png">
+        <img id="Frog_transition" class="agent_transition" src="images/Frog_eat.png">
+        <img id="Monkey_transition" class="agent_transition" src="images/Monkey_eat.png">
 
 
-           <img class="background_dis" id="background2_dis" src="">
+        <img class="background_dis" id="background2_dis" src="">
 
-       </div>
+    </div>
 
-       <div class="slide" id="adhoc_training">
-           <div align="center" width="500px">
-               <p id='logo-text'>Anleitung</p>
-               <table style="width:100%">
-                   <tbody>
-                       <p class="block-text">
-                           Das ist das Schaf. Es wohnt in einem Haus. Es ist auf der Suche nach seinen Sachen, die draussen vor dem Haus liegen. Leider kann es nicht selbst nach draussen gehen und sie holen. Kannst Du Schaf helfen und ihm seine Sachen geben?
-                       </p>
+    <div class="slide" id="adhoc_training">
+        <div align="center" width="500px">
+            <p id='logo-text'>Anleitung</p>
+            <table style="width:100%">
+                <tbody>
+                    <p class="block-text">
+                        Das ist das Schaf. Es wohnt in einem Haus. Es ist auf der Suche nach seinen Sachen, die draussen vor dem Haus liegen. Leider kann es nicht selbst nach draussen gehen und sie holen. Kannst Du Schaf helfen und ihm seine Sachen geben?
+                    </p>
 
-                       <p class="block-text">
-                           Schaf sagt Dir immer welche Sachen ihm gehören. Du kannst Schaf seine Sachen geben indem Du darauf tippst.
-                       </p>
+                    <p class="block-text">
+                        Schaf sagt Dir immer welche Sachen ihm gehören. Du kannst Schaf seine Sachen geben indem Du darauf tippst.
+                    </p>
 
 
-                       <tr align="center" height="300px">
-                           <td>
+                    <tr align="center" height="300px">
+                        <td>
 
-                           </td>
-                           <td>
+                        </td>
+                        <td>
 
-                               <img src="images/adhoc/Sheep_adhoc.png" style="position:absolute; TOP:350px; LEFT:385px; WIDTH:250px; z-index:1">
-                               <img src="images/adhoc/window.png" style="position:absolute; TOP:263px; LEFT:360px; WIDTH:300px; z-index: 2">
-                           </td>
+                            <img src="images/adhoc/Sheep_adhoc.png" style="position:absolute; TOP:350px; LEFT:50%; WIDTH:250px;margin-left: -125px; z-index:1">
+                            <img src="images/adhoc/window.png" style="position:absolute; TOP:263px; LEFT:50%; WIDTH:300px;margin-left: -150px; z-index: 2">
+                        </td>
 
 
-                   </tbody>
-               </table>
-               <nextButton type="button" onClick="this.blur(); adhoc.next()">Starte Spiel</nextButton>
-           </div>
-       </div>
+                </tbody>
+            </table>
+            <nextButton type="button" onClick="this.blur(); adhoc.next()">Starte Spiel</nextButton>
+        </div>
+    </div>
 
-       <div class="slide" id="adhoc">
+    <div class="slide" id="adhoc">
 
-           <img id="window" class="window" src="images/adhoc/window.png">
+        <img id="window" class="window" src="images/adhoc/window.png">
 
-           <img id="obj_l" class="object_l" src="">
-           <img id="obj_r" class="object_r" src="">
+        <img id="obj_l" class="object_l" src="">
+        <img id="obj_r" class="object_r" src="">
 
-           <img id="Sheep_straight" class="adhoc_agent" src="images/adhoc/Sheep_adhoc.png">
+        <img id="Sheep_straight" class="adhoc_agent" src="images/adhoc/Sheep_adhoc.png">
 
 
-       </div>
+    </div>
 
 
-       <div class="slide" id="inf_training">
-           <div align="center" width="500px">
-               <p id='logo-text'>Anleitung</p>
-               <table style="width:100%">
-                   <tbody>
-                       <p class="block-text">
-                           Das ist Tiger. Tiger geht in den Spielzeugladen  um ein paar Spielzeuge auszusuchen? Willst Du Tiger helfen die Spielzeuge auszusuchen?
-                       </p>
+    <div class="slide" id="inf_training">
+        <div align="center" width="500px">
+            <p id='logo-text'>Anleitung</p>
+            <table style="width:100%">
+                <tbody>
+                    <p class="block-text">
+                        Das ist Tiger. Tiger geht in den Spielzeugladen um ein paar Spielzeuge auszusuchen? Willst Du Tiger helfen die Spielzeuge auszusuchen?
+                    </p>
 
-                         <tr align="center" height="300px">
-                           <td>
+                    <tr align="center" height="300px">
+                        <td>
 
-                           </td>
-                           <td>
+                        </td>
+                        <td>
 
-                               <img src="images/Tiger_straight.png" style="position:absolute; TOP:100px; LEFT:260px; WIDTH:400px; z-index:1">
-                                 </td>
-                           <td>
+                            <img src="images/Tiger_straight.png" style="position:absolute; TOP:200px; LEFT:50%; WIDTH:300px; margin-left: -150px; z-index:1">
+                        </td>
+                        <td>
 
-                           </td>
+                        </td>
 
-                       <tr align="center" height="50px">
-                       </tr>
-                   </tbody>
-               </table>
-               <nextButton type="button" onClick="this.blur(); simple_inf.next()">Starte Spiel</nextButton>
-           </div>
-       </div>
+                        <tr align="center" height="50px">
+                        </tr>
+                </tbody>
+            </table>
+            <nextButton type="button" onClick="this.blur(); simple_inf.next()">Starte Spiel</nextButton>
+        </div>
+    </div>
 
-       <div class="slide" id="stage">
-           <img class="background" id="background" src="">
+    <div class="slide" id="stage">
+        <img class="background" id="background" src="">
 
-           <audio id="sound" src=""></audio>
+        <audio id="sound" src=""></audio>
 
-           <img id="hill" class="hill" src="images/hill.png">
+        <img id="hill" class="hill" src="images/hill.png">
 
-           <img id="moveButton" class="moveButton" src="images/button.png">
+        <img id="moveButton" class="moveButton" src="images/button.png">
 
-           <img id="Monkey_straight" class="agent" src="images/Monkey_straight.png">
-           <img id="Monkey_look_l" class="look_agent_l" src="images/Monkey_look_l.png">
-           <img id="Monkey_point_l" class="point_agent_l" src="images/Monkey_point_l.png">
-           <img id="Monkey_point_r" class="point_agent_r" src="images/Monkey_point_r.png">
-           <img id="Monkey_look_r" class="look_agent_r" src="images/Monkey_look_r.png">
-           <img id="Monkey_disappear" class="agent" src="images/Monkey_disappear.png">
+        <img id="Monkey_straight" class="agent" src="images/Monkey_straight.png">
+        <img id="Monkey_look_l" class="look_agent_l" src="images/Monkey_look_l.png">
+        <img id="Monkey_point_l" class="point_agent_l" src="images/Monkey_point_l.png">
+        <img id="Monkey_point_r" class="point_agent_r" src="images/Monkey_point_r.png">
+        <img id="Monkey_look_r" class="look_agent_r" src="images/Monkey_look_r.png">
+        <img id="Monkey_disappear" class="agent" src="images/Monkey_disappear.png">
 
-           <img id="Monkey_filler_straight" class="agent" src="images/Monkey_straight.png">
-           <img id="Monkey_filler_look_l" class="look_agent_l" src="images/Monkey_look_l.png">
-           <img id="Monkey_filler_point_l" class="point_agent_l" src="images/Monkey_point_l.png">
-           <img id="Monkey_filler_point_r" class="point_agent_r" src="images/Monkey_point_r.png">
-           <img id="Monkey_filler_look_r" class="look_agent_r" src="images/Monkey_look_r.png">
+        <img id="Monkey_filler_straight" class="agent" src="images/Monkey_straight.png">
+        <img id="Monkey_filler_look_l" class="look_agent_l" src="images/Monkey_look_l.png">
+        <img id="Monkey_filler_point_l" class="point_agent_l" src="images/Monkey_point_l.png">
+        <img id="Monkey_filler_point_r" class="point_agent_r" src="images/Monkey_point_r.png">
+        <img id="Monkey_filler_look_r" class="look_agent_r" src="images/Monkey_look_r.png">
 
 
-           <img id="Bunny_straight" class="agent" src="images/Bunny_straight.png">
-           <img id="Bunny_point_l" class="point_agent_l" src="images/Bunny_point_l.png">
-           <img id="Bunny_look_l" class="look_agent_l" src="images/Bunny_look_l.png">
-           <img id="Bunny_point_r" class="point_agent_r" src="images/Bunny_point_r.png">
-           <img id="Bunny_look_r" class="look_agent_r" src="images/Bunny_point_r.png">
-           <img id="Bunny_disappear" class="agent" src="images/Bunny_disappear.png">
+        <img id="Bunny_straight" class="agent" src="images/Bunny_straight.png">
+        <img id="Bunny_point_l" class="point_agent_l" src="images/Bunny_point_l.png">
+        <img id="Bunny_look_l" class="look_agent_l" src="images/Bunny_look_l.png">
+        <img id="Bunny_point_r" class="point_agent_r" src="images/Bunny_point_r.png">
+        <img id="Bunny_look_r" class="look_agent_r" src="images/Bunny_point_r.png">
+        <img id="Bunny_disappear" class="agent" src="images/Bunny_disappear.png">
 
-           <img id="Dog_straight" class="agent" src="images/Dog_straight.png">
-           <img id="Dog_point_l" class="point_agent_l" src="images/Dog_point_l.png">
-           <img id="Dog_look_l" class="look_agent_l" src="images/Dog_look_l.png">
-           <img id="Dog_point_r" class="point_agent_r" src="images/Dog_point_r.png">
-           <img id="Dog_look_r" class="look_agent_r" src="images/Dog_look_r.png">
-           <img id="Dog_disappear" class="agent" src="images/Dog_disappear.png">
+        <img id="Dog_straight" class="agent" src="images/Dog_straight.png">
+        <img id="Dog_point_l" class="point_agent_l" src="images/Dog_point_l.png">
+        <img id="Dog_look_l" class="look_agent_l" src="images/Dog_look_l.png">
+        <img id="Dog_point_r" class="point_agent_r" src="images/Dog_point_r.png">
+        <img id="Dog_look_r" class="look_agent_r" src="images/Dog_look_r.png">
+        <img id="Dog_disappear" class="agent" src="images/Dog_disappear.png">
 
-           <img id="Cat_straight" class="agent" src="images/Cat_straight.png">
-           <img id="Cat_point_l" class="point_agent_l" src="images/Cat_point_l.png">
-           <img id="Cat_look_l" class="look_agent_l" src="images/Cat_look_l.png">
-           <img id="Cat_point_r" class="point_agent_r" src="images/Cat_point_r.png">
-           <img id="Cat_look_r" class="look_agent_r" src="images/Cat_look_r.png">
-           <img id="Cat_disappear" class="agent" src="images/Cat_disappear.png">
+        <img id="Cat_straight" class="agent" src="images/Cat_straight.png">
+        <img id="Cat_point_l" class="point_agent_l" src="images/Cat_point_l.png">
+        <img id="Cat_look_l" class="look_agent_l" src="images/Cat_look_l.png">
+        <img id="Cat_point_r" class="point_agent_r" src="images/Cat_point_r.png">
+        <img id="Cat_look_r" class="look_agent_r" src="images/Cat_look_r.png">
+        <img id="Cat_disappear" class="agent" src="images/Cat_disappear.png">
 
-           <img id="Frog_straight" class="agent" src="images/Frog_straight.png">
-           <img id="Frog_point_l" class="point_agent_l" src="images/Frog_point_l.png">
-           <img id="Frog_look_l" class="look_agent_l" src="images/Frog_look_l.png">
-           <img id="Frog_point_r" class="point_agent_r" src="images/Frog_point_r.png">
-           <img id="Frog_look_r" class="look_agent_r" src="images/Frog_look_r.png">
-           <img id="Frog_disappear" class="agent" src="images/Frog_disappear.png">
+        <img id="Frog_straight" class="agent" src="images/Frog_straight.png">
+        <img id="Frog_point_l" class="point_agent_l" src="images/Frog_point_l.png">
+        <img id="Frog_look_l" class="look_agent_l" src="images/Frog_look_l.png">
+        <img id="Frog_point_r" class="point_agent_r" src="images/Frog_point_r.png">
+        <img id="Frog_look_r" class="look_agent_r" src="images/Frog_look_r.png">
+        <img id="Frog_disappear" class="agent" src="images/Frog_disappear.png">
 
 
-           <img id="Frog_filler_straight" class="agent" src="images/Frog_straight.png">
-           <img id="Frog_filler_point_l" class="point_agent_l" src="images/Frog_point_l.png">
-           <img id="Frog_filler_look_l" class="look_agent_l" src="images/Frog_look_l.png">
-           <img id="Frog_filler_point_r" class="point_agent_r" src="images/Frog_point_r.png">
-           <img id="Frog_filler_look_r" class="look_agent_r" src="images/Frog_look_r.png">
+        <img id="Frog_filler_straight" class="agent" src="images/Frog_straight.png">
+        <img id="Frog_filler_point_l" class="point_agent_l" src="images/Frog_point_l.png">
+        <img id="Frog_filler_look_l" class="look_agent_l" src="images/Frog_look_l.png">
+        <img id="Frog_filler_point_r" class="point_agent_r" src="images/Frog_point_r.png">
+        <img id="Frog_filler_look_r" class="look_agent_r" src="images/Frog_look_r.png">
 
-           <img id="tree1_l" class="tree_l" src="images/tree1_l.png">
-           <img id="tree2_l" class="tree_l" src="images/tree2_l.png">
-           <img id="tree3_l" class="tree_l" src="images/tree3_l.png">
-           <img id="tree4_l" class="tree_l" src="images/tree4_l.png">
-           <img id="tree5_l" class="tree_l" src="images/tree5_l.png">
-           <img id="tree6_l" class="tree_l" src="images/tree6_l.png">
-           <img id="tree7_l" class="tree_l" src="images/tree7_l.png">
+        <img id="tree1_l" class="tree_l" src="images/tree1_l.png">
+        <img id="tree2_l" class="tree_l" src="images/tree2_l.png">
+        <img id="tree3_l" class="tree_l" src="images/tree3_l.png">
+        <img id="tree4_l" class="tree_l" src="images/tree4_l.png">
+        <img id="tree5_l" class="tree_l" src="images/tree5_l.png">
+        <img id="tree6_l" class="tree_l" src="images/tree6_l.png">
+        <img id="tree7_l" class="tree_l" src="images/tree7_l.png">
 
-           <img id="tree1_r" class="tree_r" src="images/tree1_r.png">
-           <img id="tree2_r" class="tree_r" src="images/tree2_r.png">
-           <img id="tree3_r" class="tree_r" src="images/tree3_r.png">
-           <img id="tree4_r" class="tree_r" src="images/tree4_r.png">
-           <img id="tree5_r" class="tree_r" src="images/tree5_r.png">
-           <img id="tree6_r" class="tree_r" src="images/tree6_r.png">
-           <img id="tree7_r" class="tree_r" src="images/tree7_r.png">
+        <img id="tree1_r" class="tree_r" src="images/tree1_r.png">
+        <img id="tree2_r" class="tree_r" src="images/tree2_r.png">
+        <img id="tree3_r" class="tree_r" src="images/tree3_r.png">
+        <img id="tree4_r" class="tree_r" src="images/tree4_r.png">
+        <img id="tree5_r" class="tree_r" src="images/tree5_r.png">
+        <img id="tree6_r" class="tree_r" src="images/tree6_r.png">
+        <img id="tree7_r" class="tree_r" src="images/tree7_r.png">
 
 
 
-           <img id="fruit_l" class="fruit_l" src="">
+        <img id="fruit_l" class="fruit_l" src="">
 
-           <img id="fruit_inf_r" class="fruit_inf_r" src="">
-           <img id="fruit_inf_r2" class="fruit_inf_r2" src="">
-           <img id="fruit_inf_l" class="fruit_inf_l" src="">
-           <img id="fruit_inf_l2" class="fruit_inf_l2" src="">
+        <img id="fruit_inf_r" class="fruit_inf_r" src="">
+        <img id="fruit_inf_r2" class="fruit_inf_r2" src="">
+        <img id="fruit_inf_l" class="fruit_inf_l" src="">
+        <img id="fruit_inf_l2" class="fruit_inf_l2" src="">
 
 
-           <img id="table_l" class="table_l" src="images/table_l.png">
+        <img id="table_l" class="table_l" src="images/table_l.png">
 
 
-           <img id="fruit_r" class="fruit_r" src="">
+        <img id="fruit_r" class="fruit_r" src="">
 
-           <img id="table_r" class="table_r" src="images/table_r.png">
-       </div>
+        <img id="table_r" class="table_r" src="images/table_r.png">
+    </div>
 
-       <!--  choice slide-->
+    <!--  choice slide-->
 
-       <div class="slide" id="choice">
-           <img class="background" id="background2" src="">
+    <div class="slide" id="choice">
+        <img class="background" id="background2" src="">
 
 
-           <img id="selector_r" class="selector_r" src="images/selector.png">
+        <img id="selector_r" class="selector_r" src="images/selector.png">
 
-           <img id="selector_l" class="selector_l" src="images/selector.png">
+        <img id="selector_l" class="selector_l" src="images/selector.png">
 
-           <img id="choiceFruit_l" class="fruit_l" src="">
-           <img id="table_l" class="table_l" src="images/table_l.png" width="200px">
+        <img id="choiceFruit_l" class="fruit_l" src="">
+        <img id="table_l" class="table_l" src="images/table_l.png" width="200px">
 
-           <img id="hill" class="hill" src="images/hill.png">
+        <img id="hill" class="hill" src="images/hill.png">
 
-           <img id="Monkey_choice" class="agent" src="images/Monkey_straight.png">
+        <img id="Monkey_choice" class="agent" src="images/Monkey_straight.png">
 
-           <img id="Monkey_filler_choice" class="agent" src="images/Monkey_straight.png">
+        <img id="Monkey_filler_choice" class="agent" src="images/Monkey_straight.png">
 
-           <img id="Bunny_choice" class="agent" src="images/Bunny_straight.png">
+        <img id="Bunny_choice" class="agent" src="images/Bunny_straight.png">
 
-           <img id="Dog_choice" class="agent" src="images/Dog_straight.png">
+        <img id="Dog_choice" class="agent" src="images/Dog_straight.png">
 
-           <img id="Cat_choice" class="agent" src="images/Cat_straight.png">
+        <img id="Cat_choice" class="agent" src="images/Cat_straight.png">
 
-           <img id="Frog_choice" class="agent" src="images/Frog_straight.png">
-           <img id="Frog_filler_choice" class="agent" src="images/Frog_straight.png">
+        <img id="Frog_choice" class="agent" src="images/Frog_straight.png">
+        <img id="Frog_filler_choice" class="agent" src="images/Frog_straight.png">
 
-           <img id="choiceFruit_r" class="fruit_r" src="">
+        <img id="choiceFruit_r" class="fruit_r" src="">
 
-           <img id="table_r" class="table_r" src="images/table_r.png" width="200px">
+        <img id="table_r" class="table_r" src="images/table_r.png" width="200px">
 
 
-           <img id="choiceFruit_inf_r" class="fruit_inf_r" src="">
-           <img id="choiceFruit_inf_r2" class="fruit_inf_r2" src="">
-           <img id="choiceFruit_inf_l" class="fruit_inf_l" src="">
-           <img id="choiceFruit_inf_l2" class="fruit_inf_l2" src="">
+        <img id="choiceFruit_inf_r" class="fruit_inf_r" src="">
+        <img id="choiceFruit_inf_r2" class="fruit_inf_r2" src="">
+        <img id="choiceFruit_inf_l" class="fruit_inf_l" src="">
+        <img id="choiceFruit_inf_l2" class="fruit_inf_l2" src="">
 
 
-           <img id="tree1_l_c" class="tree_l" src="images/tree1_l.png">
-           <img id="tree2_l_c" class="tree_l" src="images/tree2_l.png">
-           <img id="tree3_l_c" class="tree_l" src="images/tree3_l.png">
-           <img id="tree4_l_c" class="tree_l" src="images/tree4_l.png">
-           <img id="tree5_l_c" class="tree_l" src="images/tree5_l.png">
-           <img id="tree6_l_c" class="tree_l" src="images/tree6_l.png">
-           <img id="tree7_l_c" class="tree_l" src="images/tree7_l.png">
+        <img id="tree1_l_c" class="tree_l" src="images/tree1_l.png">
+        <img id="tree2_l_c" class="tree_l" src="images/tree2_l.png">
+        <img id="tree3_l_c" class="tree_l" src="images/tree3_l.png">
+        <img id="tree4_l_c" class="tree_l" src="images/tree4_l.png">
+        <img id="tree5_l_c" class="tree_l" src="images/tree5_l.png">
+        <img id="tree6_l_c" class="tree_l" src="images/tree6_l.png">
+        <img id="tree7_l_c" class="tree_l" src="images/tree7_l.png">
 
 
 
 
-           <img id="tree1_r_c" class="tree_r" src="images/tree1_r.png">
-           <img id="tree2_r_c" class="tree_r" src="images/tree2_r.png">
-           <img id="tree3_r_c" class="tree_r" src="images/tree3_r.png">
-           <img id="tree4_r_c" class="tree_r" src="images/tree4_r.png">
-           <img id="tree5_r_c" class="tree_r" src="images/tree5_r.png">
-           <img id="tree6_r_c" class="tree_r" src="images/tree6_r.png">
-           <img id="tree7_r_c" class="tree_r" src="images/tree7_r.png">
+        <img id="tree1_r_c" class="tree_r" src="images/tree1_r.png">
+        <img id="tree2_r_c" class="tree_r" src="images/tree2_r.png">
+        <img id="tree3_r_c" class="tree_r" src="images/tree3_r.png">
+        <img id="tree4_r_c" class="tree_r" src="images/tree4_r.png">
+        <img id="tree5_r_c" class="tree_r" src="images/tree5_r.png">
+        <img id="tree6_r_c" class="tree_r" src="images/tree6_r.png">
+        <img id="tree7_r_c" class="tree_r" src="images/tree7_r.png">
 
-       </div>
+    </div>
 
     <!-- The main slide. -->
     <div class="slide" id="inf_stage">
@@ -551,18 +551,19 @@
 
     <div class="slide" id="cardSortingIntro">
 
-              <p id='logo-text'>Farbenspiel</p>
+        <p id='logo-text'>Farbenspiel</p>
 
 
         <p class="block-text">
-        Hier ist ein blauer Hase und hier ein rotes Boot. Wir spielen jetzt ein Kartenspiel. Das ist das Farbenspiel. Im Farbenspiel kommen alle Blauen hier hin [auf Hase zeigen] und alle Roten hier hin [auf Boot zeigen]. Schau mal so, hier ist eine Rote, die kommt hier hin.
+            Hier ist ein blauer Hase und hier ein rotes Boot. Wir spielen jetzt ein Kartenspiel. Das ist das Farbenspiel. Im Farbenspiel kommen alle Blauen hier hin [auf Hase zeigen] und alle Roten hier hin [auf Boot zeigen]. Schau mal so, hier ist eine Rote, die
+            kommt hier hin.
         </p>
 
         <img id="target_l" class="target_l" src="images/blue_rabbit.png">
         <img id="target_r" class="target_r" src="images/red_boat.png">
 
 
-     <nextButton type="button" onClick="this.blur(); sort.next()"></nextButton>
+        <nextButton type="button" onClick="this.blur(); sort.next()"></nextButton>
 
     </div>
 
@@ -570,43 +571,44 @@
 
     <div class="slide" id="cardSortingIntro2">
 
-              <p id='logo-text'>Farbenspiel</p>
+        <p id='logo-text'>Farbenspiel</p>
 
 
         <p class="block-text">
-Wenn es eine Blaue ist, dann kommt sie hier hin [auf Hase zeigen] und wenn es eine Rote ist dann hier hin [auf Boot zeigen]. Hier ist eine Blaue, wo kommt die hin?
+            Wenn es eine Blaue ist, dann kommt sie hier hin [auf Hase zeigen] und wenn es eine Rote ist dann hier hin [auf Boot zeigen]. Hier ist eine Blaue, wo kommt die hin?
         </p>
 
         <img id="target_l" class="target_l" src="images/blue_rabbit.png">
         <img id="target_r" class="target_r" src="images/red_boat.png">
 
 
-     <nextButton type="button" onClick="this.blur(); sort.next()"></nextButton>
+        <nextButton type="button" onClick="this.blur(); sort.next()"></nextButton>
 
     </div>
 
 
     <div class="slide" id="cardSortingIntro3">
-              <p id='logo-text'>Farbenspiel</p>
+        <p id='logo-text'>Farbenspiel</p>
         <p class="block-text">
-Sehr gut, so geht das Farbenspiel. Jetzt bist Du dran. Denk dran, wenn es eine Blaue ist, dann kommt sie hier hin [auf Hase zeigen] und wenn es eine Rote ist dann hier hin [auf Boot zeigen].
+            Sehr gut, so geht das Farbenspiel. Jetzt bist Du dran. Denk dran, wenn es eine Blaue ist, dann kommt sie hier hin [auf Hase zeigen] und wenn es eine Rote ist dann hier hin [auf Boot zeigen].
         </p>
 
         <img id="target_l" class="target_l" src="images/blue_rabbit.png">
         <img id="target_r" class="target_r" src="images/red_boat.png">
 
 
-     <nextButton type="button" onClick="this.blur(); sort.next()"></nextButton>
+        <nextButton type="button" onClick="this.blur(); sort.next()"></nextButton>
 
     </div>
 
 
-   <div class="slide" id="cardSortingSwitch">
+    <div class="slide" id="cardSortingSwitch">
 
-           <p id='logo-text'>Formenspiel</p>
+        <p id='logo-text'>Formenspiel</p>
 
         <p class="block-text">
-       Jetzt spielen wir eine neues Spiel. Wier spielen nicht mehr das Farbenspiel. Wir spielen jetzt das Formenspiel. Im Formenspiel kommen alle Hasen hier [auf Hase zeigen hin und alle Boote dort hin [auf Boot zeigen]. Denk dran, wenn es ein Hase is mach ihn hier hin und wenn es ein Boot ist, mach es dort hin. Okay?
+            Jetzt spielen wir eine neues Spiel. Wier spielen nicht mehr das Farbenspiel. Wir spielen jetzt das Formenspiel. Im Formenspiel kommen alle Hasen hier [auf Hase zeigen hin und alle Boote dort hin [auf Boot zeigen]. Denk dran, wenn es ein Hase is mach ihn
+            hier hin und wenn es ein Boot ist, mach es dort hin. Okay?
         </p>
         <img id="target_l" class="target_l" src="images/blue_rabbit.png">
         <img id="target_r" class="target_r" src="images/red_boat.png">

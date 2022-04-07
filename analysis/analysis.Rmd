@@ -1,5 +1,5 @@
 ---
-title: "PragBat Models"
+title: "PragBat Analysis"
 output: html_document
 ---
 
@@ -11,12 +11,32 @@ library(corrr)
 library(corrplot)
 library(ggcorrplot)
 library(reshape2)
-library(brms)
-library(psy)
-library(tidyboot)
-library(ggpubr)
+library(coda)
 library(blavaan)
+library(brms)
+library(ggpubr)
+library(scales)
+library(tidyboot)
+library(ggridges)
+
+
+estimate_mode <- function(s) {
+  d <- density(s)
+  return(d$x[which.max(d$y)])
+}
+
+
+hdi_upper<- function(s){
+  m <- HPDinterval(mcmc(s))
+  return(m["var1","upper"])
+}
+
+hdi_lower<- function(s){
+  m <- HPDinterval(mcmc(s))
+  return(m["var1","lower"])
+}
 ```
+# Data
 
 ```{r}
 data <- bind_rows(
@@ -25,19 +45,17 @@ data <- bind_rows(
   read_csv("../data/data_r3.csv") %>%filter(task != "training")%>%mutate(study = "study3")
   ) %>%
   mutate(study = factor(study),
-         id = paste(study, id, sep = "_"))
-
-
-data%>%
-  group_by(task)%>%
-  summarise(trials = length(unique(trial)))
+         id = paste(study, id, sep = "_"),
+         test_day = factor(test_day))
 ```
 
 # Age effects
 
+In the next section, we run the same model for each task and each study. Model outputs are saved in the repository and can be loaded at the end of the following code section in order to reproduce the exact results from the paper.
+
 ```{r}
 # Models
-## card sorting
+# ## card sorting
 # bm_cs_s1 <- brm(correct ~ z_age + z_trial + (z_trial|id),
 #           family = bernoulli(),
 #           #control = list(adapt_delta = 0.99),
@@ -48,7 +66,7 @@ data%>%
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_cs_s1, "../saves/card_sorting_model_s1.rds")
+# #saveRDS(bm_cs_s1, "../saves/card_sorting_model_s1.rds")
 # 
 # bm_cs_s2 <- brm(correct ~ z_age + z_trial + (z_trial|id),
 #           family = bernoulli(),
@@ -60,7 +78,7 @@ data%>%
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_cs_s2, "../saves/card_sorting_model_s2.rds")
+# #saveRDS(bm_cs_s2, "../saves/card_sorting_model_s2.rds")
 # 
 # bm_cs_s3 <- brm(correct ~ z_age + z_trial + (z_trial|id),
 #           family = bernoulli(),
@@ -72,7 +90,7 @@ data%>%
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_cs_s3, "../saves/card_sorting_model_s3.rds")
+# #saveRDS(bm_cs_s3, "../saves/card_sorting_model_s3.rds")
 # 
 # # mutual exclusivity
 # bm_me_s1 <- brm(correct ~ z_age + z_trial + (z_trial|id),
@@ -85,7 +103,7 @@ data%>%
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_me_s1, "../saves/mutual_exclusivity_model_s1.rds")
+# #saveRDS(bm_me_s1, "../saves/mutual_exclusivity_model_s1.rds")
 # 
 # bm_me_s2 <- brm(correct ~ z_age + z_trial + (z_trial|id),
 #           family = bernoulli(),
@@ -97,7 +115,7 @@ data%>%
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_me_s2, "../saves/mutual_exclusivity_model_s2.rds")
+# #saveRDS(bm_me_s2, "../saves/mutual_exclusivity_model_s2.rds")
 # 
 # bm_me_s3 <- brm(correct ~ z_age + z_trial + (z_trial|id),
 #           family = bernoulli(),
@@ -123,7 +141,7 @@ data%>%
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_ad_s2, "../saves/ad_hoc_implicature_model_s2.rds")
+# #saveRDS(bm_ad_s2, "../saves/ad_hoc_implicature_model_s2.rds")
 # 
 # bm_ad_s3 <- brm(correct ~ z_age + z_trial + (z_trial|id),
 #           family = bernoulli(),
@@ -135,7 +153,7 @@ data%>%
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_ad_s3, "../saves/ad_hoc_implicature_model_s3.rds")
+# #saveRDS(bm_ad_s3, "../saves/ad_hoc_implicature_model_s3.rds")
 # 
 # # discourse_continuity
 # bm_dis_s2 <- brm(correct ~ z_age + z_trial + (z_trial|id),
@@ -148,7 +166,7 @@ data%>%
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_dis_s2, "../saves/discourse_continuity_model_s2.rds")
+# #saveRDS(bm_dis_s2, "../saves/discourse_continuity_model_s2.rds")
 # 
 # # informativeness
 # bm_inf_s1 <- brm(correct ~ z_age + z_trial + (z_trial|id),
@@ -161,7 +179,7 @@ data%>%
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_inf_s1, "../saves/informativeness_model_s1.rds")
+# #saveRDS(bm_inf_s1, "../saves/informativeness_model_s1.rds")
 # 
 # #match_to_sample
 # bm_ms_s3 <- brm(correct ~ z_age + z_trial + (z_trial|id),
@@ -174,7 +192,7 @@ data%>%
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_ms_s3, "../saves/match_to_sample_model_s3.rds")
+# #saveRDS(bm_ms_s3, "../saves/match_to_sample_model_s3.rds")
 # 
 # #novelty
 # bm_nov_s1 <- brm(correct ~ z_age + z_trial + (z_trial|id),
@@ -187,7 +205,7 @@ data%>%
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_nov_s1, "../saves/novelty_model_s1.rds")
+# #saveRDS(bm_nov_s1, "../saves/novelty_model_s1.rds")
 # 
 # #preference
 # bm_pref_s1 <- brm(correct ~ z_age + z_trial + (z_trial|id),
@@ -200,7 +218,7 @@ data%>%
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_pref_s1, "../saves/preference_model_s1.rds")
+# #saveRDS(bm_pref_s1, "../saves/preference_model_s1.rds")
 # 
 # #simple_inf
 # bm_simpinf_s2 <- brm(correct ~ z_age + z_trial + (z_trial|id),
@@ -213,7 +231,7 @@ data%>%
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_simpinf_s2, "../saves/simple_inf_model_s2.rds")
+# #saveRDS(bm_simpinf_s2, "../saves/simple_inf_model_s2.rds")
 # 
 # bm_simpinf_s3 <- brm(correct ~ z_age + z_trial + (z_trial|id),
 #           family = bernoulli(),
@@ -225,9 +243,9 @@ data%>%
 #           iter = 4000)%>%
 #   add_criterion("waic")
 # 
-# saveRDS(bm_simpinf_s3, "../saves/simple_inf_model_s3.rds")
+# #saveRDS(bm_simpinf_s3, "../saves/simple_inf_model_s3.rds")
 
-
+# Load saved model outputs
 bm_cs_s1 <- readRDS( "../saves/card_sorting_model_s1.rds")
 bm_cs_s2 <- readRDS( "../saves/card_sorting_model_s2.rds")
 bm_cs_s3 <- readRDS( "../saves/card_sorting_model_s3.rds")
@@ -254,19 +272,21 @@ bm_simpinf_s3 <- readRDS( "../saves/simple_inf_model_s3.rds")
 
 ```
 
+The following code section produces the model predictions included in Figure 2. 
+
 ```{r}
 #Predictions
 nd1 <- data%>%
   filter(study == "study1", trial == "1", task == "mutual_exclusivity", test_day == 1)%>%
-  select(-z_trial,-correct, -task, -test_day, -age_month, -gender, -item, -subage)%>%
+  select(-z_trial,-correct, -task, -test_day, -gender, -item, -subage)%>%
   mutate(z_trial = 0)
 nd2 <- data%>%
   filter(study == "study2", trial == "1", task == "mutual_exclusivity", test_day == 1)%>%
-  select(-z_trial,-correct, -task, -test_day, -age_month, -gender, -item, -subage)%>%
+  select(-z_trial,-correct, -task, -test_day, -gender, -item, -subage)%>%
   mutate(z_trial = 0)
 nd3 <- data%>%
   filter(study == "study3", trial == "1", task == "mutual_exclusivity")%>%
-  select(-z_trial,-correct, -task, -test_day, -age_month, -gender, -item, -subage)%>%
+  select(-z_trial,-correct, -task, -test_day, -gender, -item, -subage)%>%
   mutate(z_trial = 0)
 
 pred <- bind_rows(
@@ -298,6 +318,8 @@ fitted(bm_simpinf_s3, newdata = nd3, re_formula = NA) %>% as_tibble() %>% bind_c
   mutate(task = factor(task, levels = c("mutual_exclusivity", "informativeness", "simple_inf", "preference", "novelty","card_sorting", "discourse_continuity", "ad_hoc_implicature", "match_to_sample")))
 ```
 
+The next code section produces Figure 2 in the manuscript
+
 ```{r}
 p1 <- data %>%
   group_by(study, id,age, subage,task) %>%
@@ -324,21 +346,24 @@ task_names <- c(
 
 pf2 <- ggplot()+
   geom_hline(data = p2, aes(yintercept = chance), lty = 3)+
-  geom_jitter(data = p1, aes(x = age, y = mean, pch = study), alpha = .25, width = .05, height = .01)+
-  geom_smooth(data = pred, aes(x = age, y = Estimate, ymin = Q2.5, ymax = Q97.5, lty =study), stat = "identity", col = "black", size = 1, alpha = .25)+
+  geom_jitter(data = p1, aes(x = age, y = mean, col = study), alpha = .25, width = .05, height = .01)+
+  geom_smooth(data = pred, aes(x = age, y = Estimate, ymin = Q2.5, ymax = Q97.5, col =study), stat = "identity", size = 1, alpha = .25)+
   facet_wrap(~task, nrow = 2, labeller = as_labeller(task_names))+
-    geom_pointrange(data = p2, aes(x = as.numeric(as.character(subage))+.5, y = mean, ymin = ci_lower, ymax = ci_upper, col = factor(subage), pch = study), position = position_dodge(width = .5))+
+    geom_pointrange(data = p2, aes(x = as.numeric(as.character(subage))+.5, y = mean, ymin = ci_lower, ymax = ci_upper, col = study), position = position_dodge(width = .5))+
   labs(x = "Age", y = "Proportion correct") +
-  scale_color_ptol(name = "Age group", labels = c("3-year-olds", "4-year-olds")) +
+  scale_color_colorblind(name = "Study", labels = c("Study 1", "Study 2", "Study 3"))+
   ylim(-0.05, 1.05)+
-  scale_shape_manual(values=c(1, 2, 4), name = "Study", labels = c("Study 1", "Study 2", "Study 3"))+
-  scale_linetype_manual(values=c(1, 2, 3), name = "Study", labels = c("Study 1", "Study 2", "Study 3"))+
+  #scale_shape_manual(values=c(1, 2, 4), name = "Study", labels = c("Study 1", "Study 2", "Study 3"))+
+  #scale_linetype_manual(values=c(1, 2, 3), name = "Study", labels = c("Study 1", "Study 2", "Study 3"))+
   theme_few()+
-  theme(legend.position = c(.9,.225), legend.direction = "vertical", legend.box = "horizontal")+
-  guides(shape = guide_legend(order = 2),linetype = guide_legend(order = 2), col = guide_legend(order = 1))
+  theme(legend.position = c(.9,.225), legend.direction = "vertical", legend.box = "horizontal")
+  #theme(legend.position = "bottom", legend.direction = "horizontal", legend.box = "horizontal")
+  #guides(shape = guide_legend(order = 2),linetype = guide_legend(order = 2), col = guide_legend(order = 1))
 
-ggsave(plot = pf2,"../paper/figures/figure2.png", width = 10, height = 4, scale = 1.25)
+ggsave(plot = pf2,"../paper/figures/figure2_2.png", width = 10, height = 4.5, scale = 1)
 ```
+
+The following two sections extract the age estimates from the models for the different tasks and studies and visualizes them. The second plot is Figure 3 from the paper.
 
 ```{r}
 
@@ -451,7 +476,11 @@ prange<- ggplot(range, aes(y = task, x = Estimate, col = study))+
 
 ggsave(plot = prange,"../paper/figures/figure3.png", width = 4, height = 2.5, scale = 1.5)
 ```
+
 # Reliability
+
+The following section implements the Rouder and Haaf (2019) method of estimating re-test reliability based on a GLMM. 
+
 ```{r}
 model_cor <- data_frame()
 
@@ -518,6 +547,7 @@ saveRDS(mcor, "../saves/model_based_reliability.rds")
 mcor <- readRDS("../saves/model_based_reliability.rds")
 ```
 
+The next section computes re-test reliability and correlations between tasks based on the aggregated raw scores. The plot generated at the end is Figure 4 from the paper. 
 
 ```{r}
 wide_data <- data %>%
@@ -691,6 +721,8 @@ ggsave(plot = pf4,"./figures/figure4.png", width = 10, height = 3, scale = 1.5, 
 
 #Relations between tasks
 
+The following section computes the correlation between tasks, including 95% confidence intervals.
+
 ```{r}
 study = unique(data$study)
 task1 = unique(data$task)
@@ -740,6 +772,8 @@ write_csv(cors, "../saves/by_task_correlations.csv")
 
 # Confirmatory factor analysis
 
+The next section prepares the data file for the CFA.
+
 ```{r}
 cfad <- data%>%
   group_by(id,age, subage,task)%>%
@@ -759,12 +793,14 @@ cfad <- data%>%
          simple_inf = scale(simple_inf))
 ```
 
+Here we specify the different CFA models, with `model` being the focal model.
+
 ```{r}
-model <- 'prag  =~ " mutual_exclusivity + ad_hoc_implicature + simple_inf
+model <- 'prag  =~ ad_hoc_implicature + mutual_exclusivity + simple_inf
           card  =~ card_sorting
           match =~ match_to_sample'
 
-model2 <- 'fac  =~ mutual_exclusivity + ad_hoc_implicature+ simple_inf + card_sorting + match_to_sample'
+model2 <- 'fac  =~ ad_hoc_implicature + mutual_exclusivity+ simple_inf + card_sorting + match_to_sample'
 
 model3 <- 'ad  =~ ad_hoc_implicature
            simp  =~ simple_inf
@@ -773,30 +809,39 @@ model3 <- 'ad  =~ ad_hoc_implicature
            match =~ match_to_sample'
 ```
 
+Here we run the three CFA models.
+
 ```{r}
-fit <- bcfa(model, data = cfad, bcontrol = list(cores = 4), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
-saveRDS(fit, "../saves/bcfa_prag.rds")
+# fit <- bcfa(model, data = cfad, bcontrol = list(cores = 4), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
+# saveRDS(fit, "../saves/bcfa_prag.rds")
 fit <- readRDS("../saves/bcfa_prag.rds")
 
-fit2 <- bcfa(model2, data = cfad, bcontrol = list(cores = 4), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
-saveRDS(fit2, "../saves/bcfa_single.rds")
+# fit2 <- bcfa(model2, data = cfad, bcontrol = list(cores = 4), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
+# saveRDS(fit2, "../saves/bcfa_single.rds")
 fit2 <- readRDS("../saves/bcfa_single.rds")
 
-fit3 <- bcfa(model3, data = cfad, bcontrol = list(cores = 4), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
-saveRDS(fit3, "../saves/bcfa_separate.rds")
+# fit3 <- bcfa(model3, data = cfad, bcontrol = list(cores = 4), target = "stan", n.chains = 4, burnin = 5000, sample = 5000)
+# saveRDS(fit3, "../saves/bcfa_separate.rds")
 fit3 <- readRDS("../saves/bcfa_separate.rds")
+
+
 ```
+
+The following section extracts the fit measures (e.g., PPP) for the three models. 
 
 ```{r}
-fitmeasures(fit)%>%as_tibble(rownames = "index")
-
-x <- summary(fit, fit.measures=TRUE, standardized = TRUE, rsquare = T)
-
-blavInspect(fit, what = "postmean")%>%as_tibble(rownames = "index")%>%
-  left_join(blavInspect(fit, what = "hpd")%>%as_tibble(rownames = "index"))
-
+bind_rows(
+fitmeasures(fit)%>%as_tibble(rownames = "index")%>%
+  mutate(model = "fit1"),
+fitmeasures(fit2)%>%as_tibble(rownames = "index")%>%
+  mutate(model = "fit2"),
+fitmeasures(fit3)%>%as_tibble(rownames = "index")%>%
+  mutate(model = "fit3")
+)%>%
+  write_csv("../saves/cfa_fit_measures.csv")
 ```
 
+Here we extract the WAIC value for each model and compute the WAIC weight. We do the same for LOO. 
 
 ```{r}
 # fit_waic <- fitmeasures(fit)%>%as_tibble(rownames = "index")%>%filter(index == "waic")%>%pull(value)
@@ -840,3 +885,127 @@ blavInspect(fit, what = "postmean")%>%as_tibble(rownames = "index")%>%
 model_comparison <- read_csv("../saves/bcfa_model_comparison.csv")
 
 ```
+
+# RSA model 
+
+First we read in the saved model output
+
+```{r}
+rsa_model <- readRDS("../saves/model_pragBat3.rds")
+```
+
+The next section visualizes the scale parameter
+
+```{r}
+scale <- rsa_model %>%
+  filter(parameter == "speaker_optimality",
+         token == "scale_parameter")
+
+pscale <- ggplot(scale, aes(x = value))+
+  geom_density( alpha = 0.3, aes(fill = id), col = "black", adjust = 3)+
+  geom_vline(xintercept = 1, lty = 2, col = "black", alpha = .75)+
+  xlab("Scale parameter")+
+  ylab("Density")+
+  #facet_grid(~id, scale = "free_x")+
+  theme_few()+
+  scale_fill_viridis_d(name = "Task", labels = c("Informativeness inference", "Mutual exclusivity"))+
+  theme(legend.position = c(.6,.7))
+```
+
+Here we extract and summarize the person specific $\alpha$ estimates and correlate them to performance in the card sorting and relational match-to-sample tasks.
+
+```{r}
+so_est <- rsa_model %>%
+  filter(parameter == "speaker_optimality",
+         type == "subj_parameter",
+         token == "speaker_optimality")%>%
+  group_by(id)%>%
+  summarise(mode = estimate_mode(value),
+            uci = hdi_upper(value),
+            lci = hdi_lower(value))
+
+rsa <- data%>%
+  filter(study == "study3", task == "card_sorting" | task == "match_to_sample")%>%
+  group_by(id, task)%>%
+  summarise(mean = mean(correct))%>%
+  mutate(id = str_remove(id, "study3_"))%>%
+  ungroup()%>%
+  left_join(so_est)%>%
+    mutate(task = recode(task,
+                    `card_sorting` = "Card Sorting",
+                    `match_to_sample` = "Relational Match-to-sample"))
+
+cor <- rsa%>%
+  group_by(task)%>%
+  summarize(cor = round(cor.test(mean,mode)$estimate,2),
+            lci =  round(cor.test(mean,mode)$conf.int[1],2),
+            uci =  round(cor.test(mean,mode)$conf.int[2],2))%>%
+  mutate(label = paste0("r = ", cor, " (",lci, " - ", uci,")"))
+
+write_csv(cor, "../saves/rsa_cor_estimates.csv")
+
+prsacor <- ggplot(rsa, aes(x = mode, y = mean))+
+  #geom_abline(intercept = 2, slope = 1, lty = 2, alpha = .75)+
+  geom_point(pch = 1, alpha = .75)+
+  geom_smooth(method = "lm", col= "firebrick")+
+  geom_text(data = cor, aes(label = label),x = 1, y = 0.9)+
+  labs(y = "Mean proportion correct", x = "RSA model estimate (\u03b1)")+
+  facet_grid(~task)+
+  theme_few()
+
+```
+
+The next section reads in the output from the RSA-based reliability model for Study 2
+
+```{r}
+rel_rsa_model <- readRDS("../saves/rsa_rel_est.rds")
+```
+
+Here we summarize the parameter estimates for each test session and correlate them to get a measure of re-test reliability. 
+
+```{r}
+so_id_summary <- rel_rsa_model%>%
+  group_by(day,id)%>%
+  summarise(mode = estimate_mode(value),
+            uci = hdi_upper(value),
+            lci = hdi_lower(value))%>%
+  pivot_wider(names_from = c(day), values_from = c(mode,uci,lci))
+
+cor <- tibble(cor =  paste0(
+  "r = ",
+  round(cor.test(so_id_summary$mode_1, so_id_summary$mode_2)$estimate, 2),
+  " (",
+  round(cor.test(so_id_summary$mode_1, so_id_summary$mode_2)$conf.int[1], 2),
+  " - ",
+  round(cor.test(so_id_summary$mode_1, so_id_summary$mode_2)$conf.int[2], 2),
+  ")"
+  )
+  )
+
+
+prelrsa <- ggplot(so_id_summary, aes(x = mode_1, y = mode_2))+
+  geom_abline(intercept = 0, slope = 1, lty = 2, alpha = 0.7, size = 0.5)+
+  geom_errorbar(aes(ymin = lci_2, ymax = uci_2),width = 0, alpha = .5, col = "grey")+
+  geom_errorbarh(aes(xmin = lci_1, xmax = uci_1), height = 0, alpha = .5, col = "grey")+
+    geom_point(pch = 1, size = 2)+
+    labs(x = "Day 1", y = "Day 2")+
+  scale_y_continuous(limits=c(0,8),oob=squish)+
+  #facet_grid(~chain)+
+  geom_text(data = cor, aes(label =  cor), x = 0, y =7.5, hjust = 0)+
+  #stat_cor(method = "pearson", aes(x = mode_1, y = mode_2), inherit.aes = F, size = 3)+
+  theme_few()
+```
+
+Here we combine the plots for the correlation between $\alpha$ estimates and the card sorting and relational match-to-sample tasks with the plot for the scale parameter and the RSA based reliability plot to generate Figure 6 in the manuscript. 
+
+```{r}
+prsa <- ggarrange(
+  prsacor,
+  ggarrange(prelrsa, pscale, nrow = 2  , labels = c("", "C")),
+  widths = c(3,1),
+  labels = c("A", "B")
+)
+
+ggsave(plot = prsa,"../paper/figures/figure6.png", width = 10, height = 4, scale = 1.25, bg = "white")
+```
+
