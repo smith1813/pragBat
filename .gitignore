@@ -18,6 +18,8 @@ analysis/summary.html
 
 *.docx
 
+cover_letter.pdf
+
 paper/manuscript.tex
 *.fff
 
