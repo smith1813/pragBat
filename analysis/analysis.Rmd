@@ -1,5 +1,5 @@
 ---
-title: "PragBat Analysis"
+title: "Analysis"
 output: html_document
 ---
 
@@ -553,14 +553,14 @@ The next section computes re-test reliability and correlations between tasks bas
 wide_data <- data %>%
   mutate(task = recode(task,
                     `mutual_exclusivity` = "Mutual Exclusivity",
-                    `informativeness` = "Informativeness Inference (1)",
-                    `simple_inf` = "Informativeness Inference (2)",
+                    `informativeness` = "Informativeness Inf. (1)",
+                    `simple_inf` = "Informativeness Inf. (2)",
                     `preference` = "Speaker Preference",
                     `novelty` = "Discourse Novelty",
                     `card_sorting` = "Card Sorting",
                     `discourse_continuity` = "Discourse Continuity",
                     `ad_hoc_implicature` = "Ad-hoc Implicature",
-                    `match_to_sample` = "Relational Match-to-sample"))%>%
+                    `match_to_sample` = "Rel. Match-to-sample"))%>%
   filter(study != "study3",
          task != "training") %>%
   droplevels() %>%
@@ -584,14 +584,14 @@ reli <- wide_data %>%
 cor_r1 <- data %>%
   mutate(task = recode(task,
                     `mutual_exclusivity` = "Mutual Exclusivity",
-                    `informativeness` = "Informativeness Inference (1)",
-                    `simple_inf` = "Informativeness Inference (2)",
+                    `informativeness` = "Informativeness Inf. (1)",
+                    `simple_inf` = "Informativeness Inf. (2)",
                     `preference` = "Speaker Preference",
                     `novelty` = "Discourse Novelty",
                     `card_sorting` = "Card Sorting",
                     `discourse_continuity` = "Discourse Continuity",
                     `ad_hoc_implicature` = "Ad-hoc Implicature",
-                    `match_to_sample` = "Relational Match-to-sample"))%>%
+                    `match_to_sample` = "Rel. Match-to-sample"))%>%
   filter(study == "study1") %>%
   droplevels() %>%
   group_by(id,task) %>%
@@ -614,14 +614,14 @@ cor_r1 <- data %>%
 cor_r2 <- data%>%
     mutate(task = recode(task,
                     `mutual_exclusivity` = "Mutual Exclusivity",
-                    `informativeness` = "Informativeness Inference (1)",
-                    `simple_inf` = "Informativeness Inference (2)",
+                    `informativeness` = "Informativeness Inf. (1)",
+                    `simple_inf` = "Informativeness Inf. (2)",
                     `preference` = "Speaker Preference",
                     `novelty` = "Discourse Novelty",
                     `card_sorting` = "Card Sorting",
                     `discourse_continuity` = "Discourse Continuity",
                     `ad_hoc_implicature` = "Ad-hoc Implicature",
-                    `match_to_sample` = "Relational Match-to-sample"))%>%
+                    `match_to_sample` = "Rel. Match-to-sample"))%>%
   filter(study == "study2") %>%
   droplevels() %>%
   group_by(id,task) %>%
@@ -641,14 +641,14 @@ cor_r2 <- data%>%
 cor3 <- data%>%
     mutate(task = recode(task,
                     `mutual_exclusivity` = "Mutual Exclusivity",
-                    `informativeness` = "Informativeness Inference (1)",
-                    `simple_inf` = "Informativeness Inference (2)",
+                    `informativeness` = "Informativeness Inf. (1)",
+                    `simple_inf` = "Informativeness Inf. (2)",
                     `preference` = "Speaker Preference",
                     `novelty` = "Discourse Novelty",
                     `card_sorting` = "Card Sorting",
                     `discourse_continuity` = "Discourse Continuity",
                     `ad_hoc_implicature` = "Ad-hoc Implicature",
-                    `match_to_sample` = "Relational Match-to-sample"))%>%
+                    `match_to_sample` = "Rel. Match-to-sample"))%>%
   filter(study == "study3")%>%
   filter(task != "training")%>%
   droplevels()%>%
@@ -712,7 +712,7 @@ cp3 <- ggplot(cor3, aes(x = term, y = task, fill = cor))+
 
 pf4 <- ggarrange(cp1, cp2, cp3, common.legend = F, nrow = 1, labels = c("A","B","C"), hjust = -1.5)
 
-ggsave(plot = pf4,"../paper/figures/figure4.png", width = 10, height = 3, scale = 1.5, bg = "white")
+ggsave(plot = pf4,"../paper/figures/figure4.png", width = 10, height = 3, scale = 1.3, bg = "white")
 ```
 
 #Relations between tasks

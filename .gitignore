@@ -16,6 +16,8 @@ analysis/reliability_rouder_haaf.Rmd
 analysis/summary.Rmd
 analysis/summary.html
 
+*.docx
+
 paper/manuscript.tex
 *.fff
 
