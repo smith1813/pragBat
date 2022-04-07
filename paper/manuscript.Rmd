@@ -10,29 +10,31 @@ author:
     email         : "manuel_bohn@eva.mpg.de"
     role:         # Contributorship roles (e.g., CRediT, https://casrai.org/credit/)
       - Conceptualization
-      - Analysis
-      - Writing - Original Draft Preparation
-      - Writing - Review & Editing
+      - Methodology
+      - Formal Analysis
+      - Visualization
+      - Writing – original draft
+      - Writing – review & editing
   - name          : "Michael Henry Tessler"
     affiliation   : "2,3"
     role:
-      - Analysis
-      - Writing - Review & Editing
+      - Formal Analysis
+      - Writing – review & editing
   - name          : "Clara Kordt"
     affiliation   : "4"
     role:
-      - Data collection
-      - Writing - Review & Editing
+      - Investigation
+      - Writing – review & editing
   - name          : "Tom Hausmann"
     affiliation   : "5"
     role:
-      - Data collection
-      - Writing - Review & Editing
+      - Investigation
+      - Writing – review & editing
   - name          : "Michael C. Frank"
     affiliation   : "6"
     role:
       - Conceptualization
-      - Writing - Review & Editing
+      - Writing – review & editing
 
 affiliation:
   - id            : "1"
@@ -40,13 +42,13 @@ affiliation:
   - id            : "2"
     institution   : "DeepMind, London, UK"
   - id            : "3"
-    institution   : "Department of Brain and Cognitive Sciences, Massachusetts Institute of Technology"
+    institution   : "Department of Brain and Cognitive Sciences, Massachusetts Institute of Technology, Cambridge, USA"
   - id            : "4"
-    institution   : "Martin Luther University Halle-Wittenberg"
+    institution   : "Martin Luther University Halle-Wittenberg, Halle (Saale), Germany"
   - id            : "5"
-    institution   : "Brandenburg Medical School Theodor Fontane"
+    institution   : "Brandenburg Medical School Theodor Fontane, Neuruppin, Germany"
   - id            : "6"
-    institution   : "Department of Psychology, Stanford University"
+    institution   : "Department of Psychology, Stanford University, Stanford, USA"
 
 authornote: |
   We are very thankful to Stella Christie for sharing the material for the relational match-to-sample task with us. 
@@ -182,7 +184,7 @@ Each child received exactly the same version of each task and completed the task
 
 We analysed the data in three steps. First we investigated developmental effects in each task, then we assessed re-test reliability and finally, we looked at relations between the tasks. All analysis were run in `R` [@R-base] version 4.1.2. Regression models were fit as Bayesian generalized linear mixed models (GLMM) using the function `brm` from the package `brms` [@burkner2017brms]. We used default priors for all analysis. 
 
-To estimate developmental effects in each task, we fit a GLMM predicting correct responses (0/1) by age (centered at the mean) and trial number (also centered). The model included random intercepts for each participant and random slopes for trial within participants (model notation in `R`: `correct ~ age + trial + (trial|id)` )^[We pre-registered the inclusion of random intercepts for item. We deviate from this here for the following reason: the order of items was fixed and the same for all participants so that trial and item were confounded.]. For each task, we inspected and visualized the posterior distribution (mean and 95% Credible Interval (CrI)) for the age estimate.
+To estimate developmental effects in each task, we fit a GLMM predicting correct responses (0/1) by age (centered at the mean) and trial number (also centered). The model included random intercepts for each participant and random slopes for trial within participants (model notation in `R`: `correct ~ age + trial + (trial|id)` )^[We pre-registered the inclusion of random intercepts for item. We deviate from this here because the order of items was fixed and the same for all participants so that trial and item were confounded.]. For each task, we inspected and visualized the posterior distribution (mean and 95% Credible Interval (CrI)) for the age estimate.
 
 We assessed re-test reliability in two ways. First, for each task we computed the proportion of correct trials for each individual in the two test sessions and then used  Pearson correlations to quantify re-test reliability. Second, we used a GLMM based approach suggested by @rouder2019psychometrics. Here, a GLMM was fitted to the trial-by-trial data for each task with a fixed effect of age, a random intercept for each participant and a random slope for test day (`correct ~ age + (0+test_day|id)`)^[The notation `0+test_day` yields a separate intercept estimate for each test day and subject instead of an intercept estimate for day 1 and a slope for the difference between day 1 and day 2. As a consequence, the model estimates the correlation between the two test days instead of a correlation between an intercept and the slope for test day.]. The model yields a participant specific estimate for each test day and also estimates the correlation between the two. This correlation can be interpreted as the re-test reliability. This approach has several advantages. First, it uses the trial-by-trial data and avoids information loss that comes with data aggregation. Second, it uses hierarchical shrinkage to obtain better participant specific estimates. Finally, it allows us to get an age-independent estimate for reliability. One worry when assessing re-test reliability in developmental studies is that re-test correlations can be high because of domain general cognitive gains and not because of task-specific individual differences. By including age as a fixed effect in the model, the estimates for each participant are independent of age and so is the correlation between estimates for the two test days -- the re-test reliability.
 
