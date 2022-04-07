@@ -482,67 +482,67 @@ ggsave(plot = prange,"../paper/figures/figure3.png", width = 4, height = 2.5, sc
 The following section implements the Rouder and Haaf (2019) method of estimating re-test reliability based on a GLMM. 
 
 ```{r}
-model_cor <- data_frame()
-
-tasks1 <- unique(data$task[data$study == "study1"])
-
-for(i in tasks1) {
-
-  model <- brm(correct ~  z_age + (0+test_day|id),
-            data = data%>%filter(study == "study1", task == i), 
-            family = bernoulli(),
-          #control = list(adapt_delta = 0.99),
-          sample_prior = F,
-          chains = 4,
-          cores = 4,
-          #save_all_pars = TRUE,
-          iter = 4000)
-
-          cor <- summary(model)$random$id%>%as_tibble(rownames = "parameter")%>%filter(parameter == "cor(test_dayday1,test_dayday2)")%>%mutate(task = i , study = "study1")
-          
-          model_cor <- bind_rows(model_cor, cor)
-  
-}
-
-tasks2 <- unique(data$task[data$study == "study2"])
-
-for(i in tasks2) {
-
-  model <- brm(correct ~  z_age + (0+test_day|id),
-            data = data%>%filter(study == "study2", task == i), 
-            family = bernoulli(),
-          #control = list(adapt_delta = 0.99),
-          sample_prior = F,
-          chains = 4,
-          cores = 4,
-          #save_all_pars = TRUE,
-          iter = 4000)
-
-          cor <- summary(model)$random$id%>%as_tibble(rownames = "parameter")%>%filter(parameter == "cor(test_dayday1,test_dayday2)")%>%mutate(task = i , study = "study2")
-          
-          model_cor <- bind_rows(model_cor, cor)
-  
-}
-
-
-mcor <- model_cor %>%
-    mutate(task = recode(task,
-                    `mutual_exclusivity` = "Mutual Exclusivity",
-                    `informativeness` = "Informativeness Inference (1)",
-                    `simple_inf` = "Informativeness Inference (2)",
-                    `preference` = "Speaker Preference",
-                    `novelty` = "Discourse Novelty",
-                    `card_sorting` = "Card Sorting",
-                    `discourse_continuity` = "Discourse Continuity",
-                    `ad_hoc_implicature` = "Ad-hoc Implicature",
-                    `match_to_sample` = "Relational Match-to-sample"),
-           term = task, 
-           mcor = Estimate, 
-           mcor_lci = `l-95% CI`, 
-           mcor_uci = `u-95% CI`)%>%
-  select(study, term, task, mcor, mcor_lci, mcor_uci)
-
-saveRDS(mcor, "../saves/model_based_reliability.rds")
+# model_cor <- data_frame()
+# 
+# tasks1 <- unique(data$task[data$study == "study1"])
+# 
+# for(i in tasks1) {
+# 
+#   model <- brm(correct ~  z_age + (0+test_day|id),
+#             data = data%>%filter(study == "study1", task == i), 
+#             family = bernoulli(),
+#           #control = list(adapt_delta = 0.99),
+#           sample_prior = F,
+#           chains = 4,
+#           cores = 4,
+#           #save_all_pars = TRUE,
+#           iter = 4000)
+# 
+#           cor <- summary(model)$random$id%>%as_tibble(rownames = "parameter")%>%filter(parameter == "cor(test_dayday1,test_dayday2)")%>%mutate(task = i , study = "study1")
+#           
+#           model_cor <- bind_rows(model_cor, cor)
+#   
+# }
+# 
+# tasks2 <- unique(data$task[data$study == "study2"])
+# 
+# for(i in tasks2) {
+# 
+#   model <- brm(correct ~  z_age + (0+test_day|id),
+#             data = data%>%filter(study == "study2", task == i), 
+#             family = bernoulli(),
+#           #control = list(adapt_delta = 0.99),
+#           sample_prior = F,
+#           chains = 4,
+#           cores = 4,
+#           #save_all_pars = TRUE,
+#           iter = 4000)
+# 
+#           cor <- summary(model)$random$id%>%as_tibble(rownames = "parameter")%>%filter(parameter == "cor(test_dayday1,test_dayday2)")%>%mutate(task = i , study = "study2")
+#           
+#           model_cor <- bind_rows(model_cor, cor)
+#   
+# }
+# 
+# 
+# mcor <- model_cor %>%
+#     mutate(task = recode(task,
+#                     `mutual_exclusivity` = "Mutual Exclusivity",
+#                     `informativeness` = "Informativeness Inference (1)",
+#                     `simple_inf` = "Informativeness Inference (2)",
+#                     `preference` = "Speaker Preference",
+#                     `novelty` = "Discourse Novelty",
+#                     `card_sorting` = "Card Sorting",
+#                     `discourse_continuity` = "Discourse Continuity",
+#                     `ad_hoc_implicature` = "Ad-hoc Implicature",
+#                     `match_to_sample` = "Relational Match-to-sample"),
+#            term = task, 
+#            mcor = Estimate, 
+#            mcor_lci = `l-95% CI`, 
+#            mcor_uci = `u-95% CI`)%>%
+#   select(study, term, task, mcor, mcor_lci, mcor_uci)
+# 
+# saveRDS(mcor, "../saves/model_based_reliability.rds")
 
 mcor <- readRDS("../saves/model_based_reliability.rds")
 ```
@@ -568,8 +568,8 @@ wide_data <- data %>%
   summarise(mean = mean(correct)) %>%
   spread(test_day, mean) %>%
   na.omit() %>%
-  rename("Day1" = `day1`,
-         "Day2" = `day2`)
+  rename("Day1" = `1`,
+         "Day2" = `2`)
 
 reli <- wide_data %>%
   group_by(study, task) %>%
@@ -671,13 +671,14 @@ cp1 <- ggplot(cor_r1, aes(x = term, y = task, fill = cor))+
   labs(x = "", y = "")+
   scale_fill_gradient2(low = "#CC6677", high = "#117733", mid = "white",
    midpoint = 0, limit = c(-1,1), space = "Lab",
-   name="Correlation") +
+   name="") +
    coord_fixed()+
   theme_few()+
   geom_text(aes(label = cor2), color = "black", size = 3) +
   #ggtitle("Study 1")+
-  theme(
-        legend.position = "right",
+  theme(legend.text=element_text(size=8),
+        legend.background = element_blank(),
+        legend.position = c(0.15, 0.75),
         legend.direction = "vertical",
         axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
 
@@ -689,11 +690,10 @@ cp2 <- ggplot(cor_r2, aes(x = term, y = task, fill = cor))+
    name="Correlation") +
    coord_fixed()+
   theme_few()+
+  guides(fill = "none")+
   geom_text(aes(label = cor2), color = "black", size = 3) +
   #ggtitle("Study 2")+
   theme(
-        legend.position = "right",
-        legend.direction = "vertical",
         axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
 
 cp3 <- ggplot(cor3, aes(x = term, y = task, fill = cor))+
@@ -704,19 +704,15 @@ cp3 <- ggplot(cor3, aes(x = term, y = task, fill = cor))+
    name="Correlation") +
    coord_fixed()+
   theme_few(base_size = 12)+
+  guides(fill = "none")+
   #ggtitle("Study 3")+
   geom_text(aes(label = cor), color = "black", size = 3) +
-  theme(legend.justification = c(1, 0),
-        legend.position = c(0.55, 0.75),
-        legend.direction = "vertical",
-        axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
-        legend.background = element_blank())+
-  guides(fill = guide_colorbar(barwidth = 7, barheight = 1,
-                title.position = "top", title.hjust = 0.5))
+  theme(
+        axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
 
-pf4 <- ggarrange(cp1, cp2, cp3, common.legend = T, legend = "right", nrow = 1, labels = c("A","B","C"), hjust = -1.5)
+pf4 <- ggarrange(cp1, cp2, cp3, common.legend = F, nrow = 1, labels = c("A","B","C"), hjust = -1.5)
 
-ggsave(plot = pf4,"./figures/figure4.png", width = 10, height = 3, scale = 1.5, bg = "white")
+ggsave(plot = pf4,"../paper/figures/figure4.png", width = 10, height = 3, scale = 1.5, bg = "white")
 ```
 
 #Relations between tasks
