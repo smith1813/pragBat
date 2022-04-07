@@ -498,7 +498,7 @@ for(i in tasks1) {
           #save_all_pars = TRUE,
           iter = 4000)
 
-          cor <- summary(model)$random$id%>%as_tibble(rownames = "parameter")%>%filter(parameter == "cor(test_dayday1,test_dayday2)")%>%mutate(task = i , study = "study1")
+          cor <- summary(model)$random$id%>%as_tibble(rownames = "parameter")%>%filter(parameter == "cor(test_day1,test_day2)")%>%mutate(task = i , study = "study1")
           
           model_cor <- bind_rows(model_cor, cor)
   
@@ -518,7 +518,7 @@ for(i in tasks2) {
           #save_all_pars = TRUE,
           iter = 4000)
 
-          cor <- summary(model)$random$id%>%as_tibble(rownames = "parameter")%>%filter(parameter == "cor(test_dayday1,test_dayday2)")%>%mutate(task = i , study = "study2")
+          cor <- summary(model)$random$id%>%as_tibble(rownames = "parameter")%>%filter(parameter == "cor(test_day1,test_day2)")%>%mutate(task = i , study = "study2")
           
           model_cor <- bind_rows(model_cor, cor)
   
