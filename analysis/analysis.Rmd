@@ -544,7 +544,13 @@ The following section implements the Rouder and Haaf (2019) method of estimating
 # 
 # saveRDS(mcor, "../saves/model_based_reliability.rds")
 
-mcor <- readRDS("../saves/model_based_reliability.rds")
+mcor <- readRDS("../saves/model_based_reliability.rds")%>%
+  mutate(task = recode(task,
+                    `Informativeness Inference (1)` = "Informativeness Inf. (1)",
+                    `Informativeness Inference (2)` = "Informativeness Inf. (2)"),
+         term = recode(term,
+                    `Informativeness Inference (1)` = "Informativeness Inf. (1)",
+                    `Informativeness Inference (2)` = "Informativeness Inf. (2)"))
 ```
 
 The next section computes re-test reliability and correlations between tasks based on the aggregated raw scores. The plot generated at the end is Figure 4 from the paper. 
