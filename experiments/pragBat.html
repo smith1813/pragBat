@@ -4,6 +4,7 @@
     <title>Learning words from animals</title>
     <script src="jquery-1.11.2.min.js"></script>
     <script src="mmturkey_pragBat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/json2csv"></script><!--Para pasar json a csv-->
     <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -14,26 +15,26 @@
     <div class="slide" id="instructions">
 
         <p class="text">
-            <p id='logo-text'>Bitte trage die folgenden Informationen ein</p>
+            <p id='logo-text'>Por favor, complete la siguiente información</p>
         </p>
 
         <p class="block-text">
             <center>
-                Kind ID: <br>
+                ID del encuestado: <br>
                 <input type="text" id="subjectID" name="subjectID" size="30">
             </center>
         </p>
 
         <p class="block-text">
             <center>
-                Kind Alter: <br>
+                Edad del encuestado: <br>
                 <input type="text" id="subjectAge" name="subjectAge" size="30">
             </center>
         </p>
 
         <br><br>
         <center>
-            <button type="button" onClick="this.blur(); train.checkInput()">Starte touch Training</font></button>
+            <button type="button" onClick="this.blur(); train.checkInput()">Iniciar entrenamiento táctil</font></button>
             <div id="checkMessage"> </div>
         </center>
     </div>
@@ -42,10 +43,10 @@
     <div class="slide" id="dotGame">
         <br><br><br><br><br><br><br>
         <center>
-            <button type="button" onClick="this.blur(); train.trainingDot()">Touch Training wiederholen</font></button>
+            <button type="button" onClick="this.blur(); train.trainingDot()">Repetir entrenamiento táctil</font></button>
         </center>
         <center>
-            <button type="button" onClick="this.blur(); showSlide('intro')">Weiter zu den Spielen</font></button>
+            <button type="button" onClick="this.blur(); showSlide('intro')">Vamos a jugar!</font></button>
         </center>
     </div>
 
@@ -55,11 +56,11 @@
     <!-- The intro slide. -->
     <div class="slide" id="intro">
         <div align="center" width="500px">
-            <p id='logo-text'>Die Tiere stellen sich vor</p>
+            <p id='logo-text'>Conoce a los animales</p>
             <table style="width:100%">
                 <tbody>
                     <p class="block-text">
-                        Das sind die Tiere mit denen Du spielen kannst. Schau sie Dir genau an. Weißt Du wie sie alle heißen?
+                        Estos son los animales con los que puedes jugar. Miralos bien. ¿Te sabes sus nombres?
                     </p>
                     <tr align="center" height="200px">
                         <td>
@@ -80,26 +81,29 @@
                     </tr>
                     <tr align="center">
                         <td>
-                            <p>Affe</p>
+                            <p>Mono</p>
                         </td>
                         <td>
-                            <p>Hase</p>
+                            <p>Conejo</p>
                         </td>
                         <td>
-                            <p>Katze</p>
+                            <p>Gato</p>
                         </td>
                         <td>
-                            <p>Hund</p>
+                            <p>Perro</p>
                         </td>
                         <td>
-                            <p>Frosch</p>
+                            <p>Rana</p>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div align="center" width="500px">
-            <button type="button" onClick="this.blur(); showSlide('select')">Weiter</button>
+            <!-- el boton ahora manda directamente a hacer un novelty, probar si devuelve el json con los resultados de todas formas -->
+            <button type="button" onClick="this.blur(); novelty.next();submitButtonStyle(this)">Continuar</novButton>
+            <!-- <button type="button" onClick="this.blur(); showSlide('select')">Continuar</button> -->
+            
         </div>
     </div>
 
@@ -144,15 +148,18 @@
                 </tbody>
             </table>
 
+
             <nextButton type="button" onClick="this.blur(); train.next()">Starte Training</nextButton>
         </div>
     </div>
 
 
+<!-- TODO: BORRAR LOS OTROS EXPERIMENTOS Y SALTARSE LA ETAPA DE SELECCION -->
+<!-- TODO: TRADUCIR TODO A ESPAÑOL -->
 
     <div class="slide" id="select">
         <div align="center" width="500px">
-            <p id='logo-text'>Wähle das nächste Spiel aus</p>
+            <p id='logo-text'>Elige el proximo juego</p>
             <table style="width:100%">
                 <tbody>
 
@@ -346,6 +353,7 @@
         </div>
     </div>
 
+<!-- Todo esto es para otros trials
 
     <div class="slide" id="inf_training">
         <div align="center" width="500px">
@@ -480,7 +488,7 @@
 
     </div>
 
-
+-->
 
 
 
@@ -490,7 +498,7 @@
         </div>
         <br><br>
         <center>
-            <p id='logo-text'>Thank you for participating!</p>
+            <p id='logo-text'>¡Muchas por participar!</p>
         </center>
     </div>
 

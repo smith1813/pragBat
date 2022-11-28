@@ -126,7 +126,6 @@ function downloadData(safe) {
 
 // ## Helper functions
 
-
 function showSlide(id) {
     // Hide all slides
     $(".slide").hide();
@@ -394,7 +393,7 @@ var train = {
     // end of the experiment
     end: function() {
         // Show the finish slide.
-        showSlide("select");
+        showSlide("finished");
         setTimeout(function() { downloadData(train.data) }, 0);
     },
 
@@ -567,11 +566,12 @@ var train = {
     checkInput: function() {
         //subject ID
         if (document.getElementById("subjectID").value.length < 1) {
-            $("#checkMessage").html('<font color="red">Bitte Kind ID eintragen</font>');
+            $("#checkMessage").html('<font color="red">Por favor ingrese el nombre del sujeto</font>');
             return;
         }
+        //subject AGE
         if (document.getElementById("subjectAge").value.length < 1) {
-            $("#checkMessage").html('<font color="red">Bitte Alter des Kindes eingeben</font>');
+            $("#checkMessage").html('<font color="red">Por favor ingrese la edad del sujeto</font>');
             return;
         }
         train.subid = document.getElementById("subjectID").value

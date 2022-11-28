@@ -20,7 +20,7 @@ var novelty = {
     // end of the experiment
     end: function() {
         // Show the finish slide.
-        showSlide("select");
+        showSlide("finished");
         setTimeout(function() { downloadData(novelty.data) }, 0);
     },
 
