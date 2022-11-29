@@ -101,7 +101,7 @@
         </div>
         <div align="center" width="500px">
             <!-- el boton ahora manda directamente a hacer un novelty, probar si devuelve el json con los resultados de todas formas -->
-            <button type="button" onClick="this.blur(); novelty.next();submitButtonStyle(this)">Continuar</novButton>
+            <button type="button" onClick="this.blur(); novelty_nonpragmatic.next();submitButtonStyle(this)">Continuar</novButton>
             <!-- <button type="button" onClick="this.blur(); showSlide('select')">Continuar</button> -->
             
         </div>
@@ -157,6 +157,7 @@
 <!-- TODO: BORRAR LOS OTROS EXPERIMENTOS Y SALTARSE LA ETAPA DE SELECCION -->
 <!-- TODO: TRADUCIR TODO A ESPAÑOL -->
 
+<!--
     <div class="slide" id="select">
         <div align="center" width="500px">
             <p id='logo-text'>Elige el proximo juego</p>
@@ -178,6 +179,7 @@
             </table>
         </div>
     </div>
+-->
 
 
     <!-- The main slide. -->
@@ -353,144 +355,6 @@
         </div>
     </div>
 
-<!-- Todo esto es para otros trials
-
-    <div class="slide" id="inf_training">
-        <div align="center" width="500px">
-            <p id='logo-text'>Anleitung</p>
-            <table style="width:100%">
-                <tbody>
-                    <p class="block-text">
-                        In diesem Spiel gehen die Tiere in den Garten. Sie spielen gerne im Garten. Vor allem schmücken sie gerne die Bäume. Willst Du die Bäume sehen?
-                    </p>
-
-                    <p class="block-text">
-                        Zuerst werden sie Dir sagen welche Spielzeuge in den Bäumen sind. Dann musst Du einen Baum finden in dem das gleiche Spielzeug ist. Pass gut auf was sie sagen!
-                    </p>
-
-
-                    <tr align="center" height="300px">
-                        <td>
-
-                        </td>
-                        <td>
-
-                            <img src="images/Frog_straight.png" style="position:absolute; TOP:400px; LEFT:50%; margin-left: -50px; WIDTH:100px; z-index:1">
-                            <img src="images/hill.png" style="position:absolute; TOP:460px; LEFT:50%; margin-left: -50px; WIDTH:100px; z-index: 2">
-                        </td>
-                        <td>
-
-                        </td>
-
-                        <tr align="center" height="50px">
-                            <td>
-
-                                <img src="images/tree_l.png" style="position:absolute; TOP:340px; LEFT:35%; margin-left: -71.5px; WIDTH:143px">
-                                <img src="images/t06.png" style="position:absolute; TOP:340px; LEFT:35%; margin-left: -40px; WIDTH:80px">
-                            </td>
-                            <td>
-
-                            </td>
-                            <td>
-
-                                <img src="images/tree_r.png" style="position:absolute; TOP:340px;  LEFT:65%; margin-left: -71.5px; WIDTH:143px">
-                                <img src="images/t15.png" style="position:absolute; TOP:340px; LEFT:65%; margin-left: -40px; WIDTH:80px">
-
-
-                            </td>
-                        </tr>
-                </tbody>
-            </table>
-            <nextButton type="button" onClick="this.blur(); informativeness.next()">Starte Spiel</nextButton>
-        </div>
-    </div>
-
-    <div class="slide" id="cardSortingIntro">
-
-        <p id='logo-text'>Farbenspiel</p>
-
-
-        <p class="block-text">
-            Hier ist ein blauer Hase und hier ein rotes Boot. Wir spielen jetzt ein Kartenspiel. Das ist das Farbenspiel. Im Farbenspiel kommen alle Blauen hier hin [auf Hase zeigen] und alle Roten hier hin [auf Boot zeigen]. Schau mal so, hier ist eine Rote, die
-            kommt hier hin.
-        </p>
-
-        <img id="target_l" class="target_l" src="images/blue_rabbit.png">
-        <img id="target_r" class="target_r" src="images/red_boat.png">
-
-
-        <nextButton type="button" onClick="this.blur(); sort.next()"></nextButton>
-
-    </div>
-
-
-
-    <div class="slide" id="cardSortingIntro2">
-
-        <p id='logo-text'>Farbenspiel</p>
-
-
-        <p class="block-text">
-            Wenn es eine Blaue ist, dann kommt sie hier hin [auf Hase zeigen] und wenn es eine Rote ist dann hier hin [auf Boot zeigen]. Hier ist eine Blaue, wo kommt die hin?
-        </p>
-
-        <img id="target_l" class="target_l" src="images/blue_rabbit.png">
-        <img id="target_r" class="target_r" src="images/red_boat.png">
-
-
-        <nextButton type="button" onClick="this.blur(); sort.next()"></nextButton>
-
-    </div>
-
-
-    <div class="slide" id="cardSortingIntro3">
-        <p id='logo-text'>Farbenspiel</p>
-        <p class="block-text">
-            Sehr gut, so geht das Farbenspiel. Jetzt bist Du dran. Denk dran, wenn es eine Blaue ist, dann kommt sie hier hin [auf Hase zeigen] und wenn es eine Rote ist dann hier hin [auf Boot zeigen].
-        </p>
-
-        <img id="target_l" class="target_l" src="images/blue_rabbit.png">
-        <img id="target_r" class="target_r" src="images/red_boat.png">
-
-
-        <nextButton type="button" onClick="this.blur(); sort.next()"></nextButton>
-
-    </div>
-
-
-    <div class="slide" id="cardSortingSwitch">
-
-        <p id='logo-text'>Formenspiel</p>
-
-        <p class="block-text">
-            Jetzt spielen wir eine neues Spiel. Wier spielen nicht mehr das Farbenspiel. Wir spielen jetzt das Formenspiel. Im Formenspiel kommen alle Hasen hier [auf Hase zeigen hin und alle Boote dort hin [auf Boot zeigen]. Denk dran, wenn es ein Hase is mach ihn
-            hier hin und wenn es ein Boot ist, mach es dort hin. Okay?
-        </p>
-        <img id="target_l" class="target_l" src="images/blue_rabbit.png">
-        <img id="target_r" class="target_r" src="images/red_boat.png">
-
-        <nextButton type="button" onClick="this.blur(); sort.next()"></nextButton>
-
-    </div>
-
-
-
-    <div class="slide" id="cardSorting">
-
-        <p id="text" class="text">{{}}</p>
-
-        <img id="selector" class="selector" src="images/selector.png">
-
-        <img id="target_l" class="target_l" src="images/blue_rabbit.png">
-        <img id="target_r" class="target_r" src="images/red_boat.png">
-
-        <img id="sample" class="sample" src="">
-
-    </div>
-
--->
-
-
 
     <!-- The finish slide. -->
     <div class="slide" id="finished">
@@ -506,12 +370,8 @@
     <!-- [onload]: https://developer.mozilla.org/en/DOM/window.onload -->
     <!-- [domReady]: http://api.jquery.com/ready/ -->
     <script src="pragBat.js"></script>
-    <script src="preference.js"></script>
     <script src="novelty.js"></script>
-    <script src="mutual_exclusivity.js"></script>
-    <script src="informativeness.js"></script>
-    <script src="card_sorting.js"></script>
-
+    <script src="novelty_nonpragmatic.js"></script>
 </body>
 
 </html>

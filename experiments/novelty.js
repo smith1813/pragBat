@@ -20,6 +20,7 @@ var novelty = {
     // end of the experiment
     end: function() {
         // Show the finish slide.
+        //deberia saltar a novelty_nonpragmatic 
         showSlide("finished");
         setTimeout(function() { downloadData(novelty.data) }, 0);
     },

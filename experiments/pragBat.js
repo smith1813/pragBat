@@ -152,6 +152,13 @@ function hideAgent() {
     $(".agent").hide();
 }
 
+function hideAllAgents(){
+    $(".agent").hide();
+    $(".point_agent_l").hide();
+    $(".point_agent_r").hide();
+    $(".look_agent_l").hide();
+    $(".look_agent_r").hide();
+}
 
 function choiceAgent(id) {
     $(".agent").hide();
