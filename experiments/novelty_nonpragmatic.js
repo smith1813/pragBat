@@ -11,11 +11,11 @@ var novelty_nonpragmatic = {
     //manipular este arreglo para indicar las acciones que se van haciendo
     //deberian ser 3 acciones (fruta vieja,fruta nueva y choice)
     agentOrient: [
-        ["animation","choice"],
-        ["animation","choice"],
-        ["animation","choice"],
-        ["animation","choice"],
-        ["animation","choice"],
+        ["old","novel","choice"],
+        ["old","novel","choice"],
+        ["old","novel","choice"],
+        ["old","novel","choice"],
+        ["old","novel","choice"],
     ],
     leftObject: ["t26", "t27", "t28", "t29", "t30"],
     rightObject: ["t31", "t32", "t33", "t34", "t35"],
@@ -180,6 +180,7 @@ var novelty_nonpragmatic = {
     // moving on within a trial
 
     next: function() {
+        console.log(novelty_nonpragmatic.agentOrient[0][0]);
         $(".moveButton").unbind("click");
 
 
@@ -213,47 +214,81 @@ var novelty_nonpragmatic = {
         //aqui podría ir directamente la animación completa
 
         // Si el objeto nuevo debe aparece a la izquierda
+
+        console.log([novelty_nonpragmatic.novel[0],novelty_nonpragmatic.agentOrient[0][0] ]);
         if (novelty_nonpragmatic.novel[0] == "left") {
-            //animar objeto viejo entrando por la derecha
-            // luego objeto nuevo a la izquierda
 
-            sourceLeftFruit("images/" + novelty_nonpragmatic.leftObject[0] + ".png");
-            showLeftFruit();
+            if (novelty_nonpragmatic.agentOrient[0][0] == "old") {
 
-            sourceRightFruit("images/" + novelty_nonpragmatic.rightObject[0] + ".png");
-            showRightFruit();
+                //aparece el elemento antiguo por la derecha, mientras el izquierdo no está
+                sourceLeftFruit("images/" + novelty_nonpragmatic.lefttObject[0] + ".png");
+                showLeftFruit();
 
-            //insertar animaciones
+                sourceRightFruit("images/" + novelty_nonpragmatic.rightObject[0] + ".png");
+                showRightFruit();
 
-        
-            setTimeout(function() {
-                $("#fruit_r").animate({ width: "200px", opacity: '0.3' });
-                $("#fruit_l").animate({ width: "200px", opacity: '0.3' });
-                $("#fruit_l").animate({ width: "150px", opacity: '1' });
-                $("#fruit_r").animate({ width: "150px", opacity: '1' })
-            }, 6400)
+                $("#fruit_r").css("bottom", "460px");
+                $("#fruit_r").animate({ bottom: "345px" }, { duration: 1500 });
+
+                pause("moveButton", 4000);
+                sourceLeftFruit("images/" + novelty_nonpragmatic.leftObject[0] + ".png");
+                showLeftFruit();
+
+                setTimeout(function() {
+                    $("#fruit_r").animate({ width: "200px", opacity: '0.3' });
+                    $("#fruit_l").animate({ width: "200px", opacity: '0.3' });
+                    $("#fruit_l").animate({ width: "150px", opacity: '1' });
+                    $("#fruit_r").animate({ width: "150px", opacity: '1' })
+                }, 2500)
+
+            } else {
+                //aparece el elemento nuevo por la izquierda, mientras el de la derecha se mantiene
+
+                sourceLeftFruit("images/empty.png");
+                showLeftFruit();
+
+                sourceRightFruit("images/" + novelty_nonpragmatic.rightObject[0] + ".png");
+                showRightFruit();
+
+            }
+
 
         } else {
-            //animar objeto viejo entrando por la izquierda
-            // luego objeto nuevo a la derecha
 
-            sourceLeftFruit("images/" + novelty_nonpragmatic.leftObject[0] + ".png");
-            showLeftFruit();
+            if (novelty_nonpragmatic.agentOrient[0][0] == "old") {
+                //aparece el elemento antiguo por la izquierda, mientras el derecho no está
 
-            sourceRightFruit("images/" + novelty_nonpragmatic.rightObject[0] + ".png");
-            showRightFruit();
 
-            //insertar animaciones
+                sourceLeftFruit("images/" + novelty_nonpragmatic.leftObject[0] + ".png");
+                showLeftFruit();
 
-        
-            setTimeout(function() {
-                $("#fruit_r").animate({ width: "200px", opacity: '0.3' });
-                $("#fruit_l").animate({ width: "200px", opacity: '0.3' });
-                $("#fruit_l").animate({ width: "150px", opacity: '1' });
-                $("#fruit_r").animate({ width: "150px", opacity: '1' })
-            }, 6400);
+                sourceRightFruit("images/" + novelty_nonpragmatic.rightObject[0] + ".png");
+                showRightFruit();
+
+                $("#fruit_r").css("bottom", "460px");
+                $("#fruit_r").animate({ bottom: "345px" }, { duration: 1500 });
+
+                setTimeout(function() {
+                    $("#fruit_r").animate({ width: "200px", opacity: '0.3' });
+                    $("#fruit_l").animate({ width: "200px", opacity: '0.3' });
+                    $("#fruit_l").animate({ width: "150px", opacity: '1' });
+                    $("#fruit_r").animate({ width: "150px", opacity: '1' })
+                }, 2500)
+
+            } else {
+                //aparece el elemento nuevo por la derecha, mientras el de la izquierdo se mantiene
+
+                sourceLeftFruit("images/" + novelty_nonpragmatic.leftObject[0] + ".png");
+                showLeftFruit();
+
+                sourceRightFruit("images/empty.png");
+                showRightFruit();
+
+            }
 
         };
+
+
         // poner un boton para avanzar al choice? hablarlo con la pauli
 
         // move on to next phase of exposure

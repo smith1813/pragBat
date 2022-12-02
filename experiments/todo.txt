@@ -1,0 +1,8 @@
+
+
+Animar el novelty_nonpragmatic
+    - Ya está tirada la base, ahora falta encontrar los efectos correctos
+
+Traspasar los datos de un programa (novelty) a otro (novelty_nonpragmatic)
+Mejorar la bajada de datos
+Posible mejora, implementar un servidor (node?) que haga correr la aplicación en local par apoder agregar backend
