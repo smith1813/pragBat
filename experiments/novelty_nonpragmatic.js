@@ -29,7 +29,8 @@ var novelty_nonpragmatic = {
         // todo set slide to nonpragmatic
         showSlide("finished");
         hideAllAgents();
-        setTimeout(function() { downloadData(novelty_nonpragmatic.data) }, 0);
+        setTimeout(function() { downloadData(trialData) }, 0);
+        //setTimeout(function() { downloadData(novelty_nonpragmatic.data) }, 0);
     },
 
 
@@ -90,6 +91,7 @@ var novelty_nonpragmatic = {
             pick: pick,
             correct: correct,
         };
+        trialData.push(data);
         novelty_nonpragmatic.data.push(data);
 
     },
@@ -232,12 +234,13 @@ var novelty_nonpragmatic = {
                 
 
                 $("#fruit_r").css("bottom", "460px");                
-                $("#fruit_r").animate({ left: "+=100px" }, { duration: 1500 });
-                $("#fruit_r").animate({ bottom: "-=50px" }, { duration: 1500 });
-                $("#fruit_r").animate({ left: "-=200px" }, { duration: 1500 });
-                $("#fruit_r").animate({ bottom: "-=50px" }, { duration: 1500 });
-                $("#fruit_r").animate({ left: "+=100px" }, { duration: 1500 });
-                $("#fruit_r").animate({ bottom: "-=15px" }, { duration: 500 });
+                $("#fruit_r").animate({ left: "+=100px" }, { duration: 750 });
+                $("#fruit_r").animate({ bottom: "-=50px" },{ duration: 750 });
+                $("#fruit_r").animate({ left: "-=200px" }, { duration: 750 });
+                $("#fruit_r").animate({ bottom: "-=50px" },{ duration: 750 });
+                $("#fruit_r").animate({ left: "+=100px" }, { duration: 750 });
+                $("#fruit_r").animate({ bottom: "-=15px" },{ duration: 750 });
+                pause("moveButton",4000);
 
             } else {
                 console.log('entering left-novel if...');
@@ -260,6 +263,7 @@ var novelty_nonpragmatic = {
                     $("#fruit_l").animate({ width: "150px", opacity: '1' });
                     $("#fruit_r").animate({ width: "150px", opacity: '1' })
                 }, 2500)
+                pause("moveButton",4500);
 
             }
 
@@ -280,12 +284,13 @@ var novelty_nonpragmatic = {
                 
 
                 $("#fruit_l").css("bottom", "460px");                
-                $("#fruit_l").animate({ left: "+=100px" }, { duration: 1500 });
-                $("#fruit_l").animate({ bottom: "-=50px" }, { duration: 1500 });
-                $("#fruit_l").animate({ left: "-=200px" }, { duration: 1500 });
-                $("#fruit_l").animate({ bottom: "-=50px" }, { duration: 1500 });
-                $("#fruit_l").animate({ left: "+=100px" }, { duration: 1500 });
-                $("#fruit_l").animate({ bottom: "-=15px" }, { duration: 500 });
+                $("#fruit_l").animate({ left: "+=100px" }, { duration: 750 });
+                $("#fruit_l").animate({ bottom: "-=50px" },{ duration: 750 });
+                $("#fruit_l").animate({ left: "-=200px" }, { duration: 750 });
+                $("#fruit_l").animate({ bottom: "-=50px" },{ duration: 750 });
+                $("#fruit_l").animate({ left: "+=100px" }, { duration: 750 });
+                $("#fruit_l").animate({ bottom: "-=15px" },{ duration: 750 });
+                pause("moveButton",4000);
 
             } else {
                 //aparece el elemento nuevo por la derecha, mientras el de la izquierdo se mantiene
@@ -307,6 +312,7 @@ var novelty_nonpragmatic = {
                     $("#fruit_l").animate({ width: "150px", opacity: '1' });
                     $("#fruit_r").animate({ width: "150px", opacity: '1' })
                 }, 2500)
+                pause("moveButton",4500);
 
             }
 

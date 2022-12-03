@@ -101,7 +101,7 @@
         </div>
         <div align="center" width="500px">
             <!-- el boton ahora manda directamente a hacer un novelty, probar si devuelve el json con los resultados de todas formas -->
-            <button type="button" onClick="this.blur(); novelty_nonpragmatic.next();submitButtonStyle(this)">Continuar</novButton>
+            <button type="button" onClick="this.blur(); novelty.next();submitButtonStyle(this)">Continuar</novButton>
             <!-- <button type="button" onClick="this.blur(); showSlide('select')">Continuar</button> -->
             
         </div>
@@ -153,34 +153,7 @@
         </div>
     </div>
 
-
-<!-- TODO: BORRAR LOS OTROS EXPERIMENTOS Y SALTARSE LA ETAPA DE SELECCION -->
-<!-- TODO: TRADUCIR TODO A ESPAÑOL -->
-
-<!--
-    <div class="slide" id="select">
-        <div align="center" width="500px">
-            <p id='logo-text'>Elige el proximo juego</p>
-            <table style="width:100%">
-                <tbody>
-
-                    <trainButton type="button" onClick="this.blur(); showSlide('training');submitButtonStyle(this)">Training</trainButton>
-
-                    <prefButton type="button" onClick="this.blur(); preference.next();submitButtonStyle(this)">Preference</prefButton>
-
-                    <meButton type="button" onClick="this.blur(); me.next();submitButtonStyle(this)">Mutual Exclusivity</meButton>
-
-                    <infButton type="button" onClick="this.blur(); showSlide('inf_training');submitButtonStyle(this)">Informativeness</infButton>
-
-                    <novButton type="button" onClick="this.blur(); novelty.next();submitButtonStyle(this)">Novelty</novButton>
-
-                    <sortButton type="button" onClick="this.blur(); showSlide('cardSortingIntro');submitButtonStyle(this)">Card Sorting</sortButton>
-
-            </table>
-        </div>
-    </div>
--->
-
+    
 
     <!-- The main slide. -->
     <div class="slide" id="stage">

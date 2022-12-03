@@ -1,3 +1,4 @@
+
 // the actual experiment
 var novelty = {
     // Parameters for this sequence.
@@ -21,8 +22,9 @@ var novelty = {
     end: function() {
         // Show the finish slide.
         //deberia saltar a novelty_nonpragmatic 
-        showSlide("finished");
-        setTimeout(function() { downloadData(novelty.data) }, 0);
+        //showSlide("finished");
+        novelty_nonpragmatic.next();
+        //setTimeout(function() { downloadData(novelty.data) }, 0);
     },
 
 
@@ -82,7 +84,8 @@ var novelty = {
             pick: pick,
             correct: correct,
         };
-        novelty.data.push(data);
+        trialData.push(data);
+        //novelty.data.push(data);
 
     },
 

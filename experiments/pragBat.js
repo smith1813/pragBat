@@ -7,6 +7,8 @@ for (i = 0; i < preFruits.length; i++) {
     images[i].src = "images/" + preFruits[i];
 }
 
+var trialData = [];
+
 
 var preSounds = [
     "Monkey_hello.mp3",
