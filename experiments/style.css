@@ -245,6 +245,7 @@ novButton {
     font-size: 16px;
 }
 
+
 infButton {
     position: absolute;
     transform: translateX(-50%);

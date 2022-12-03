@@ -7,6 +7,8 @@ for (i = 0; i < preFruits.length; i++) {
     images[i].src = "images/" + preFruits[i];
 }
 
+var trialData = [];
+
 
 var preSounds = [
     "Monkey_hello.mp3",
@@ -152,6 +154,13 @@ function hideAgent() {
     $(".agent").hide();
 }
 
+function hideAllAgents(){
+    $(".agent").hide();
+    $(".point_agent_l").hide();
+    $(".point_agent_r").hide();
+    $(".look_agent_l").hide();
+    $(".look_agent_r").hide();
+}
 
 function choiceAgent(id) {
     $(".agent").hide();
@@ -206,11 +215,19 @@ function showRightFruit() {
 };
 
 
-
-
 function showLeftFruit() {
     $(".fruit_l").show();
     document.getElementById('fruit_l').style.visibility = 'visible';
+};
+
+function hideRightFruit() {
+    $(".fruit_r").hide();
+    document.getElementById('fruit_r').style.visibility = 'invisible';
+};
+
+function hideLeftFruit() {
+    $(".fruit_l").hide();
+    document.getElementById('fruit_l').style.visibility = 'invisible';
 };
 
 
