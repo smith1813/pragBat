@@ -213,11 +213,19 @@ function showRightFruit() {
 };
 
 
-
-
 function showLeftFruit() {
     $(".fruit_l").show();
     document.getElementById('fruit_l').style.visibility = 'visible';
+};
+
+function hideRightFruit() {
+    $(".fruit_r").hide();
+    document.getElementById('fruit_r').style.visibility = 'invisible';
+};
+
+function hideLeftFruit() {
+    $(".fruit_l").hide();
+    document.getElementById('fruit_l').style.visibility = 'invisible';
 };
 
 

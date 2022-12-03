@@ -7,7 +7,7 @@ var novelty_nonpragmatic = {
     // Parameters for this sequence.
     trial: [1, 2, 3, 4, 5],
     agents: ["Monkey", "Bunny", "Cat", "Dog", "Frog"],
-    novel: ["right", "left", "right", "right", "left"],
+    novel: ["left","right", "left", "right", "right"],
     //manipular este arreglo para indicar las acciones que se van haciendo
     //deberian ser 3 acciones (fruta vieja,fruta nueva y choice)
     agentOrient: [
@@ -83,7 +83,7 @@ var novelty_nonpragmatic = {
             subage: train.subage,
             task: "novelty_nonpragmatic",
             trial: novelty_nonpragmatic.trial[0],
-            agent: novelty_nonpragmatic.agents[0],
+            agent: "nonpragmatic_"+novelty_nonpragmatic.agents[0], //esto es para que no se confunda con los trials pragmáticos
             leftObject: novelty_nonpragmatic.leftObject[0],
             rightObject: novelty_nonpragmatic.rightObject[0],
             correct_location: novelty_nonpragmatic.novel[0],
@@ -180,6 +180,12 @@ var novelty_nonpragmatic = {
     // moving on within a trial
 
     next: function() {
+        // when no more trials are left, end experiment    
+        if (novelty_nonpragmatic.trial.length == 0) {
+            setTimeout(function() { novelty_nonpragmatic.end() }, 0);
+            return;
+        };
+
         console.log(novelty_nonpragmatic.agentOrient[0][0]);
         $(".moveButton").unbind("click");
 
@@ -187,12 +193,7 @@ var novelty_nonpragmatic = {
         $(".table_l").show();
         $(".table_r").show();
 
-        // when no more trials are left, end experiment    
-        if (novelty_nonpragmatic.trial.length == 0) {
-            setTimeout(function() { novelty_nonpragmatic.end() }, 0);
-            return;
-        };
-
+        
         // va sacando elementos del arreglo agentOrient y lo usa como un stack de acciones
         if (novelty_nonpragmatic.agentOrient[0][0] == "choice") {
             setTimeout(function() { novelty_nonpragmatic.choice() }, 0);
@@ -213,26 +214,45 @@ var novelty_nonpragmatic = {
 
         //aqui podría ir directamente la animación completa
 
-        // Si el objeto nuevo debe aparece a la izquierda
-
-        console.log([novelty_nonpragmatic.novel[0],novelty_nonpragmatic.agentOrient[0][0] ]);
+        // aqui va la animación, si se quiere sacar el movebutton entre ambas animaciones hay que hacer un shift y un next
+        // al final de cada condicion
+        //console.log([novelty_nonpragmatic.novel[0],novelty_nonpragmatic.agentOrient[0][0] ]);
         if (novelty_nonpragmatic.novel[0] == "left") {
 
             if (novelty_nonpragmatic.agentOrient[0][0] == "old") {
 
+                console.log('entering left-old if...');
+
                 //aparece el elemento antiguo por la derecha, mientras el izquierdo no está
-                sourceLeftFruit("images/" + novelty_nonpragmatic.lefttObject[0] + ".png");
+                sourceLeftFruit("images/" + novelty_nonpragmatic.leftObject[0] + ".png");
+                hideLeftFruit();
+
+                sourceRightFruit("images/" + novelty_nonpragmatic.rightObject[0] + ".png");
+                showRightFruit();
+                
+
+                $("#fruit_r").css("bottom", "460px");                
+                $("#fruit_r").animate({ left: "+=100px" }, { duration: 1500 });
+                $("#fruit_r").animate({ bottom: "-=50px" }, { duration: 1500 });
+                $("#fruit_r").animate({ left: "-=200px" }, { duration: 1500 });
+                $("#fruit_r").animate({ bottom: "-=50px" }, { duration: 1500 });
+                $("#fruit_r").animate({ left: "+=100px" }, { duration: 1500 });
+                $("#fruit_r").animate({ bottom: "-=15px" }, { duration: 500 });
+
+            } else {
+                console.log('entering left-novel if...');
+                //aparece el elemento nuevo por la izquierda, mientras el de la derecha se mantiene
+
+                sourceLeftFruit("images/" + novelty_nonpragmatic.leftObject[0] + ".png");
                 showLeftFruit();
 
                 sourceRightFruit("images/" + novelty_nonpragmatic.rightObject[0] + ".png");
                 showRightFruit();
 
-                $("#fruit_r").css("bottom", "460px");
-                $("#fruit_r").animate({ bottom: "345px" }, { duration: 1500 });
-
-                pause("moveButton", 4000);
-                sourceLeftFruit("images/" + novelty_nonpragmatic.leftObject[0] + ".png");
                 showLeftFruit();
+                $("#fruit_l").css("bottom", "460px");
+                $("#fruit_l").animate({ bottom: "345px" }, { duration: 1500 });
+                
 
                 setTimeout(function() {
                     $("#fruit_r").animate({ width: "200px", opacity: '0.3' });
@@ -240,15 +260,6 @@ var novelty_nonpragmatic = {
                     $("#fruit_l").animate({ width: "150px", opacity: '1' });
                     $("#fruit_r").animate({ width: "150px", opacity: '1' })
                 }, 2500)
-
-            } else {
-                //aparece el elemento nuevo por la izquierda, mientras el de la derecha se mantiene
-
-                sourceLeftFruit("images/empty.png");
-                showLeftFruit();
-
-                sourceRightFruit("images/" + novelty_nonpragmatic.rightObject[0] + ".png");
-                showRightFruit();
 
             }
 
@@ -256,6 +267,8 @@ var novelty_nonpragmatic = {
         } else {
 
             if (novelty_nonpragmatic.agentOrient[0][0] == "old") {
+                
+                console.log('entering right-old if...');
                 //aparece el elemento antiguo por la izquierda, mientras el derecho no está
 
 
@@ -263,10 +276,30 @@ var novelty_nonpragmatic = {
                 showLeftFruit();
 
                 sourceRightFruit("images/" + novelty_nonpragmatic.rightObject[0] + ".png");
+                hideRightFruit();
+                
+
+                $("#fruit_l").css("bottom", "460px");                
+                $("#fruit_l").animate({ left: "+=100px" }, { duration: 1500 });
+                $("#fruit_l").animate({ bottom: "-=50px" }, { duration: 1500 });
+                $("#fruit_l").animate({ left: "-=200px" }, { duration: 1500 });
+                $("#fruit_l").animate({ bottom: "-=50px" }, { duration: 1500 });
+                $("#fruit_l").animate({ left: "+=100px" }, { duration: 1500 });
+                $("#fruit_l").animate({ bottom: "-=15px" }, { duration: 500 });
+
+            } else {
+                //aparece el elemento nuevo por la derecha, mientras el de la izquierdo se mantiene
+                console.log('entering right-novel if...');
+                sourceLeftFruit("images/" + novelty_nonpragmatic.leftObject[0] + ".png");
+                showLeftFruit();
+
+                sourceRightFruit("images/" + novelty_nonpragmatic.rightObject[0] + ".png");
                 showRightFruit();
 
+                showLeftFruit();
                 $("#fruit_r").css("bottom", "460px");
                 $("#fruit_r").animate({ bottom: "345px" }, { duration: 1500 });
+                
 
                 setTimeout(function() {
                     $("#fruit_r").animate({ width: "200px", opacity: '0.3' });
@@ -274,15 +307,6 @@ var novelty_nonpragmatic = {
                     $("#fruit_l").animate({ width: "150px", opacity: '1' });
                     $("#fruit_r").animate({ width: "150px", opacity: '1' })
                 }, 2500)
-
-            } else {
-                //aparece el elemento nuevo por la derecha, mientras el de la izquierdo se mantiene
-
-                sourceLeftFruit("images/" + novelty_nonpragmatic.leftObject[0] + ".png");
-                showLeftFruit();
-
-                sourceRightFruit("images/empty.png");
-                showRightFruit();
 
             }
 
