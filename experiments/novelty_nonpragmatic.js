@@ -29,7 +29,7 @@ var novelty_nonpragmatic = {
         // todo set slide to nonpragmatic
         showSlide("finished");
         hideAllAgents();
-        setTimeout(function() { downloadData(trialData) }, 0);
+        setTimeout(function() { downloadDataCSV(trialData) }, 0);
         //setTimeout(function() { downloadData(novelty_nonpragmatic.data) }, 0);
     },
 

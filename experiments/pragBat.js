@@ -122,9 +122,32 @@ function downloadData(safe) {
     var hiddenElement = document.createElement('a');
     hiddenElement.href = 'data:text/json;charset=utf-8,' + encodeURI(toSave);
     hiddenElement.target = '_blank';
-    hiddenElement.download = 'pragBat-' + train.subid + '-' + data.task + '-' + day + '-' + time + '.json';
+    //hiddenElement.download = 'pragBat-' + train.subid + '-' + data.task + '-' + day + '-' + time + '.json';
+    hiddenElement.download = 'datos_pragbat-' + train.subid + 'full' + '-' + day + '-' + time + '.json';
     hiddenElement.click();
 }
+
+function downloadDataCSV(safe) {
+    var toSave = convertToCSV(safe)
+    var date = new Date().toISOString()
+    var day = date.substr(0, 10)
+    var time = date.substr(11, 8)
+
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(toSave);
+    hiddenElement.target = '_blank';
+    //hiddenElement.download = 'pragBat-' + train.subid + '-' + data.task + '-' + day + '-' + time + '.json';
+    hiddenElement.download = 'datos_pragbat-' + train.subid + 'full' + '-' + day + '-' + time + '.csv';
+    hiddenElement.click();
+}
+
+function convertToCSV(arr) {
+    const array = [Object.keys(arr[0])].concat(arr)
+  
+    return array.map(it => {
+      return Object.values(it).toString()
+    }).join('\n')
+  }
 
 // ## Helper functions
 
